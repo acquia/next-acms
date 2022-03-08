@@ -156,5 +156,3 @@ Document preview mode and how to enable it for entity types.
 ## Data Fetching
 
 Document basic data fetching or point to docs page on https://next-drupal.org/docs/data-fetching
-
-## Data
