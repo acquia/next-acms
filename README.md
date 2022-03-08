@@ -16,7 +16,7 @@ This project is built on the following technologies:
 
 Start by creating a new Acquia CMS project:
 
-_(If you can existing Acquia CMS project, you can skip this step)_
+_(If you have an existing Acquia CMS project, you can skip this step)_
 
 ```
 composer create-project --no-interaction acquia/drupal-recommended-project
@@ -25,8 +25,6 @@ composer create-project --no-interaction acquia/drupal-recommended-project
 Once you've created the project, proceed with the Drupal installation.
 
 ### 2. Add and enable modules
-
-Install the following modules:
 
 ```
 composer require drupal/next drupal/jsonapi_menu_items
@@ -86,9 +84,11 @@ Run the following command to create a new Next.js project:
 npx create-next-app -e https://github.com/chapter-three/next-acquia-cms
 ```
 
+This will create a new starter project. [See project structure](#project-structure).
+
 ### Connect Drupal
 
-To connect the Next.js project to Drupal, we use [environment variables](https://next-drupal.org/docs/environment-variables).
+To connect the Next.js site to Drupal, we use [environment variables](https://next-drupal.org/docs/environment-variables).
 
 1. Copy `.env.example` to `.env.local`.
 2. On the **Drupal site**, visit _/admin/config/services/next_.
@@ -99,9 +99,9 @@ _Remember to fill in the `DRUPAL_CLIENT_ID` and the `DRUPAL_CLIENT_SECRET`._
 
 ### Start Development Server
 
-To start the Next.js development server, run `npm run dev` or `yarn dev`. This starts the development server on `http://localhost:3000`.
+To start the Next.js development server, run `yarn dev`. This starts the development server on `http://localhost:3000`.
 
-Visit [http://localhost:3000](http://localhost:3000) to view the site.
+Visit [http://localhost:3000](http://localhost:3000) to view the headless site.
 
 ## Project Structure
 
@@ -157,6 +157,4 @@ Document preview mode and how to enable it for entity types.
 
 Document basic data fetching or point to docs page on https://next-drupal.org/docs/data-fetching
 
-## Deploy to Acquia Cloud
-
-Document how to deploy this starter to Acquia Cloud.
+## Data
