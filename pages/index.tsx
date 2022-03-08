@@ -12,10 +12,8 @@ export default function IndexPage({ menus }: IndexPageProps) {
       <PageHeader
         heading="Acquia CMS: Headless"
         text="A Next.js site powered by Acquia CMS."
+        className="text-center"
       />
-      <div className="container px-6 mx-auto">
-        <p>Landing page</p>
-      </div>
     </Layout>
   )
 }

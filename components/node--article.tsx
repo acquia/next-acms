@@ -1,4 +1,3 @@
-import Image from "next/image"
 import Link from "next/link"
 
 import { formatDate } from "lib/format-date"
@@ -11,7 +10,7 @@ export function NodeArticle({ node, ...props }) {
       <h1 className="mb-4 text-3xl font-black leading-tight md:text-4xl">
         {node.title}
       </h1>
-      <div className="mb-4 text-gray-600" {...props}>
+      <div className="mb-4 text-gray-600">
         {node.field_display_author?.title ? (
           <span>
             Posted by{" "}
@@ -56,7 +55,7 @@ export function NodeArticleTeaser({ node, ...props }) {
         </Link>
       )}
       <div>
-        <div className="mb-4 text-sm text-gray-500" {...props}>
+        <div className="mb-4 text-sm text-gray-500">
           {node.field_display_author?.title ? (
             <span>
               Posted by{" "}
