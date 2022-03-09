@@ -1,11 +1,10 @@
-import { formatDate } from "lib/format-date"
 import Link from "next/link"
 
+import { formatDate } from "lib/format-date"
 import { MediaImage } from "components/media--image"
 import { FormattedText } from "components/formatted-text"
 
 export function NodeEvent({ node, ...props }) {
-  console.log({ node })
   return (
     <article className="container px-6 py-10 mx-auto" {...props}>
       <div className="grid-cols-2 gap-10 p-4 mx-auto border rounded-md md:grid">
@@ -18,9 +17,11 @@ export function NodeEvent({ node, ...props }) {
         )}
         <div className="mt-8">
           <div className="mb-2 space-x-2 text-sm">
-            <span className="font-medium text-gray-600">
-              {formatDate(node.field_event_start)}
-            </span>
+            {node.field_event_duration && (
+              <span className="font-medium text-gray-600">
+                {formatDate(node.field_event_start)}
+              </span>
+            )}
             {node.field_event_duration && (
               <span className="text-gray-500">
                 &middot; {node.field_event_duration}
@@ -64,9 +65,11 @@ export function NodeEventTeaser({ node, ...props }) {
       )}
       <div className="col-span-2">
         <div className="mb-2 space-x-2 text-sm">
-          <span className="font-medium text-gray-600">
-            {formatDate(node.field_event_start)}
-          </span>
+          {node.field_event_start && (
+            <span className="font-medium text-gray-600">
+              {formatDate(node.field_event_start)}
+            </span>
+          )}
           {node.field_event_duration && (
             <span className="text-gray-500">
               &middot; {node.field_event_duration}

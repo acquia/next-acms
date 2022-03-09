@@ -4,8 +4,8 @@ import { DrupalJsonApiParams } from "drupal-jsonapi-params"
 
 import { getMenus } from "lib/get-menus"
 import { Layout, LayoutProps } from "components/layout"
-import { NodeArticleTeaser } from "components/node--article"
 import { PageHeader } from "components/page-header"
+import { NodeArticleTeaser } from "components/node--article"
 
 interface ArticlesPageProps extends LayoutProps {
   articles: DrupalNode[]

@@ -1,14 +1,14 @@
-import { HTMLReactParserOptions, domToReact } from "html-react-parser"
-import { Element } from "domhandler/lib/node"
-import parse from "html-react-parser"
 import Image from "next/image"
 import Link from "next/link"
+import parse, { HTMLReactParserOptions, domToReact } from "html-react-parser"
+import { Element } from "domhandler/lib/node"
 
 import { isRelative } from "lib/is-relative"
 
 const options: HTMLReactParserOptions = {
   replace: (domNode) => {
     if (domNode instanceof Element) {
+      // Replace inline images with `Image` component.
       if (domNode.name === "img") {
         const {
           src,
@@ -34,6 +34,7 @@ const options: HTMLReactParserOptions = {
         }
       }
 
+      // Replace inline links with `Link` component.
       if (domNode.name === "a") {
         const { href, class: className } = domNode.attribs
 
@@ -44,14 +45,6 @@ const options: HTMLReactParserOptions = {
             </Link>
           )
         }
-      }
-
-      if (domNode.name === "input") {
-        if (domNode.attribs.value === "") {
-          delete domNode.attribs.value
-        }
-
-        return domNode
       }
     }
   },

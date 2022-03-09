@@ -1,11 +1,11 @@
 import Link from "next/link"
 import Image from "next/image"
+import Head from "next/head"
 import { DrupalMenuLinkContent } from "next-drupal"
 
 import { PreviewAlert } from "components/preview-alert"
 import { MenuMain } from "components/menu--main"
 import { MenuFooter } from "components/menu--footer"
-import Head from "next/head"
 
 export interface LayoutProps {
   title?: string

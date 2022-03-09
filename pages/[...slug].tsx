@@ -57,6 +57,7 @@ export async function getStaticProps(
     }
   }
 
+  // Handle redirects.
   if (path.redirect) {
     const [redirect] = path.redirect
     return {

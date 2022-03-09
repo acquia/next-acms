@@ -4,8 +4,8 @@ import { DrupalJsonApiParams } from "drupal-jsonapi-params"
 
 import { getMenus } from "lib/get-menus"
 import { Layout, LayoutProps } from "components/layout"
-import { NodeEventTeaser } from "components/node--event"
 import { PageHeader } from "components/page-header"
+import { NodeEventTeaser } from "components/node--event"
 
 interface EventsPageProps extends LayoutProps {
   events: DrupalNode[]

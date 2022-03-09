@@ -11,7 +11,7 @@ interface PlacesPageProps extends LayoutProps {
   places: DrupalNode[]
 }
 
-export default function PlacePage({ menus, places }: PlacesPageProps) {
+export default function PlacesPage({ menus, places }: PlacesPageProps) {
   return (
     <Layout title="Places" menus={menus}>
       <PageHeader heading="Places" text="Our Offices" />

@@ -1,6 +1,5 @@
 import Link from "next/link"
 
-import { formatDate } from "lib/format-date"
 import { MediaImage } from "components/media--image"
 import { FormattedText } from "components/formatted-text"
 

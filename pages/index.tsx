@@ -1,4 +1,3 @@
-import Head from "next/head"
 import { GetStaticPropsResult } from "next"
 import { Layout, LayoutProps } from "components/layout"
 import { getMenus } from "lib/get-menus"
