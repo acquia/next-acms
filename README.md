@@ -1,4 +1,4 @@
-# Acquia CMS: Headless
+# Next.js for Acquia CMS
 
 This is a starter template for building a headless site powered by [Acquia CMS](https://www.acquia.com/products/drupal-cloud/acquia-cms) and [Next.js](https://nextjs.org).
 
@@ -81,7 +81,7 @@ To pull data from the Drupal back-end, the Next.js front-end requires authorizat
 Run the following command to create a new Next.js project:
 
 ```
-npx create-next-app -e https://github.com/chapter-three/next-acquia-cms
+npx create-next-app -e https://github.com/acquia/next-acms
 ```
 
 This will create a new starter project. [See project structure](#project-structure).
