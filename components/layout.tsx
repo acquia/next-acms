@@ -34,13 +34,13 @@ export function Layout({ title, menus, children }: LayoutProps) {
                 <span className="text-lg font-semibold">Acquia CMS</span>
               </a>
             </Link>
-            <MenuMain menu={menus.main} />
+            {menus?.main && <MenuMain menu={menus.main} />}
           </div>
         </header>
         <main className="flex-1">{children}</main>
         <footer className="container px-6 mx-auto">
           <div className="pt-8 pb-12 border-t md:pt-12">
-            {menus.footer && <MenuFooter menu={menus.footer} />}
+            {menus?.footer && <MenuFooter menu={menus.footer} />}
           </div>
         </footer>
       </div>
