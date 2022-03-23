@@ -14,8 +14,10 @@ import { NodeArticle } from "components/node--article"
 import { NodeEvent } from "components/node--event"
 import { NodePerson } from "components/node--person"
 import { NodePlace } from "components/node--place"
+import { NodeBasicPage } from "components/node--page"
 
 const CONTENT_TYPES = [
+  "node--page",
   "node--article",
   "node--event",
   "node--person",
@@ -31,6 +33,7 @@ export default function NodePage({ node, menus }: NodePageProps) {
 
   return (
     <Layout title={node.title} menus={menus}>
+      {node.type === "node--page" && <NodeBasicPage node={node} />}
       {node.type === "node--article" && <NodeArticle node={node} />}
       {node.type === "node--event" && <NodeEvent node={node} />}
       {node.type === "node--person" && <NodePerson node={node} />}
@@ -77,6 +80,10 @@ export async function getStaticProps(
   }
 
   const params = new DrupalJsonApiParams()
+
+  if (type === "node--page") {
+    params.addInclude(["field_page_image.image"])
+  }
 
   if (type === "node--article") {
     params.addInclude([

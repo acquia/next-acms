@@ -1,12 +1,21 @@
+import { FormattedText } from "components/formatted-text"
+import { MediaImage } from "components/media--image"
+
 export function NodeBasicPage({ node, ...props }) {
   return (
-    <article {...props}>
-      <h1 className="text-6xl font-black mb-4 leading-tight">{node.title}</h1>
+    <article className="max-w-2xl px-6 py-10 mx-auto" {...props}>
+      {node.field_page_image && (
+        <div className="my-6 overflow-hidden rounded-md">
+          <MediaImage media={node.field_page_image} priority />
+        </div>
+      )}
+      <h1 className="mb-4 text-3xl font-black leading-tight md:text-4xl">
+        {node.title}
+      </h1>
       {node.body?.processed && (
-        <div
-          dangerouslySetInnerHTML={{ __html: node.body?.processed }}
-          className="mt-6 font-serif text-xl leading-loose prose"
-        />
+        <div className="prose">
+          <FormattedText processed={node.body.processed} />
+        </div>
       )}
     </article>
   )
