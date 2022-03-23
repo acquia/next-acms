@@ -151,7 +151,22 @@ Visit [http://localhost:3000](http://localhost:3000) to view the headless site.
 
 ## Preview Mode
 
-Document preview mode and how to enable it for entity types.
+To enable the inline content preview inside Drupal, we need to configure a site resolver for the content type.
+
+_A *site resolver* tells Drupal how to resolve the preview URL for an entity._
+
+### Configure preview mode for article
+
+1. Visit _/admin/config/services/next/entity-types_
+2. Click **Configure entity type**
+3. Select **Article** from the the entity type list
+4. Select **Site selector** as the **Site resolver**
+5. Select the Next.js site under **Next.js sites**
+6. Click **Save**
+
+If you visit an article from the Drupal administration, you should now see an inline preview inside an iframe.
+
+Repeat the same steps for other content types.
 
 ## Data Fetching
 
