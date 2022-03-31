@@ -149,6 +149,16 @@ Visit [http://localhost:3000](http://localhost:3000) to view the headless site.
 | `next.config.js`     | [Configuration](https://nextjs.org/docs/api-reference/next.config.js/introduction) file for Next.js. |
 | `tailwind.config.js` | [Configuration](https://tailwindcss.com/docs/configuration) file for Tailwind CSS.                   |
 
+## Routing
+
+The starter ships with static routes for building collection of content: `pages/articles` and an entry point, `[[slug]].tsx`, for entity routes.
+
+The `[[slug]].tsx` route is called a catch-all route.
+
+When you create an entity on Drupal, and visit the route on your headless site, this is the file that handles data fetching and rendering for the entity.
+
+You can read more about routing in Next.js on the [official docs](https://nextjs.org/docs/routing/introduction).
+
 ## Preview Mode
 
 To enable the inline content preview inside Drupal, we need to configure a site resolver for the content type.
@@ -170,4 +180,66 @@ Repeat the same steps for other content types.
 
 ## Data Fetching
 
-Document basic data fetching or point to docs page on https://next-drupal.org/docs/data-fetching
+To build pages from Drupal content, data is fetch in `getStaticProps` and passed to the component.
+
+See the [documentation](https://next-drupal.org/docs/data-fetching) on data fetching in next-drupal.
+
+### Adding a new entity type.
+
+To create headless pages for a new content type:
+
+1. Start by creating the content type, say `News`, on Drupal.
+   - Define the fields: `title`, `field_teaser` and `body`.
+   - Add a path alias for the content type: `news/[node:title]`.
+2. On the Next.js site, edit `[[slug]].tsx` to fetch news from Drupal.
+3. Add `node--news` to `CONTENT_TYPES`:
+
+```diff
+// List of all the entity types handled by this route.
+const CONTENT_TYPES = [
+  "node--page",
+  "node--article",
+  "node--event",
+  "node--person",
+  "node--place",
++ "node--news",
+]
+```
+
+4. In `getStaticProps`, build the query for fetching the `node--news` with the fields:
+
+```diff
++ if (type === "node--news") {
++ 	params
++ 		.addFields("node--news", ["title", "path", "field_teaser", "body])
++ }
+```
+
+5. Add a news on Drupal and visit the path on your Next.js site: `http://localhost:3000/news/title-of-news`.
+6. If you add a `console.log(node)` in the `NodePage` component you should see the `node--news` data.
+
+```diff
+export default function NodePage({ node, menus }: NodePageProps) {
+  if (!node) return null
+
++ console.log(node)
+```
+
+7. You can now use this `node--news` object to create the `<NodeNews />` component.
+
+```diff
+export default function NodePage({ node, menus }: NodePageProps) {
+  if (!node) return null
+
+  return (
+    <Layout title={node.title} menus={menus}>
+      {node.type === "node--page" && <NodeBasicPage node={node} />}
+      {node.type === "node--article" && <NodeArticle node={node} />}
+      {node.type === "node--event" && <NodeEvent node={node} />}
+      {node.type === "node--person" && <NodePerson node={node} />}
+      {node.type === "node--place" && <NodePlace node={node} />}
++     {node.type === "node--news" && <NodeNews node={node} />}
+    </Layout>
+  )
+}
+```

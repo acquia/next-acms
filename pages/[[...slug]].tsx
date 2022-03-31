@@ -1,3 +1,5 @@
+// This is a catch-all route.
+// It is the entry point for handling entity routes from Drupal.
 import * as React from "react"
 import { GetStaticPathsResult, GetStaticPropsResult } from "next"
 import {
@@ -16,6 +18,7 @@ import { NodePerson } from "components/node--person"
 import { NodePlace } from "components/node--place"
 import { NodeBasicPage } from "components/node--page"
 
+// List of all the entity types handled by this route.
 const CONTENT_TYPES = [
   "node--page",
   "node--article",
@@ -42,6 +45,8 @@ export default function NodePage({ node, menus }: NodePageProps) {
   )
 }
 
+// This fetches paths from Drupal and builds static pages.
+// See https://nextjs.org/docs/basic-features/data-fetching/get-static-paths.
 export async function getStaticPaths(context): Promise<GetStaticPathsResult> {
   return {
     paths: await getPathsFromContext(CONTENT_TYPES, context),
@@ -52,6 +57,7 @@ export async function getStaticPaths(context): Promise<GetStaticPathsResult> {
 export async function getStaticProps(
   context
 ): Promise<GetStaticPropsResult<NodePageProps>> {
+  // Find a matching path from Drupal from context.
   const path = await translatePathFromContext(context)
 
   if (!path) {
@@ -107,6 +113,7 @@ export async function getStaticProps(
     params.addInclude(["field_place_image.image"])
   }
 
+  // Fetch the node/resource from Drupal.
   const node = await getResourceFromContext<DrupalNode>(type, context, {
     params: params.getQueryObject(),
   })
