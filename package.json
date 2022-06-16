@@ -1,0 +1,9 @@
+{
+  "name": "next-acms-monorepo",
+  "repository": "https://github.com/acquia/next-acms.git",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "prettier": "2.7.1"
+  }
+}
