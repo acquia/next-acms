@@ -3,6 +3,7 @@
   "repository": "https://github.com/acquia/next-acms.git",
   "license": "MIT",
   "private": true,
+  "workspaces": ["starters/*", "packages/*"],
   "devDependencies": {
     "prettier": "2.7.1"
   }
