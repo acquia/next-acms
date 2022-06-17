@@ -81,7 +81,7 @@ To pull data from the Drupal back-end, the Next.js front-end requires authorizat
 Run the following command to create a new Next.js project:
 
 ```
-npx create-next-app -e https://github.com/acquia/next-acms
+npx create-next-app -e https://github.com/acquia/next-acms/tree/main/starters/basic-starter
 ```
 
 This will create a new starter project. [See project structure](#project-structure).
