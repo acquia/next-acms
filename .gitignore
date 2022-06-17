@@ -27,7 +27,7 @@ yarn-error.log*
 lerna-debug.log*
 
 # local env files
-starters/basic-starter/.env.local
+starters/*/.env.local
 .env.development.local
 .env.test.local
 .env.production.local
