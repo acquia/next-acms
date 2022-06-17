@@ -19,12 +19,10 @@ Start by creating a new Acquia CMS project:
 _(If you have an existing Acquia CMS project, you can skip this step)_
 
 ```
-composer create-project acquia/drupal-recommended-project acms-demo
+composer create-project --no-interaction acquia/drupal-recommended-project
 ```
 
 Once you've created the project, proceed with the Drupal installation.
-
-_Note that Acquia CMS is currently not compatible with PHP 8._
 
 ### 2. Add and enable modules
 
@@ -107,51 +105,37 @@ Visit [http://localhost:3000](http://localhost:3000) to view the headless site.
 
 ## Project Structure
 
-This project is a monorepo structure using yarn workspaces. This project has a `packages` directory for next-acms and a `starters` directory for next-acms starter kits.
-
-`starters/basic-starter` has a dependency on `packages/next-acms` which currently has a dependency on `next-drupal`.
-
 ```
 .
-|── node_modules
-|── packages
-  |── next-acms
-  |  |── node_modules
-  |  |── package.json
-|── starters
-  |── basic-starter
-    ├── components
-    │   ├── layout.tsx
-    │   ├── media--image.tsx
-    │   ├── menu--footer.tsx
-    │   ├── menu--main.tsx
-    │   ├── node--article.tsx
-    │   └── node--page.tsx
-    ├── lib
-    │   └── format-date.ts
-    ├── node_modules
-    ├── pages
-    │   ├── api
-    │   │   ├── exit-preview.tsx
-    │   │   ├── preview.tsx
-    │   │   └── revalidate.ts
-    │   ├── _app.tsx
-    │   ├── [...slug].tsx
-    │   ├── articles.tsx
-    │   └── index.tsx
-    ├── public
-    │   ├── favicon.ico
-    │   ├── logo.png
-    │   └── robots.txt
-    ├── styles
-    │   └── globals.css
-    ├── .env.local
-    ├── next.config.js
-    ├── package.json
-    ├── tailwind.config.js
-    └── tsconfig.json
-|── .gitignore
-|── package.json
+├── components
+│   ├── layout.tsx
+│   ├── media--image.tsx
+│   ├── menu--footer.tsx
+│   ├── menu--main.tsx
+│   ├── node--article.tsx
+│   └── node--page.tsx
+├── lib
+│   └── format-date.ts
+├── pages
+│   ├── api
+│   │   ├── exit-preview.tsx
+│   │   ├── preview.tsx
+│   │   └── revalidate.ts
+│   ├── _app.tsx
+│   ├── [...slug].tsx
+│   ├── articles.tsx
+│   └── index.tsx
+├── public
+│   ├── favicon.ico
+│   ├── logo.png
+│   └── robots.txt
+├── styles
+│   └── globals.css
+├── .env.local
+├── next.config.js
+├── package.json
+├── tailwind.config.js
+└── tsconfig.json
 ```
 
 | Path                 | Description                                                                                          |
