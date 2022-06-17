@@ -4,6 +4,9 @@
   "license": "MIT",
   "private": true,
   "workspaces": ["starters/*", "packages/*"],
+  "scripts": {
+    "lint": "yarn --cwd starters/basic-starter next lint"
+  },
   "devDependencies": {
     "prettier": "2.7.1"
   },
