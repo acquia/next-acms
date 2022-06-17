@@ -1,5 +1,5 @@
-import { FormattedText } from "components/formatted-text"
-import { MediaImage } from "components/media--image"
+import { FormattedText } from 'components/formatted-text';
+import { MediaImage } from 'components/media--image';
 
 export function NodeBasicPage({ node, ...props }) {
   return (
@@ -18,5 +18,5 @@ export function NodeBasicPage({ node, ...props }) {
         </div>
       )}
     </article>
-  )
+  );
 }

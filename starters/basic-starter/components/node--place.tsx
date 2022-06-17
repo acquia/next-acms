@@ -1,7 +1,7 @@
-import Link from "next/link"
+import Link from 'next/link';
 
-import { MediaImage } from "components/media--image"
-import { FormattedText } from "components/formatted-text"
+import { MediaImage } from 'components/media--image';
+import { FormattedText } from 'components/formatted-text';
 
 export function NodePlace({ node, ...props }) {
   return (
@@ -20,8 +20,8 @@ export function NodePlace({ node, ...props }) {
             <div>
               {node.field_place_address.address_line1}
               <br />
-              {node.field_place_address.locality},{" "}
-              {node.field_place_address.administrative_area}{" "}
+              {node.field_place_address.locality},{' '}
+              {node.field_place_address.administrative_area}{' '}
               {node.field_place_address.postal_code}
             </div>
           )}
@@ -37,7 +37,7 @@ export function NodePlace({ node, ...props }) {
         )}
       </div>
     </article>
-  )
+  );
 }
 
 export function NodePlaceTeaser({ node, ...props }) {
@@ -63,13 +63,13 @@ export function NodePlaceTeaser({ node, ...props }) {
           <div>
             {node.field_place_address.address_line1}
             <br />
-            {node.field_place_address.locality},{" "}
-            {node.field_place_address.administrative_area}{" "}
+            {node.field_place_address.locality},{' '}
+            {node.field_place_address.administrative_area}{' '}
             {node.field_place_address.postal_code}
           </div>
         )}
         {node.field_place_telephone && <p>{node.field_place_telephone}</p>}
       </div>
     </article>
-  )
+  );
 }

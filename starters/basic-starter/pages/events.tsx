@@ -1,14 +1,14 @@
-import { GetStaticPropsResult } from "next"
-import { DrupalNode, getResourceCollectionFromContext } from "next-drupal"
-import { DrupalJsonApiParams } from "drupal-jsonapi-params"
+import { GetStaticPropsResult } from 'next';
+import { DrupalNode, getResourceCollectionFromContext } from 'next-drupal';
+import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 
-import { getMenus } from "lib/get-menus"
-import { Layout, LayoutProps } from "components/layout"
-import { PageHeader } from "components/page-header"
-import { NodeEventTeaser } from "components/node--event"
+import { getMenus } from 'lib/get-menus';
+import { Layout, LayoutProps } from 'components/layout';
+import { PageHeader } from 'components/page-header';
+import { NodeEventTeaser } from 'components/node--event';
 
 interface EventsPageProps extends LayoutProps {
-  events: DrupalNode[]
+  events: DrupalNode[];
 }
 
 export default function EventPage({ menus, events }: EventsPageProps) {
@@ -27,40 +27,40 @@ export default function EventPage({ menus, events }: EventsPageProps) {
         )}
       </div>
     </Layout>
-  )
+  );
 }
 
 export async function getStaticProps(
-  context
+  context,
 ): Promise<GetStaticPropsResult<EventsPageProps>> {
   const events = await getResourceCollectionFromContext<DrupalNode[]>(
-    "node--event",
+    'node--event',
     context,
     {
       params: new DrupalJsonApiParams()
-        .addFilter("status", "1")
-        .addSort("field_event_start", "ASC")
-        .addFilter("field_event_start", new Date().toISOString(), ">=")
-        .addInclude(["field_event_image.image", "field_event_place"])
-        .addFields("node--event", [
-          "id",
-          "title",
-          "body",
-          "path",
-          "field_event_start",
-          "field_event_image",
-          "field_event_duration",
-          "field_event_place",
+        .addFilter('status', '1')
+        .addSort('field_event_start', 'ASC')
+        .addFilter('field_event_start', new Date().toISOString(), '>=')
+        .addInclude(['field_event_image.image', 'field_event_place'])
+        .addFields('node--event', [
+          'id',
+          'title',
+          'body',
+          'path',
+          'field_event_start',
+          'field_event_image',
+          'field_event_duration',
+          'field_event_place',
         ])
-        .addFields("node--place", ["title", "path"])
+        .addFields('node--place', ['title', 'path'])
         .getQueryObject(),
-    }
-  )
+    },
+  );
 
   return {
     props: {
       events,
       menus: await getMenus(),
     },
-  }
+  };
 }

@@ -1,14 +1,14 @@
-import { GetStaticPropsResult } from "next"
-import { DrupalNode, getResourceCollectionFromContext } from "next-drupal"
-import { DrupalJsonApiParams } from "drupal-jsonapi-params"
+import { GetStaticPropsResult } from 'next';
+import { DrupalNode, getResourceCollectionFromContext } from 'next-drupal';
+import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 
-import { getMenus } from "lib/get-menus"
-import { Layout, LayoutProps } from "components/layout"
-import { PageHeader } from "components/page-header"
-import { NodeArticleTeaser } from "components/node--article"
+import { getMenus } from 'lib/get-menus';
+import { Layout, LayoutProps } from 'components/layout';
+import { PageHeader } from 'components/page-header';
+import { NodeArticleTeaser } from 'components/node--article';
 
 interface ArticlesPageProps extends LayoutProps {
-  articles: DrupalNode[]
+  articles: DrupalNode[];
 }
 
 export default function ArticlePage({ menus, articles }: ArticlesPageProps) {
@@ -27,37 +27,37 @@ export default function ArticlePage({ menus, articles }: ArticlesPageProps) {
         )}
       </div>
     </Layout>
-  )
+  );
 }
 
 export async function getStaticProps(
-  context
+  context,
 ): Promise<GetStaticPropsResult<ArticlesPageProps>> {
   const articles = await getResourceCollectionFromContext<DrupalNode[]>(
-    "node--article",
+    'node--article',
     context,
     {
       params: new DrupalJsonApiParams()
-        .addFilter("status", "1")
-        .addSort("created", "DESC")
-        .addInclude(["field_article_image.image", "field_display_author"])
-        .addFields("node--article", [
-          "id",
-          "title",
-          "body",
-          "path",
-          "created",
-          "field_display_author",
-          "field_article_image",
+        .addFilter('status', '1')
+        .addSort('created', 'DESC')
+        .addInclude(['field_article_image.image', 'field_display_author'])
+        .addFields('node--article', [
+          'id',
+          'title',
+          'body',
+          'path',
+          'created',
+          'field_display_author',
+          'field_article_image',
         ])
         .getQueryObject(),
-    }
-  )
+    },
+  );
 
   return {
     props: {
       articles,
       menus: await getMenus(),
     },
-  }
+  };
 }

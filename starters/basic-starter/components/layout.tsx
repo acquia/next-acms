@@ -1,19 +1,19 @@
-import Link from "next/link"
-import Image from "next/image"
-import Head from "next/head"
-import { DrupalMenuLinkContent } from "next-drupal"
+import Link from 'next/link';
+import Image from 'next/image';
+import Head from 'next/head';
+import { DrupalMenuLinkContent } from 'next-drupal';
 
-import { PreviewAlert } from "components/preview-alert"
-import { MenuMain } from "components/menu--main"
-import { MenuFooter } from "components/menu--footer"
+import { PreviewAlert } from 'components/preview-alert';
+import { MenuMain } from 'components/menu--main';
+import { MenuFooter } from 'components/menu--footer';
 
 export interface LayoutProps {
-  title?: string
-  children?: React.ReactNode
+  title?: string;
+  children?: React.ReactNode;
   menus: {
-    main: DrupalMenuLinkContent[]
-    footer: DrupalMenuLinkContent[]
-  }
+    main: DrupalMenuLinkContent[];
+    footer: DrupalMenuLinkContent[];
+  };
 }
 
 export function Layout({ title, menus, children }: LayoutProps) {
@@ -45,5 +45,5 @@ export function Layout({ title, menus, children }: LayoutProps) {
         </footer>
       </div>
     </>
-  )
+  );
 }

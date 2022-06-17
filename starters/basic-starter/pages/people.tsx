@@ -1,14 +1,14 @@
-import { GetStaticPropsResult } from "next"
-import { DrupalNode, getResourceCollectionFromContext } from "next-drupal"
-import { DrupalJsonApiParams } from "drupal-jsonapi-params"
+import { GetStaticPropsResult } from 'next';
+import { DrupalNode, getResourceCollectionFromContext } from 'next-drupal';
+import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 
-import { getMenus } from "lib/get-menus"
-import { Layout, LayoutProps } from "components/layout"
-import { PageHeader } from "components/page-header"
-import { NodePersonTeaser } from "components/node--person"
+import { getMenus } from 'lib/get-menus';
+import { Layout, LayoutProps } from 'components/layout';
+import { PageHeader } from 'components/page-header';
+import { NodePersonTeaser } from 'components/node--person';
 
 interface PeoplePageProps extends LayoutProps {
-  people: DrupalNode[]
+  people: DrupalNode[];
 }
 
 export default function PeoplePage({ menus, people }: PeoplePageProps) {
@@ -27,35 +27,35 @@ export default function PeoplePage({ menus, people }: PeoplePageProps) {
         )}
       </div>
     </Layout>
-  )
+  );
 }
 
 export async function getStaticProps(
-  context
+  context,
 ): Promise<GetStaticPropsResult<PeoplePageProps>> {
   const people = await getResourceCollectionFromContext<DrupalNode[]>(
-    "node--person",
+    'node--person',
     context,
     {
       params: new DrupalJsonApiParams()
-        .addFilter("status", "1")
-        .addSort("title", "ASC")
-        .addInclude(["field_person_image.image"])
-        .addFields("node--person", [
-          "id",
-          "title",
-          "path",
-          "field_job_title",
-          "field_person_image",
+        .addFilter('status', '1')
+        .addSort('title', 'ASC')
+        .addInclude(['field_person_image.image'])
+        .addFields('node--person', [
+          'id',
+          'title',
+          'path',
+          'field_job_title',
+          'field_person_image',
         ])
         .getQueryObject(),
-    }
-  )
+    },
+  );
 
   return {
     props: {
       people,
       menus: await getMenus(),
     },
-  }
+  };
 }

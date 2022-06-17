@@ -1,8 +1,8 @@
-import Link from "next/link"
+import Link from 'next/link';
 
-import { formatDate } from "lib/format-date"
-import { MediaImage } from "components/media--image"
-import { FormattedText } from "components/formatted-text"
+import { formatDate } from 'lib/format-date';
+import { MediaImage } from 'components/media--image';
+import { FormattedText } from 'components/formatted-text';
 
 export function NodeEvent({ node, ...props }) {
   return (
@@ -47,7 +47,7 @@ export function NodeEvent({ node, ...props }) {
         )}
       </div>
     </article>
-  )
+  );
 }
 
 export function NodeEventTeaser({ node, ...props }) {
@@ -91,5 +91,5 @@ export function NodeEventTeaser({ node, ...props }) {
         )}
       </div>
     </article>
-  )
+  );
 }

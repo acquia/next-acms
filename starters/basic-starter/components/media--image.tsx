@@ -1,36 +1,36 @@
-import Image, { ImageProps } from "next/image"
-import { DrupalMedia } from "next-drupal"
+import Image, { ImageProps } from 'next/image';
+import { DrupalMedia } from 'next-drupal';
 
-import { absoluteURL } from "lib/absolute-url"
+import { absoluteURL } from 'lib/absolute-url';
 
 interface MediaImageProps extends Partial<ImageProps> {
-  media: DrupalMedia
+  media: DrupalMedia;
 }
 
-MediaImage.type = "media--image"
+MediaImage.type = 'media--image';
 
 export function MediaImage({
   media,
-  layout = "responsive",
+  layout = 'responsive',
   objectFit,
   width,
   height,
   priority,
   ...props
 }: MediaImageProps) {
-  const image = media?.image
+  const image = media?.image;
 
   if (!image) {
-    return null
+    return null;
   }
 
   const sizeProps =
-    layout === "fill"
+    layout === 'fill'
       ? null
       : {
           width: width || image.resourceIdObjMeta.width,
           height: height || image.resourceIdObjMeta.height,
-        }
+        };
 
   return (
     <div className="media__content image__wrapper" {...props}>
@@ -38,11 +38,11 @@ export function MediaImage({
         src={absoluteURL(image.uri.url)}
         layout={layout}
         objectFit={objectFit}
-        alt={image.resourceIdObjMeta.alt || "Image"}
+        alt={image.resourceIdObjMeta.alt || 'Image'}
         title={image.resourceIdObjMeta.title}
         priority={priority}
         {...sizeProps}
       />
     </div>
-  )
+  );
 }

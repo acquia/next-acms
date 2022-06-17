@@ -1,16 +1,16 @@
 module.exports = {
-  mode: "jit",
+  mode: 'jit',
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
+    './pages/**/*.{js,ts,jsx,tsx}',
+    './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
       container: {
         screens: {
-          sm: "100%",
-          md: "100%",
-          lg: "940px",
+          sm: '100%',
+          md: '100%',
+          lg: '940px',
         },
       },
     },
@@ -18,5 +18,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require("@tailwindcss/typography")],
-}
+  plugins: [require('@tailwindcss/typography')],
+};

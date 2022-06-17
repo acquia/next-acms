@@ -13,6 +13,7 @@ This project is built on the following technologies:
 ## Installation (Acquia CMS)
 
 ### 1. Create Acquia CMS project
+
 Start by creating a new Acquia CMS project:
 
 _(If you have an existing Acquia CMS project, you can skip this step)_
@@ -24,7 +25,6 @@ composer create-project acquia/drupal-recommended-project acms-demo
 Once you've created the project, proceed with the Drupal installation.
 
 _Note that Acquia CMS is currently not compatible with PHP 8._
-
 
 ### 2. Add and enable modules
 
@@ -106,6 +106,7 @@ To start the Next.js development server, run `yarn dev`. This starts the develop
 Visit [http://localhost:3000](http://localhost:3000) to view the headless site.
 
 ## Project Structure
+
 This project is a monorepo structure using yarn workspaces. This project has a `packages` directory for next-acms and a `starters` directory for next-acms starter kits.
 
 `starters/basic-starter` has a dependency on `packages/next-acms` which currently has a dependency on `next-drupal`.
@@ -257,3 +258,4 @@ export default function NodePage({ node, menus }: NodePageProps) {
     </Layout>
   )
 }
+```

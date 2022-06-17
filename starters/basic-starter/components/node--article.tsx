@@ -1,8 +1,8 @@
-import Link from "next/link"
+import Link from 'next/link';
 
-import { formatDate } from "lib/format-date"
-import { MediaImage } from "components/media--image"
-import { FormattedText } from "components/formatted-text"
+import { formatDate } from 'lib/format-date';
+import { MediaImage } from 'components/media--image';
+import { FormattedText } from 'components/formatted-text';
 
 export function NodeArticle({ node, ...props }) {
   return (
@@ -13,7 +13,7 @@ export function NodeArticle({ node, ...props }) {
       <p className="mb-4 text-gray-600">
         {node.field_display_author?.title ? (
           <span>
-            Posted by{" "}
+            Posted by{' '}
             <span className="font-semibold">
               {node.field_display_author?.title}
             </span>
@@ -41,7 +41,7 @@ export function NodeArticle({ node, ...props }) {
         </div>
       )}
     </article>
-  )
+  );
 }
 
 export function NodeArticleTeaser({ node, ...props }) {
@@ -58,7 +58,7 @@ export function NodeArticleTeaser({ node, ...props }) {
         <p className="mb-4 text-sm text-gray-500">
           {node.field_display_author?.title ? (
             <span>
-              Posted by{" "}
+              Posted by{' '}
               <span className="font-semibold">
                 {node.field_display_author?.title}
               </span>
@@ -76,5 +76,5 @@ export function NodeArticleTeaser({ node, ...props }) {
         )}
       </div>
     </article>
-  )
+  );
 }

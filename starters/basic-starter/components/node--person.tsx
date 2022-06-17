@@ -1,7 +1,7 @@
-import Link from "next/link"
+import Link from 'next/link';
 
-import { MediaImage } from "components/media--image"
-import { FormattedText } from "components/formatted-text"
+import { MediaImage } from 'components/media--image';
+import { FormattedText } from 'components/formatted-text';
 
 export function NodePerson({ node, ...props }) {
   return (
@@ -25,7 +25,7 @@ export function NodePerson({ node, ...props }) {
         </div>
       )}
     </article>
-  )
+  );
 }
 
 export function NodePersonTeaser({ node, ...props }) {
@@ -52,5 +52,5 @@ export function NodePersonTeaser({ node, ...props }) {
         )}
       </div>
     </article>
-  )
+  );
 }
