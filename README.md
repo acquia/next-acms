@@ -1,6 +1,3 @@
-# next-acms
-ACMS with fully or progressively decoupled front-end
-
 # Next.js for Acquia CMS
 
 This is a starter template for building a headless site powered by [Acquia CMS](https://www.acquia.com/products/drupal-cloud/acquia-cms) and [Next.js](https://nextjs.org).
@@ -16,55 +13,16 @@ This project is built on the following technologies:
 ## Installation (Acquia CMS)
 
 ### 1. Create Acquia CMS project
-Have PHP 7.4 installed (ACMS doesn't work with PHP 8.1)
+Start by creating a new Acquia CMS project:
 
-1. Run `composer create-project acquia/drupal-recommended-project acms-demo`
-2. Inside of acms-demo directory run `composer config repositories.acquia_cms_starterkit vcs 'git@github.com:acquia/acquia-cms-starterkit.git'`
-3. After the composer repository is added, run the below composer command to download the tool:
-`composer require acquia/acquia-cms-starterkit:dev-develop`
-4. Run the following command to to set up site:
-`./vendor/bin/acms acms:install`
-5. Go into `usr/local/etc/httpd/extra/httpd-vhosts.conf` and add a virtual host
-```
-# Example
-<VirtualHost *:80>
-    DocumentRoot "/Users/myname/acms-demo/docroot"
-    ServerName acms-demo.test
-    ErrorLog "/var/log/apache2/error.log"
-</VirtualHost>
-```
-6. Set up permissions in `usr/local/etc/httpd/httpd.conf`
-```
-# Example
-<Directory "/Users/harumi.jang/acms-demo">
-    #
-    # Possible values for the Options directive are "None", "All",
-    # or any combination of:
-    #   Indexes Includes FollowSymLinks SymLinksifOwnerMatch ExecCGI MultiViews
-    #
-    # Note that "MultiViews" must be named *explicitly* --- "Options All"
-    # doesn't give it to you.
-    #
-    # The Options directive is both complicated and important.  Please see
-    # http://httpd.apache.org/docs/2.4/mod/core.html#options
-    # for more information.
-    #
-    Options Indexes FollowSymLinks
+(If you have an existing Acquia CMS project, you can skip this step)
 
-    #
-    # AllowOverride controls what directives may be placed in .htaccess files.
-    # It can be "All", "None", or any combination of the keywords:
-    #   AllowOverride FileInfo AuthConfig Limit
-    #
-    AllowOverride All
+`composer create-project acquia/drupal-recommended-project acms-demo`
 
-    #
-    # Controls who can get stuff from this server.
-    #
-    Require all granted
-</Directory>
-```
-7. Restart apache server `sudo apachectl restart` and your Drupal site should now be running
+Once you've created the project, proceed with the Drupal installation.
+
+_Note that Acquia CMS is currently not compatible with PHP 8._
+
 
 ### 2. Add and enable modules
 
@@ -123,7 +81,7 @@ To pull data from the Drupal back-end, the Next.js front-end requires authorizat
 Run the following command to create a new Next.js project:
 
 ```
-npx create-next-app -e https://github.com/acquia/next-acms
+npx create-next-app -e https://github.com/acquia/next-acms/tree/main/starters/basic-starter
 ```
 
 This will create a new starter project. [See project structure](#project-structure).
