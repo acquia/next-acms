@@ -15,9 +15,11 @@ This project is built on the following technologies:
 ### 1. Create Acquia CMS project
 Start by creating a new Acquia CMS project:
 
-(If you have an existing Acquia CMS project, you can skip this step)
+_(If you have an existing Acquia CMS project, you can skip this step)_
 
-`composer create-project acquia/drupal-recommended-project acms-demo`
+```
+composer create-project acquia/drupal-recommended-project acms-demo
+```
 
 Once you've created the project, proceed with the Drupal installation.
 
