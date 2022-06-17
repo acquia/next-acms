@@ -6,5 +6,8 @@
   "workspaces": ["starters/*", "packages/*"],
   "devDependencies": {
     "prettier": "2.7.1"
+  },
+  "dependencies": {
+    "next-drupal": "^1.1.1"
   }
 }

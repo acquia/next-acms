@@ -19,7 +19,8 @@
     "next-acms": "^1.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "sharp": "^0.30.2"
+    "sharp": "^0.30.2",
+    "next-drupal": "^1.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.14.0",
