@@ -7,5 +7,5 @@ export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse,
 ) {
-  await revalidate(request, response);
+  return revalidate(request, response);
 }
