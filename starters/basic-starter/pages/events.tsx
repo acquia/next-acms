@@ -62,5 +62,6 @@ export async function getStaticProps(
       events,
       menus: await getMenus(),
     },
+    revalidate: 60,
   };
 }

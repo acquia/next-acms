@@ -58,5 +58,6 @@ export async function getStaticProps(
       places,
       menus: await getMenus(),
     },
+    revalidate: 60,
   };
 }
