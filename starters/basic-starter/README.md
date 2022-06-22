@@ -7,6 +7,8 @@ This project is built on the following technologies:
 - Drupal core
 - [Acquia CMS](https://github.com/acquia/acquia_cms) (Drupal distribution)
 - [Next.js](https://nextjs.org) (React front-end framework)
+- [Next.js for Drupal](https://next-drupal.org) (Tools for integrating Next.js with Drupal)
+- [Drupal JSON-API Params](https://github.com/d34dman/drupal-jsonapi-params) (Tools for generating JSON:API queries)
 - [Tailwind CSS](https://taiwindcss.com) (Styling library)
 - [TypeScript](http://typescriptlang.org)
 
