@@ -4,7 +4,6 @@ import * as React from 'react';
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import {
   DrupalNode,
-  getPathsFromContext,
   getResourceFromContext,
   translatePathFromContext,
 } from 'next-drupal';
@@ -49,7 +48,9 @@ export default function NodePage({ node, menus }: NodePageProps) {
 // See https://nextjs.org/docs/basic-features/data-fetching/get-static-paths.
 export async function getStaticPaths(context): Promise<GetStaticPathsResult> {
   return {
-    paths: await getPathsFromContext(CONTENT_TYPES, context),
+    // Don't pre-render all pages at build time and instead dynamically
+    // render the page on request.
+    paths: [],
     fallback: 'blocking',
   };
 }
