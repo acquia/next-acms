@@ -71,9 +71,7 @@ export function NodeArticleTeaser({ node, ...props }) {
             <h2 className="mb-4 text-xl font-bold">{node.title}</h2>
           </a>
         </Link>
-        {node.body?.summary && (
-          <p className="text-body">{node.body.summary}</p>
-        )}
+        {node.body?.summary && <p className="text-body">{node.body.summary}</p>}
       </div>
     </article>
   );
