@@ -15,7 +15,7 @@ export function NodePerson({ node, ...props }) {
         <div className="space-y-2">
           <h1 className="text-3xl font-bold">{node.title}</h1>
           {node.field_job_title && (
-            <p className="text-xl text-gray-600">{node.field_job_title}</p>
+            <p className="text-xl text-secondary">{node.field_job_title}</p>
           )}
         </div>
       </div>
@@ -43,12 +43,12 @@ export function NodePersonTeaser({ node, ...props }) {
       )}
       <div className="space-y-2">
         <Link href={node.path.alias} passHref>
-          <a className="no-underline hover:text-blue-600">
+          <a className="no-underline hover:text-accent">
             <h2 className="text-xl">{node.title}</h2>
           </a>
         </Link>
         {node.field_job_title && (
-          <p className="text-gray-600">{node.field_job_title}</p>
+          <p className="text-secondary">{node.field_job_title}</p>
         )}
       </div>
     </article>

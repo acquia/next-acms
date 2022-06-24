@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   mode: 'jit',
   content: [
@@ -13,6 +15,11 @@ module.exports = {
           lg: '940px',
         },
       },
+      colors: {
+        accent: colors.blue["600"],
+        secondary: colors.gray["600"],
+        textColor: colors.gray["500"],
+      }
     },
   },
   variants: {
