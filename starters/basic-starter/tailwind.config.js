@@ -1,4 +1,4 @@
-const colors = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors');
 
 module.exports = {
   mode: 'jit',
@@ -16,9 +16,9 @@ module.exports = {
         },
       },
       colors: {
-        accent: colors.blue["600"],
-        secondary: colors.gray["600"],
-        textColor: colors.gray["500"],
+        accent: colors.blue['600'],
+        secondary: colors.gray['600'],
+        textColor: colors.gray['500'],
       },
     },
   },
