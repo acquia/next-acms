@@ -19,7 +19,7 @@ module.exports = {
         accent: colors.blue["600"],
         secondary: colors.gray["600"],
         textColor: colors.gray["500"],
-      }
+      },
     },
   },
   variants: {
