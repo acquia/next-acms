@@ -23,19 +23,19 @@ export function NodeEvent({ node, ...props }) {
               </span>
             )}
             {node.field_event_duration && (
-              <span className="text-textColor">
+              <span className="text-body">
                 &middot; {node.field_event_duration}
               </span>
             )}
             {node.field_event_place && (
-              <span className="text-textColor">
+              <span className="text-body">
                 &middot; {node.field_event_place.title}
               </span>
             )}
           </div>
           <h1 className="mb-4 text-3xl font-bold">{node.title}</h1>
           {node.body?.summary && (
-            <p className="text-sm text-textColor">{node.body.summary}</p>
+            <p className="text-sm text-body">{node.body.summary}</p>
           )}
         </div>
       </div>
@@ -71,12 +71,12 @@ export function NodeEventTeaser({ node, ...props }) {
             </span>
           )}
           {node.field_event_duration && (
-            <span className="text-textColor">
+            <span className="text-body">
               &middot; {node.field_event_duration}
             </span>
           )}
           {node.field_event_place && (
-            <span className="text-textColor">
+            <span className="text-body">
               &middot; {node.field_event_place.title}
             </span>
           )}
@@ -87,7 +87,7 @@ export function NodeEventTeaser({ node, ...props }) {
           </a>
         </Link>
         {node.body?.summary && (
-          <p className="text-sm text-textColor">{node.body.summary}</p>
+          <p className="text-sm text-body">{node.body.summary}</p>
         )}
       </div>
     </article>

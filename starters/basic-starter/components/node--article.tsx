@@ -55,7 +55,7 @@ export function NodeArticleTeaser({ node, ...props }) {
         </Link>
       )}
       <div>
-        <p className="mb-4 text-sm text-textColor">
+        <p className="mb-4 text-sm text-body">
           {node.field_display_author?.title ? (
             <span>
               Posted by{' '}
@@ -72,7 +72,7 @@ export function NodeArticleTeaser({ node, ...props }) {
           </a>
         </Link>
         {node.body?.summary && (
-          <p className="text-textColor">{node.body.summary}</p>
+          <p className="text-body">{node.body.summary}</p>
         )}
       </div>
     </article>

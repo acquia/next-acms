@@ -18,7 +18,7 @@ module.exports = {
       colors: {
         accent: colors.blue['600'],
         secondary: colors.gray['600'],
-        textColor: colors.gray['500'],
+        body: colors.gray['500'],
       },
     },
   },
