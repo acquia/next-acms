@@ -18,56 +18,36 @@ This project is built on the following technologies:
 
 Start by creating a new Acquia CMS project:
 
-_(If you have an existing Acquia CMS project, you can skip this step)_
+_Note that Acquia CMS is currently not compatible with PHP 8.1_
 
 ```
 composer create-project acquia/drupal-recommended-project acms-demo
-```
-
-Once you've created the project, proceed with the Drupal installation.
-
-_Note that Acquia CMS is currently not compatible with PHP 8._
-
-### 2. Add and enable modules
+cd acms-demo
+composer require acquia/acquia-cms-starterkit
 
 ```
-composer require drupal/next drupal/jsonapi_menu_items
+
+Run the following command to to set up site:
+```
+./vendor/bin/acms acms:install
 ```
 
-Then click on **Extend** and enable the following modules: **Next.js**, **Next.js JSON:API** and **JSON:API Menu Items**.
+During the installation wizard, select `acquia_cms_headless` as the starterkit.
 
-### 3. Create Role and User
-
-To pull data from the Drupal back-end, the Next.js front-end requires authorization. To handle this, we are going to create a role.
-
-1. Create a role (example _Headless Site_) at `/admin/people/roles` with the following permissions:
-
-- Bypass content access control
-- Issue subrequests
-- View user information
-
-2. Add a new user at `/admin/people/create` and assign it the role we created above.
-
-### 4. Configure OAuth Client
+### 2. Configure OAuth Client
 
 1. Visit `/admin/config/people/simple_oauth`
 2. Click Generate keys to generate encryption keys for tokens
 3. Fill in Directory for the keys.
 4. Click Generate.
 
-### 5. Create OAuth Client
+### 3. Configure OAuth Client
 
-1. Visit `/admin/config/services/consumer/add`
-2. Fill in the following values:
-
-- Label: `Headless site`
-- User: `Select the user we created`
-- Secret: `Your secret`
-- Scopes: `Select the role we created`
-
+1. Visit `/admin/config/services/consumer/1/edit`
+2. Fill in a value for "New secret"
 3. Click Save
 
-### 6. Create Next.js site
+### 4. Create Next.js site
 
 1. Visit `/admin/config/services/next`
 2. Click **Add Next.js site**
