@@ -44,7 +44,7 @@ export default function NodePage({ node, menus }: NodePageProps) {
   );
 }
 
-// This fetches paths from Drupal and builds static pages.
+// Use the 'paths' key to specify wanted paths to be pre-rendered at build time.
 // See https://nextjs.org/docs/basic-features/data-fetching/get-static-paths.
 export async function getStaticPaths(context): Promise<GetStaticPathsResult> {
   return {
