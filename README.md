@@ -28,6 +28,7 @@ composer require acquia/acquia-cms-starterkit
 ```
 
 Run the following command to to set up site:
+
 ```
 ./vendor/bin/acms acms:install
 ```
