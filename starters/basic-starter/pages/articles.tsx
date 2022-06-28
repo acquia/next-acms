@@ -1,11 +1,12 @@
 import { GetStaticPropsResult } from 'next';
-import { DrupalNode, getResourceCollectionFromContext } from 'next-drupal';
+import { DrupalNode } from 'next-drupal';
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 
 import { getMenus } from 'lib/get-menus';
 import { Layout, LayoutProps } from 'components/layout';
 import { PageHeader } from 'components/page-header';
 import { NodeArticleTeaser } from 'components/node--article';
+import {drupal} from "../lib/drupal";
 
 interface ArticlesPageProps extends LayoutProps {
   articles: DrupalNode[];
@@ -33,7 +34,7 @@ export default function ArticlePage({ menus, articles }: ArticlesPageProps) {
 export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<ArticlesPageProps>> {
-  const articles = await getResourceCollectionFromContext<DrupalNode[]>(
+  const articles = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
     'node--article',
     context,
     {
