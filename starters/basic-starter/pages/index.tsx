@@ -6,7 +6,7 @@ import { NodeEventTeaser } from '../components/node--event';
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 import Image from 'next/image';
 import Link from 'next/link';
-import {drupal} from "../lib/drupal";
+import { drupal } from '../lib/drupal';
 
 interface IndexPageProps extends LayoutProps {
   events: DrupalNode[];

@@ -6,7 +6,7 @@ import { getMenus } from 'lib/get-menus';
 import { Layout, LayoutProps } from 'components/layout';
 import { PageHeader } from 'components/page-header';
 import { NodeEventTeaser } from 'components/node--event';
-import {drupal} from "../lib/drupal";
+import { drupal } from '../lib/drupal';
 
 interface EventsPageProps extends LayoutProps {
   events: DrupalNode[];

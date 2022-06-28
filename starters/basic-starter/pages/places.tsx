@@ -6,7 +6,7 @@ import { getMenus } from 'lib/get-menus';
 import { Layout, LayoutProps } from 'components/layout';
 import { NodePlaceTeaser } from 'components/node--place';
 import { PageHeader } from 'components/page-header';
-import {drupal} from "../lib/drupal";
+import { drupal } from '../lib/drupal';
 
 interface PlacesPageProps extends LayoutProps {
   places: DrupalNode[];
