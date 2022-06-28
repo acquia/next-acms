@@ -19,7 +19,7 @@ module.exports = {
         accent: colors.sky['500'],
         secondary: colors.gray['600'],
         grey: colors.gray['500'],
-        darkGray: colors.gray['800']
+        darkGray: colors.gray['800'],
       },
     },
   },
