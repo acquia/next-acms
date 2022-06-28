@@ -16,9 +16,10 @@ module.exports = {
         },
       },
       colors: {
-        accent: colors.blue['600'],
+        accent: colors.sky['500'],
         secondary: colors.gray['600'],
-        body: colors.gray['500'],
+        grey: colors.gray['500'],
+        darkGray: colors.gray['800']
       },
     },
   },
