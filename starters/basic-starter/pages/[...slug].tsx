@@ -4,8 +4,6 @@ import * as React from 'react';
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import {
   DrupalNode,
-  getResourceFromContext,
-  translatePathFromContext,
 } from 'next-drupal';
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 
@@ -16,6 +14,7 @@ import { NodeEvent } from 'components/node--event';
 import { NodePerson } from 'components/node--person';
 import { NodePlace } from 'components/node--place';
 import { NodeBasicPage } from 'components/node--page';
+import { drupal } from '../lib/drupal';
 
 // List of all the entity types handled by this route.
 const CONTENT_TYPES = [
@@ -59,7 +58,7 @@ export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<NodePageProps>> {
   // Find a matching path from Drupal from context.
-  const path = await translatePathFromContext(context);
+  const path = await drupal.translatePathFromContext(context);
 
   if (!path) {
     return {
@@ -115,7 +114,7 @@ export async function getStaticProps(
   }
 
   // Fetch the node/resource from Drupal.
-  const node = await getResourceFromContext<DrupalNode>(type, context, {
+  const node = await drupal.getResourceFromContext<DrupalNode>(type, context, {
     params: params.getQueryObject(),
   });
 
