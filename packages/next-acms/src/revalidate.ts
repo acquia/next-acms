@@ -23,7 +23,7 @@ export async function revalidate(
   }
 
   try {
-    await response.unstable_revalidate(slug);
+    await response.revalidate(slug);
 
     return response.json({});
   } catch (error) {
