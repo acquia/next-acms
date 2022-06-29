@@ -46,7 +46,7 @@ export default function NodePage({ node, menus }: NodePageProps) {
 
 // Use the 'paths' key to specify wanted paths to be pre-rendered at build time.
 // See https://nextjs.org/docs/basic-features/data-fetching/get-static-paths.
-export async function getStaticPaths(context): Promise<GetStaticPathsResult> {
+export async function getStaticPaths(): Promise<GetStaticPathsResult> {
   return {
     // Don't pre-render all pages at build time and instead dynamically
     // render the page on request.
