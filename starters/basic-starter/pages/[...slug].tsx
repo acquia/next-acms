@@ -2,9 +2,7 @@
 // It is the entry point for handling entity routes from Drupal.
 import * as React from 'react';
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
-import {
-  DrupalNode,
-} from 'next-drupal';
+import { DrupalNode } from 'next-drupal';
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 
 import { getMenus } from 'lib/get-menus';
