@@ -61,7 +61,7 @@ export default function IndexPage({ menus, events, places }: IndexPageProps) {
         {places?.length ? (
           <div className="grid gap-14">
             {places.slice(0, 3).map((place) => (
-              <article text-center key={place.id}>
+              <article key={place.id}>
                 <Link href={place.path.alias} passHref>
                   <a className="no-underline hover:text-blue-600">
                     <h2 className="text-3xl font-bold">{place.title}</h2>
