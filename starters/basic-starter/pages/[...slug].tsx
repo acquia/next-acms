@@ -48,8 +48,8 @@ export default function NodePage({ node, menus }: NodePageProps) {
 // See https://nextjs.org/docs/basic-features/data-fetching/get-static-paths.
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
   return {
-    // Don't pre-render all pages at build time and instead dynamically
-    // render the page on request.
+    // By default, individual entity pages are not pre-rendered at build time to
+    // optimize for faster build time.
     paths: [],
     fallback: 'blocking',
   };
