@@ -4,7 +4,6 @@ import * as React from 'react';
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import {
   DrupalNode,
-  getPathsFromContext,
   getResourceFromContext,
   translatePathFromContext,
 } from 'next-drupal';
@@ -45,11 +44,13 @@ export default function NodePage({ node, menus }: NodePageProps) {
   );
 }
 
-// This fetches paths from Drupal and builds static pages.
+// Use the 'paths' key to specify wanted paths to be pre-rendered at build time.
 // See https://nextjs.org/docs/basic-features/data-fetching/get-static-paths.
-export async function getStaticPaths(context): Promise<GetStaticPathsResult> {
+export async function getStaticPaths(): Promise<GetStaticPathsResult> {
   return {
-    paths: await getPathsFromContext(CONTENT_TYPES, context),
+    // By default, individual entity pages are not pre-rendered at build time to
+    // optimize for faster build time.
+    paths: [],
     fallback: 'blocking',
   };
 }
