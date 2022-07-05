@@ -1,12 +1,11 @@
 import { GetStaticPropsResult } from 'next';
-import { DrupalNode } from 'next-drupal';
+import { DrupalNode, getResourceCollectionFromContext } from 'next-drupal';
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 
 import { getMenus } from 'lib/get-menus';
 import { Layout, LayoutProps } from 'components/layout';
 import { NodePlaceTeaser } from 'components/node--place';
 import { PageHeader } from 'components/page-header';
-import { drupal } from '../lib/drupal';
 
 interface PlacesPageProps extends LayoutProps {
   places: DrupalNode[];
@@ -34,7 +33,7 @@ export default function PlacesPage({ menus, places }: PlacesPageProps) {
 export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<PlacesPageProps>> {
-  const places = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+  const places = await getResourceCollectionFromContext<DrupalNode[]>(
     'node--place',
     context,
     {
