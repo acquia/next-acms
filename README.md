@@ -14,8 +14,6 @@ This project is built on the following technologies:
 
 ## Installation (Acquia CMS)
 
-### Create Acquia CMS project
-
 Start by creating a new Acquia CMS project:
 
 _(If you have an existing Acquia CMS project, you can skip this step)_
@@ -25,7 +23,7 @@ composer create-project acquia/drupal-recommended-project acms-demo
 cd acms-demo && ./vendor/bin/acms acms:install
 ```
 
-From the wizard, select the acquia_cms_headless starter kit and proceed to install Acquia CMS. We recommend using the default 
+From the wizard, select the acquia_cms_headless starter kit and proceed to install Acquia CMS. We recommend using the default
 Content Model and the demo content so you can quickly see the content coming through your Next.js application.
 
 **Note**: next-acms requires Acquia CMS 2.0 or later.
@@ -54,7 +52,7 @@ To connect the Next.js site to Drupal, we use [environment variables](https://ne
 
 ### Start Development Server
 
-To start the Next.js development server, run `yarn run dev`. This starts the development server on `http://localhost:3000`.
+To start the Next.js development server, run `yarn dev`. This starts the development server on `http://localhost:3000`.
 
 Visit [http://localhost:3000](http://localhost:3000) to view the headless site.
 
@@ -122,7 +120,7 @@ This project is a monorepo structure using yarn workspaces. This project has a `
 
 The starter ships with static routes for building collection of content: `pages/articles` and an entry point, `[[slug]].tsx`, for entity routes.
 
-The `[[slug]].tsx` route is called a catch-all route.
+The `[slug].tsx` route is called a catch-all route.
 
 When you create an entity on Drupal, and visit the route on your headless site, this is the file that handles data fetching and rendering for the entity.
 
