@@ -2,11 +2,7 @@
 // It is the entry point for handling entity routes from Drupal.
 import * as React from 'react';
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
-import {
-  DrupalNode,
-  getResourceFromContext,
-  translatePathFromContext,
-} from 'next-drupal';
+import { DrupalNode } from 'next-drupal';
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 
 import { getMenus } from 'lib/get-menus';
@@ -16,6 +12,7 @@ import { NodeEvent } from 'components/node--event';
 import { NodePerson } from 'components/node--person';
 import { NodePlace } from 'components/node--place';
 import { NodeBasicPage } from 'components/node--page';
+import { drupal } from '../lib/drupal';
 
 // List of all the entity types handled by this route.
 const CONTENT_TYPES = [
@@ -59,7 +56,7 @@ export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<NodePageProps>> {
   // Find a matching path from Drupal from context.
-  const path = await translatePathFromContext(context);
+  const path = await drupal.translatePathFromContext(context);
 
   if (!path) {
     return {
@@ -115,9 +112,17 @@ export async function getStaticProps(
   }
 
   // Fetch the node/resource from Drupal.
-  const node = await getResourceFromContext<DrupalNode>(type, context, {
+  const node = await drupal.getResourceFromContext<DrupalNode>(type, context, {
     params: params.getQueryObject(),
   });
+
+  // At this point, we know the path exists and it points to a resource. If we
+  // receive an error, it means something went wrong on Drupal. We throw an
+  // error to tell revalidation to skip this for now. Revalidation can try again
+  // on next request.
+  if (!node) {
+    throw new Error(`Failed to fetch resource: ${path.jsonapi.individual}`);
+  }
 
   // If we're not in preview mode and the resource is not published,
   // Return page not found.

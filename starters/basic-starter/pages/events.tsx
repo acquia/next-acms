@@ -1,11 +1,12 @@
 import { GetStaticPropsResult } from 'next';
-import { DrupalNode, getResourceCollectionFromContext } from 'next-drupal';
+import { DrupalNode } from 'next-drupal';
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 
 import { getMenus } from 'lib/get-menus';
 import { Layout, LayoutProps } from 'components/layout';
 import { PageHeader } from 'components/page-header';
 import { NodeEventTeaser } from 'components/node--event';
+import { drupal } from '../lib/drupal';
 
 interface EventsPageProps extends LayoutProps {
   events: DrupalNode[];
@@ -33,7 +34,7 @@ export default function EventPage({ menus, events }: EventsPageProps) {
 export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<EventsPageProps>> {
-  const events = await getResourceCollectionFromContext<DrupalNode[]>(
+  const events = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
     'node--event',
     context,
     {

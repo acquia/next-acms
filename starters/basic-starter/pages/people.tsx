@@ -1,11 +1,12 @@
 import { GetStaticPropsResult } from 'next';
-import { DrupalNode, getResourceCollectionFromContext } from 'next-drupal';
+import { DrupalNode } from 'next-drupal';
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 
 import { getMenus } from 'lib/get-menus';
 import { Layout, LayoutProps } from 'components/layout';
 import { PageHeader } from 'components/page-header';
 import { NodePersonTeaser } from 'components/node--person';
+import { drupal } from '../lib/drupal';
 
 interface PeoplePageProps extends LayoutProps {
   people: DrupalNode[];
@@ -33,7 +34,7 @@ export default function PeoplePage({ menus, people }: PeoplePageProps) {
 export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<PeoplePageProps>> {
-  const people = await getResourceCollectionFromContext<DrupalNode[]>(
+  const people = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
     'node--person',
     context,
     {
