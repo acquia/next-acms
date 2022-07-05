@@ -116,6 +116,14 @@ export async function getStaticProps(
     params: params.getQueryObject(),
   });
 
+  // At this point, we know the path exists and it points to a resource.
+  // If we receive an error, it means something went wrong on Drupal.
+  // We throw an error to tell revalidation to skip this for now.
+  // Revalidation can try again on next request.
+  if (!node) {
+    throw new Error(`Failed to fetch resource: ${path.jsonapi.individual}`)
+  }
+
   // If we're not in preview mode and the resource is not published,
   // Return page not found.
   if (!context.preview && node?.status === false) {
