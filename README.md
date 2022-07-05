@@ -54,7 +54,7 @@ To connect the Next.js site to Drupal, we use [environment variables](https://ne
 
 ### Start Development Server
 
-To start the Next.js development server, run `npm run dev`. This starts the development server on `http://localhost:3000`.
+To start the Next.js development server, run `yarn run dev`. This starts the development server on `http://localhost:3000`.
 
 Visit [http://localhost:3000](http://localhost:3000) to view the headless site.
 
