@@ -1117,11 +1117,6 @@
   dependencies:
     glob "7.1.7"
 
-"@next/env@12.2.0":
-  version "12.2.0"
-  resolved "https://registry.yarnpkg.com/@next/env/-/env-12.2.0.tgz#17ce2d9f5532b677829840037e06f208b7eed66b"
-  integrity sha512-/FCkDpL/8SodJEXvx/DYNlOD5ijTtkozf4PPulYPtkPOJaMPpBSOkzmsta4fnrnbdH6eZjbwbiXFdr6gSQCV4w==
-
 "@next/swc-android-arm-eabi@12.2.0":
   version "12.2.0"
   resolved "https://registry.yarnpkg.com/@next/swc-android-arm-eabi/-/swc-android-arm-eabi-12.2.0.tgz#f116756e668b267de84b76f068d267a12f18eb22"
@@ -1166,7 +1161,7 @@
   version "12.2.0"
   resolved "https://registry.yarnpkg.com/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-12.2.0.tgz#0e2235a59429eadd40ac8880aec18acdbc172a31"
   integrity sha512-MyhHbAKVjpn065WzRbqpLu2krj4kHLi6RITQdD1ee+uxq9r2yg5Qe02l24NxKW+1/lkmpusl4Y5Lks7rBiJn4w==
-  
+
 "@next/swc-linux-x64-musl@12.2.0":
   version "12.2.0"
   resolved "https://registry.yarnpkg.com/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-12.2.0.tgz#b0a10db0d9e16f079429588a58f71fa3c3d46178"
@@ -3666,33 +3661,7 @@ next-drupal@^1.1.1, next-drupal@^1.4.0:
     react "^17.0.0"
     react-dom "^17.0.0"
 
-next@^12.0.0, next@^12.0.7:
-  version "12.2.0"
-  resolved "https://registry.yarnpkg.com/next/-/next-12.2.0.tgz#aef47cd96b602bc1307d1dcf9a1ee3e753845544"
-  integrity sha512-B4j7D3SHYopLYx6/Ark0fenwIar9tEaZZFAaxmKjgcMMexhVJzB3jt7X+6wcdXPPMeUD6r09weUtnDpjox/vIA==
-  dependencies:
-    "@next/env" "12.2.0"
-    "@swc/helpers" "0.4.2"
-    caniuse-lite "^1.0.30001332"
-    postcss "8.4.5"
-    styled-jsx "5.0.2"
-    use-sync-external-store "1.1.0"
-  optionalDependencies:
-    "@next/swc-android-arm-eabi" "12.2.0"
-    "@next/swc-android-arm64" "12.2.0"
-    "@next/swc-darwin-arm64" "12.2.0"
-    "@next/swc-darwin-x64" "12.2.0"
-    "@next/swc-freebsd-x64" "12.2.0"
-    "@next/swc-linux-arm-gnueabihf" "12.2.0"
-    "@next/swc-linux-arm64-gnu" "12.2.0"
-    "@next/swc-linux-arm64-musl" "12.2.0"
-    "@next/swc-linux-x64-gnu" "12.2.0"
-    "@next/swc-linux-x64-musl" "12.2.0"
-    "@next/swc-win32-arm64-msvc" "12.2.0"
-    "@next/swc-win32-ia32-msvc" "12.2.0"
-    "@next/swc-win32-x64-msvc" "12.2.0"
-
-next@^12.2.0:
+next@^12.0.0, next@^12.2.0:
   version "12.2.0"
   resolved "https://registry.yarnpkg.com/next/-/next-12.2.0.tgz#aef47cd96b602bc1307d1dcf9a1ee3e753845544"
   integrity sha512-B4j7D3SHYopLYx6/Ark0fenwIar9tEaZZFAaxmKjgcMMexhVJzB3jt7X+6wcdXPPMeUD6r09weUtnDpjox/vIA==
