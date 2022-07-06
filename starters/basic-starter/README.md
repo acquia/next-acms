@@ -106,9 +106,9 @@ Visit [http://localhost:3000](http://localhost:3000) to view the headless site.
 
 ## Routing
 
-The starter ships with static routes for building collection of content: `pages/articles` and an entry point, `[[slug]].tsx`, for entity routes.
+The starter ships with static routes for building collection of content: `pages/articles` and an entry point, `[...slug].tsx`, for entity routes.
 
-The `[slug].tsx` route is called a catch-all route.
+The `[...slug].tsx` route is called a catch-all route.
 
 When you create an entity on Drupal, and visit the route on your headless site, this is the file that handles data fetching and rendering for the entity.
 
