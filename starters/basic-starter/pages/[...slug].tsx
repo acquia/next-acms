@@ -13,6 +13,7 @@ import { NodePerson } from 'components/node--person';
 import { NodePlace } from 'components/node--place';
 import { NodeBasicPage } from 'components/node--page';
 import { drupal } from '../lib/drupal';
+import {TaxonomyPerson} from "../components/taxonomy--person_type";
 
 // List of all the entity types handled by this route.
 const CONTENT_TYPES = [
@@ -21,22 +22,31 @@ const CONTENT_TYPES = [
   'node--event',
   'node--person',
   'node--place',
+  'taxonomy_term--article_type',
+  'taxonomy_term--categories',
+  'taxonomy_term--event_type',
+  'taxonomy_term--person_type',
+  'taxonomy_term--place_type',
+  'taxonomy_term--tags',
 ];
 
 interface NodePageProps extends LayoutProps {
   node: DrupalNode;
+  label?: string;
 }
 
-export default function NodePage({ node, menus }: NodePageProps) {
+export default function NodePage({node, menus, label}: NodePageProps) {
   if (!node) return null;
 
   return (
     <Layout title={node.title} menus={menus}>
-      {node.type === 'node--page' && <NodeBasicPage node={node} />}
-      {node.type === 'node--article' && <NodeArticle node={node} />}
-      {node.type === 'node--event' && <NodeEvent node={node} />}
-      {node.type === 'node--person' && <NodePerson node={node} />}
-      {node.type === 'node--place' && <NodePlace node={node} />}
+      {console.log(node, node.name)}
+      {Array.isArray(node) && <TaxonomyPerson nodes={node} label={label}/>}
+      {node.type === 'node--page' && <NodeBasicPage node={node}/>}
+      {node.type === 'node--article' && <NodeArticle node={node}/>}
+      {node.type === 'node--event' && <NodeEvent node={node}/>}
+      {node.type === 'node--person' && <NodePerson node={node}/>}
+      {node.type === 'node--place' && <NodePlace node={node}/>}
     </Layout>
   );
 }
@@ -77,6 +87,12 @@ export async function getStaticProps(
 
   const type = path.jsonapi.resourceName;
 
+  let label;
+  if (path.label) {
+    // Taxonomy term
+    label = path.label;
+  }
+
   if (!CONTENT_TYPES.includes(type)) {
     return {
       notFound: true,
@@ -112,9 +128,24 @@ export async function getStaticProps(
   }
 
   // Fetch the node/resource from Drupal.
-  const node = await drupal.getResourceFromContext<DrupalNode>(type, context, {
-    params: params.getQueryObject(),
-  });
+  let node;
+  if (type === 'taxonomy_term--person_type') {
+    node = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+        'node--person',
+        context,
+        {
+          params: new DrupalJsonApiParams()
+            .addInclude(['field_person_image.image'])
+            .addFilter('field_person_type.name', label)
+            .getQueryObject(),
+        },
+      );
+      console.log('people', node);
+  } else {
+    node = await drupal.getResourceFromContext<DrupalNode>(type, context, {
+      params: params.getQueryObject(),
+    });
+  }
 
   // At this point, we know the path exists and it points to a resource. If we
   // receive an error, it means something went wrong on Drupal. We throw an
@@ -136,6 +167,7 @@ export async function getStaticProps(
     props: {
       node,
       menus: await getMenus(),
+      label,
     },
     revalidate: 60,
   };
