@@ -146,7 +146,7 @@ To create headless pages for a new content type:
 1. Start by creating the content type, say `News`, on Drupal.
    - Define the fields: `title`, `field_teaser` and `body`.
    - Add a path alias for the content type: `news/[node:title]`.
-2. On the Next.js site, edit `[[slug]].tsx` to fetch news from Drupal.
+2. On the Next.js site, edit `[...slug].tsx` to fetch news from Drupal.
 3. Add `node--news` to `CONTENT_TYPES`:
 
 ```diff
