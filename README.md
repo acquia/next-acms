@@ -118,9 +118,9 @@ This project is a monorepo structure using yarn workspaces. This project has a `
 
 ## Routing
 
-The starter ships with static routes for building collection of content: `pages/articles` and an entry point, `[[slug]].tsx`, for entity routes.
+The starter ships with static routes for building collection of content: `pages/articles` and an entry point, `[...slug].tsx`, for entity routes.
 
-The `[slug].tsx` route is called a catch-all route.
+The `[...slug].tsx` route is called a catch-all route.
 
 When you create an entity on Drupal, and visit the route on your headless site, this is the file that handles data fetching and rendering for the entity.
 
@@ -158,7 +158,7 @@ To create headless pages for a new content type:
 1. Start by creating the content type, say `News`, on Drupal.
    - Define the fields: `title`, `field_teaser` and `body`.
    - Add a path alias for the content type: `news/[node:title]`.
-2. On the Next.js site, edit `[[slug]].tsx` to fetch news from Drupal.
+2. On the Next.js site, edit `[...slug].tsx` to fetch news from Drupal.
 3. Add `node--news` to `CONTENT_TYPES`:
 
 ```diff
