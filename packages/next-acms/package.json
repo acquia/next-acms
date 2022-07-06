@@ -1,6 +1,6 @@
 {
   "name": "next-acms",
-  "version": "1.0.0-alpha1",
+  "version": "1.0.0-beta1",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
