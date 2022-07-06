@@ -10,23 +10,22 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint",
+    "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx .",
     "prettier": "prettier --check --ignore-path .gitignore .",
     "prettier:fix": "prettier --write --ignore-path .gitignore ."
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^12.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
+    "@typescript-eslint/parser": "^5.30.0",
+    "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.30.0",
     "prettier": "2.7.1",
     "turbo": "^1.2.16"
   },
   "dependencies": {
-    "@next/eslint-plugin-next": "^12.1.6",
-    "@typescript-eslint/eslint-plugin": "^5.29.0",
-    "@typescript-eslint/parser": "^5.30.0",
-    "eslint": "^8.18.0",
-    "eslint-config-next": "^12.2.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.30.0",
     "next": "^12.0.7",
     "next-drupal": "^1.1.1",
     "react": "^17.0.2",
