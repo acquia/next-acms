@@ -13,7 +13,7 @@
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx .",
     "prettier": "prettier --check --ignore-path .gitignore .",
     "prettier:fix": "prettier --write --ignore-path .gitignore .",
-    "test": "cypress run"
+    "test:e2e": "cypress run"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^12.2.0",
