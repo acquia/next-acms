@@ -25,3 +25,9 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn prettier --check .
       - run: yarn run lint
+      - name: Create Acquia CMS project
+        uses: php-actions/composer@v6
+        with:
+          command: create-project
+          args: acquia/drupal-recommend-project acms
+          php_version: 7.4
