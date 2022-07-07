@@ -1,5 +1,5 @@
-import {PageHeader} from "./page-header";
-import {NodePersonTeaser} from "./node--person";
+import {PageHeader} from "../page-header";
+import {NodePersonTeaser} from "../node--person";
 
 export function TaxonomyPerson({ nodes, label, ...props }) {
       return (

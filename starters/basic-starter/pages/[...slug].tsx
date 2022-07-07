@@ -13,7 +13,10 @@ import { NodePerson } from 'components/node--person';
 import { NodePlace } from 'components/node--place';
 import { NodeBasicPage } from 'components/node--page';
 import { drupal } from '../lib/drupal';
-import {TaxonomyPerson} from "../components/taxonomy--person_type";
+import {TaxonomyPerson} from "../components/taxonomy/taxonomy--person_type";
+import {TaxonomyArticle} from "../components/taxonomy/taxonomy--article_type";
+import {TaxonomyEvent} from "../components/taxonomy/taxonomy--event_type";
+import {TaxonomyPlace} from "../components/taxonomy/taxonomy--place_type";
 
 // List of all the entity types handled by this route.
 const CONTENT_TYPES = [
@@ -27,10 +30,11 @@ const CONTENT_TYPES = [
   'taxonomy_term--event_type',
   'taxonomy_term--person_type',
   'taxonomy_term--place_type',
-  'taxonomy_term--tags',
 ];
 
 interface NodePageProps extends LayoutProps {
+  //@todo: add or DrupalNode[]
+  // @todo: fix so it would work with no nodes but we want to show the title
   node: DrupalNode;
   label?: string;
 }
@@ -41,7 +45,11 @@ export default function NodePage({node, menus, label}: NodePageProps) {
   return (
     <Layout title={node.title} menus={menus}>
       {console.log(node, node.name)}
-      {node.every(p => p.field_person_type.type  === 'taxonomy_term--person_type') && <TaxonomyPerson nodes={node} label={label}/>}
+      {Array.isArray(node) && node.length !==0 && node.every(p => p.field_article_type && p.field_article_type.type  === 'taxonomy_term--article_type') && <TaxonomyArticle nodes={node} label={label}/>}
+      {Array.isArray(node) && node.length !==0 && node.every(p => p.field_categories && p.field_categories.type  === 'taxonomy_term--categories') && <TaxonomyArticle nodes={node} label={label}/>}
+      {Array.isArray(node) && node.length !==0 && node.every(p => p.field_person_type && p.field_person_type.type  === 'taxonomy_term--person_type') && <TaxonomyPerson nodes={node} label={label}/>}
+      {Array.isArray(node) && node.length !==0 && node.every(p => p.field_event_type && p.field_event_type.type  === 'taxonomy_term--event_type') && <TaxonomyEvent nodes={node} label={label}/>}
+      {Array.isArray(node) && node.length !==0 && node.every(p => p.field_place_type && p.field_place_type.type  === 'taxonomy_term--place_type') && <TaxonomyPlace nodes={node} label={label}/>}
       {node.type === 'node--page' && <NodeBasicPage node={node}/>}
       {node.type === 'node--article' && <NodeArticle node={node}/>}
       {node.type === 'node--event' && <NodeEvent node={node}/>}
@@ -131,16 +139,65 @@ export async function getStaticProps(
   let node;
   if (type === 'taxonomy_term--person_type') {
     node = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
-        'node--person',
+      'node--person',
+      context,
+      {
+        params: new DrupalJsonApiParams()
+          .addInclude(['field_person_image.image', 'field_person_type'])
+          .addFilter('field_person_type.name', label)
+          .getQueryObject(),
+      },
+    );
+  } else if (type === 'taxonomy_term--article_type') {
+      node = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+        'node--article',
         context,
         {
           params: new DrupalJsonApiParams()
-            .addInclude(['field_person_image.image'])
-            .addFilter('field_person_type.name', label)
+            .addInclude([
+              'field_article_media.image',
+              'field_article_image.image',
+              'field_display_author', 'field_article_type'])
+            .addFilter('field_article_type.name', label)
             .getQueryObject(),
         },
       );
-      console.log('people', node);
+  } else if (type === 'taxonomy_term--categories') {
+    node = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+      'node--article',
+      context,
+      {
+        params: new DrupalJsonApiParams()
+          .addInclude([
+            'field_article_media.image',
+            'field_article_image.image',
+            'field_display_author', 'field_categories'])
+          .addFilter('field_categories.name', label)
+          .getQueryObject(),
+      },
+    );
+  } else if (type === 'taxonomy_term--event_type') {
+    node = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+      'node--event',
+      context,
+      {
+        params: new DrupalJsonApiParams()
+          .addInclude(['field_event_image.image', 'field_event_place', 'field_event_type'])
+          .addFilter('field_event_type.name', label)
+          .getQueryObject(),
+      },
+    );
+  } else if (type === 'taxonomy_term--place_type') {
+    node = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+      'node--place',
+      context,
+      {
+        params: new DrupalJsonApiParams()
+          .addInclude(['field_place_image.image', 'field_place_type'])
+          .addFilter('field_place_type.name', label)
+          .getQueryObject(),
+      },
+    );
   } else {
     node = await drupal.getResourceFromContext<DrupalNode>(type, context, {
       params: params.getQueryObject(),
