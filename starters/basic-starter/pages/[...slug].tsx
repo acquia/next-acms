@@ -33,30 +33,32 @@ const CONTENT_TYPES = [
 ];
 
 interface NodePageProps extends LayoutProps {
-  //@todo: add or DrupalNode[]
-  // @todo: fix so it would work with no nodes but we want to show the title
-  node: DrupalNode;
+  // getStaticProps() will return an array as the node when a user requests /taxonomy/term/3 for example.
+  node: DrupalNode | DrupalNode[];
   label?: string;
+  type?: string;
 }
 
-export default function NodePage({node, menus, label}: NodePageProps) {
+export default function NodePage({node, menus, label, type}: NodePageProps) {
   if (!node) return null;
 
   return (
-    <Layout title={node.title} menus={menus}>
-      {console.log(node, node.name)}
-      {Array.isArray(node) && node.length !==0 && node.every(p => p.field_article_type && p.field_article_type.type  === 'taxonomy_term--article_type') && <TaxonomyArticle nodes={node} label={label}/>}
-      {Array.isArray(node) && node.length !==0 && node.every(p => p.field_categories && p.field_categories.type  === 'taxonomy_term--categories') && <TaxonomyArticle nodes={node} label={label}/>}
-      {Array.isArray(node) && node.length !==0 && node.every(p => p.field_person_type && p.field_person_type.type  === 'taxonomy_term--person_type') && <TaxonomyPerson nodes={node} label={label}/>}
-      {Array.isArray(node) && node.length !==0 && node.every(p => p.field_event_type && p.field_event_type.type  === 'taxonomy_term--event_type') && <TaxonomyEvent nodes={node} label={label}/>}
-      {Array.isArray(node) && node.length !==0 && node.every(p => p.field_place_type && p.field_place_type.type  === 'taxonomy_term--place_type') && <TaxonomyPlace nodes={node} label={label}/>}
-      {node.type === 'node--page' && <NodeBasicPage node={node}/>}
-      {node.type === 'node--article' && <NodeArticle node={node}/>}
-      {node.type === 'node--event' && <NodeEvent node={node}/>}
-      {node.type === 'node--person' && <NodePerson node={node}/>}
-      {node.type === 'node--place' && <NodePlace node={node}/>}
-    </Layout>
-  );
+    (Array.isArray(node) ?
+      <Layout title={label} menus={menus}>
+        {type === 'taxonomy_term--article_type' && node.every(n => n.field_article_type && n.field_article_type.type  === 'taxonomy_term--article_type') && <TaxonomyArticle nodes={node} label={label}/>}
+        {type === 'taxonomy_term--categories' && node.every(n => n.field_categories && n.field_categories[0].type  === 'taxonomy_term--categories') && <TaxonomyArticle nodes={node} label={label}/>}
+        {type === 'taxonomy_term--person_type' && node.every(n => n.field_person_type && n.field_person_type.type  === 'taxonomy_term--person_type') && <TaxonomyPerson nodes={node} label={label}/>}
+        {type === 'taxonomy_term--event_type' && node.every(n => n.field_event_type && n.field_event_type.type  === 'taxonomy_term--event_type') && <TaxonomyEvent nodes={node} label={label}/>}
+        {type === 'taxonomy_term--place_type' && node.every(n => n.field_place_type && n.field_place_type.type  === 'taxonomy_term--place_type') && <TaxonomyPlace nodes={node} label={label}/>}
+        </Layout> :
+        <Layout title={node.title} menus={menus}>
+          {node.type === 'node--page' && <NodeBasicPage node={node}/>}
+          {node.type === 'node--article' && <NodeArticle node={node}/>}
+          {node.type === 'node--event' && <NodeEvent node={node}/>}
+          {node.type === 'node--person' && <NodePerson node={node}/>}
+          {node.type === 'node--place' && <NodePlace node={node}/>}
+        </Layout>
+  ));
 }
 
 // Use the 'paths' key to specify wanted paths to be pre-rendered at build time.
@@ -97,7 +99,7 @@ export async function getStaticProps(
 
   let label;
   if (path.label) {
-    // Taxonomy term
+    // Get the taxonomy term from the path.
     label = path.label;
   }
 
@@ -225,6 +227,7 @@ export async function getStaticProps(
       node,
       menus: await getMenus(),
       label,
+      type,
     },
     revalidate: 60,
   };
