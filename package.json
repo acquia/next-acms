@@ -12,12 +12,14 @@
     "dev": "turbo run dev --parallel",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx .",
     "prettier": "prettier --check --ignore-path .gitignore .",
-    "prettier:fix": "prettier --write --ignore-path .gitignore ."
+    "prettier:fix": "prettier --write --ignore-path .gitignore .",
+    "test:e2e": "cypress run"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^12.2.0",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.30.0",
+    "cypress": "^10.3.0",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
