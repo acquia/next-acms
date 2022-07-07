@@ -41,7 +41,7 @@ export default function NodePage({node, menus, label}: NodePageProps) {
   return (
     <Layout title={node.title} menus={menus}>
       {console.log(node, node.name)}
-      {Array.isArray(node) && <TaxonomyPerson nodes={node} label={label}/>}
+      {node.every(p => p.field_person_type.type  === 'taxonomy_term--person_type') && <TaxonomyPerson nodes={node} label={label}/>}
       {node.type === 'node--page' && <NodeBasicPage node={node}/>}
       {node.type === 'node--article' && <NodeArticle node={node}/>}
       {node.type === 'node--event' && <NodeEvent node={node}/>}
