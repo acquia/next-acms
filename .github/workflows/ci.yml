@@ -33,7 +33,9 @@ jobs:
       - name: Create Acquia CMS project
         run: composer create-project acquia/drupal-recommended-project acms
       - name: Copy Drush configuration
-        run: cp drush.yml acms
+        run: |
+          mkdir ${{ env.HOME }}/.drush
+          cp drush.yml ${{ env.HOME }}/.drush
       - name: Install Acquia CMS
         run: ./vendor/bin/acms acms:install acquia_cms_headless --no-interaction
         working-directory: acms
