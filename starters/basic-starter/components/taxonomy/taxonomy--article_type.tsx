@@ -1,7 +1,7 @@
-import {PageHeader} from "../page-header";
-import {NodeArticleTeaser} from "../node--article";
+import { PageHeader } from '../page-header';
+import { NodeArticleTeaser } from '../node--article';
 
-export function TaxonomyArticle({ nodes, label, ...props }) {
+export function TaxonomyArticle({ nodes, label }) {
   return (
     <div>
       <PageHeader heading={label} text="" />
@@ -17,4 +17,5 @@ export function TaxonomyArticle({ nodes, label, ...props }) {
         )}
       </div>
     </div>
-  )};
+  );
+}

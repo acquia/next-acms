@@ -1,7 +1,7 @@
-import {PageHeader} from "../page-header";
-import { NodePlaceTeaser} from "../node--place";
+import { PageHeader } from '../page-header';
+import { NodePlaceTeaser } from '../node--place';
 
-export function TaxonomyPlace({ nodes, label, ...props }) {
+export function TaxonomyPlace({ nodes, label }) {
   return (
     <div>
       <PageHeader heading={label} text="" />
@@ -17,4 +17,5 @@ export function TaxonomyPlace({ nodes, label, ...props }) {
         )}
       </div>
     </div>
-  )};
+  );
+}

@@ -1,7 +1,7 @@
-import {PageHeader} from "../page-header";
-import { NodeEventTeaser} from "../node--event";
+import { PageHeader } from '../page-header';
+import { NodeEventTeaser } from '../node--event';
 
-export function TaxonomyEvent({ nodes, label, ...props }) {
+export function TaxonomyEvent({ nodes, label }) {
   return (
     <div>
       <PageHeader heading={label} text="" />
@@ -17,4 +17,5 @@ export function TaxonomyEvent({ nodes, label, ...props }) {
         )}
       </div>
     </div>
-  )};
+  );
+}

@@ -13,10 +13,10 @@ import { NodePerson } from 'components/node--person';
 import { NodePlace } from 'components/node--place';
 import { NodeBasicPage } from 'components/node--page';
 import { drupal } from '../lib/drupal';
-import {TaxonomyPerson} from "../components/taxonomy/taxonomy--person_type";
-import {TaxonomyArticle} from "../components/taxonomy/taxonomy--article_type";
-import {TaxonomyEvent} from "../components/taxonomy/taxonomy--event_type";
-import {TaxonomyPlace} from "../components/taxonomy/taxonomy--place_type";
+import { TaxonomyPerson } from '../components/taxonomy/taxonomy--person_type';
+import { TaxonomyArticle } from '../components/taxonomy/taxonomy--article_type';
+import { TaxonomyEvent } from '../components/taxonomy/taxonomy--event_type';
+import { TaxonomyPlace } from '../components/taxonomy/taxonomy--place_type';
 
 // List of all the entity types handled by this route.
 const CONTENT_TYPES = [
@@ -39,26 +39,51 @@ interface NodePageProps extends LayoutProps {
   type?: string;
 }
 
-export default function NodePage({node, menus, label, type}: NodePageProps) {
+export default function NodePage({ node, menus, label, type }: NodePageProps) {
   if (!node) return null;
 
-  return (
-    (Array.isArray(node) ?
-      <Layout title={label} menus={menus}>
-        {type === 'taxonomy_term--article_type' && node.every(n => n.field_article_type && n.field_article_type.type  === 'taxonomy_term--article_type') && <TaxonomyArticle nodes={node} label={label}/>}
-        {type === 'taxonomy_term--categories' && node.every(n => n.field_categories && n.field_categories[0].type  === 'taxonomy_term--categories') && <TaxonomyArticle nodes={node} label={label}/>}
-        {type === 'taxonomy_term--person_type' && node.every(n => n.field_person_type && n.field_person_type.type  === 'taxonomy_term--person_type') && <TaxonomyPerson nodes={node} label={label}/>}
-        {type === 'taxonomy_term--event_type' && node.every(n => n.field_event_type && n.field_event_type.type  === 'taxonomy_term--event_type') && <TaxonomyEvent nodes={node} label={label}/>}
-        {type === 'taxonomy_term--place_type' && node.every(n => n.field_place_type && n.field_place_type.type  === 'taxonomy_term--place_type') && <TaxonomyPlace nodes={node} label={label}/>}
-        </Layout> :
-        <Layout title={node.title} menus={menus}>
-          {node.type === 'node--page' && <NodeBasicPage node={node}/>}
-          {node.type === 'node--article' && <NodeArticle node={node}/>}
-          {node.type === 'node--event' && <NodeEvent node={node}/>}
-          {node.type === 'node--person' && <NodePerson node={node}/>}
-          {node.type === 'node--place' && <NodePlace node={node}/>}
-        </Layout>
-  ));
+  return Array.isArray(node) ? (
+    <Layout title={label} menus={menus}>
+      {type === 'taxonomy_term--article_type' &&
+        node.every(
+          (n) =>
+            n.field_article_type &&
+            n.field_article_type.type === 'taxonomy_term--article_type',
+        ) && <TaxonomyArticle nodes={node} label={label} />}
+      {type === 'taxonomy_term--categories' &&
+        node.every(
+          (n) =>
+            n.field_categories &&
+            n.field_categories[0].type === 'taxonomy_term--categories',
+        ) && <TaxonomyArticle nodes={node} label={label} />}
+      {type === 'taxonomy_term--person_type' &&
+        node.every(
+          (n) =>
+            n.field_person_type &&
+            n.field_person_type.type === 'taxonomy_term--person_type',
+        ) && <TaxonomyPerson nodes={node} label={label} />}
+      {type === 'taxonomy_term--event_type' &&
+        node.every(
+          (n) =>
+            n.field_event_type &&
+            n.field_event_type.type === 'taxonomy_term--event_type',
+        ) && <TaxonomyEvent nodes={node} label={label} />}
+      {type === 'taxonomy_term--place_type' &&
+        node.every(
+          (n) =>
+            n.field_place_type &&
+            n.field_place_type.type === 'taxonomy_term--place_type',
+        ) && <TaxonomyPlace nodes={node} label={label} />}
+    </Layout>
+  ) : (
+    <Layout title={node.title} menus={menus}>
+      {node.type === 'node--page' && <NodeBasicPage node={node} />}
+      {node.type === 'node--article' && <NodeArticle node={node} />}
+      {node.type === 'node--event' && <NodeEvent node={node} />}
+      {node.type === 'node--person' && <NodePerson node={node} />}
+      {node.type === 'node--place' && <NodePlace node={node} />}
+    </Layout>
+  );
 }
 
 // Use the 'paths' key to specify wanted paths to be pre-rendered at build time.
@@ -151,19 +176,21 @@ export async function getStaticProps(
       },
     );
   } else if (type === 'taxonomy_term--article_type') {
-      node = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
-        'node--article',
-        context,
-        {
-          params: new DrupalJsonApiParams()
-            .addInclude([
-              'field_article_media.image',
-              'field_article_image.image',
-              'field_display_author', 'field_article_type'])
-            .addFilter('field_article_type.name', label)
-            .getQueryObject(),
-        },
-      );
+    node = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+      'node--article',
+      context,
+      {
+        params: new DrupalJsonApiParams()
+          .addInclude([
+            'field_article_media.image',
+            'field_article_image.image',
+            'field_display_author',
+            'field_article_type',
+          ])
+          .addFilter('field_article_type.name', label)
+          .getQueryObject(),
+      },
+    );
   } else if (type === 'taxonomy_term--categories') {
     node = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
       'node--article',
@@ -173,7 +200,9 @@ export async function getStaticProps(
           .addInclude([
             'field_article_media.image',
             'field_article_image.image',
-            'field_display_author', 'field_categories'])
+            'field_display_author',
+            'field_categories',
+          ])
           .addFilter('field_categories.name', label)
           .getQueryObject(),
       },
@@ -184,7 +213,11 @@ export async function getStaticProps(
       context,
       {
         params: new DrupalJsonApiParams()
-          .addInclude(['field_event_image.image', 'field_event_place', 'field_event_type'])
+          .addInclude([
+            'field_event_image.image',
+            'field_event_place',
+            'field_event_type',
+          ])
           .addFilter('field_event_type.name', label)
           .getQueryObject(),
       },
