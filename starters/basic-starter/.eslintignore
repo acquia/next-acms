@@ -1,0 +1,3 @@
+packages/next-acms/dist
+node_modules
+.eslintrc.json
