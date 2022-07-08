@@ -34,26 +34,35 @@ export default function ArticlePage({ menus, articles }: ArticlesPageProps) {
 export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<ArticlesPageProps>> {
-  const articles = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
-    'node--article',
-    context,
-    {
-      params: new DrupalJsonApiParams()
-        .addFilter('status', '1')
-        .addSort('created', 'DESC')
-        .addInclude(['field_article_image.image', 'field_display_author'])
-        .addFields('node--article', [
-          'id',
-          'title',
-          'body',
-          'path',
-          'created',
-          'field_display_author',
-          'field_article_image',
-        ])
-        .getQueryObject(),
-    },
-  );
+  let articles;
+  try {
+    articles = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+      'node--article',
+      context,
+      {
+        params: new DrupalJsonApiParams()
+          .addFilter('status', '1')
+          .addSort('created', 'DESC')
+          .addInclude(['field_article_image.image', 'field_display_author'])
+          .addFields('node--article', [
+            'id',
+            'title',
+            'body',
+            'path',
+            'created',
+            'field_display_author',
+            'field_article_image',
+          ])
+          .getQueryObject(),
+      },
+    );
+  } catch (e) {
+    console.log(
+      'There is likely no existing content of this type in Drupal.\n',
+      e,
+    );
+    articles = [];
+  }
 
   return {
     props: {

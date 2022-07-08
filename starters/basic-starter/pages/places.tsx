@@ -34,25 +34,34 @@ export default function PlacesPage({ menus, places }: PlacesPageProps) {
 export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<PlacesPageProps>> {
-  const places = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
-    'node--place',
-    context,
-    {
-      params: new DrupalJsonApiParams()
-        .addFilter('status', '1')
-        .addSort('title', 'ASC')
-        .addInclude(['field_place_image.image'])
-        .addFields('node--place', [
-          'id',
-          'title',
-          'path',
-          'field_place_image',
-          'field_place_address',
-          'field_place_telephone',
-        ])
-        .getQueryObject(),
-    },
-  );
+  let places;
+  try {
+    places = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+      'node--place',
+      context,
+      {
+        params: new DrupalJsonApiParams()
+          .addFilter('status', '1')
+          .addSort('title', 'ASC')
+          .addInclude(['field_place_image.image'])
+          .addFields('node--place', [
+            'id',
+            'title',
+            'path',
+            'field_place_image',
+            'field_place_address',
+            'field_place_telephone',
+          ])
+          .getQueryObject(),
+      },
+    );
+  } catch (e) {
+    console.log(
+      'There is likely no existing content of this type in Drupal.\n',
+      e,
+    );
+    places = [];
+  }
 
   return {
     props: {

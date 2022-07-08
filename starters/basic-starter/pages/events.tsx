@@ -34,29 +34,38 @@ export default function EventPage({ menus, events }: EventsPageProps) {
 export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<EventsPageProps>> {
-  const events = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
-    'node--event',
-    context,
-    {
-      params: new DrupalJsonApiParams()
-        .addFilter('status', '1')
-        .addSort('field_event_start', 'ASC')
-        .addFilter('field_event_start', new Date().toISOString(), '>=')
-        .addInclude(['field_event_image.image', 'field_event_place'])
-        .addFields('node--event', [
-          'id',
-          'title',
-          'body',
-          'path',
-          'field_event_start',
-          'field_event_image',
-          'field_event_duration',
-          'field_event_place',
-        ])
-        .addFields('node--place', ['title', 'path'])
-        .getQueryObject(),
-    },
-  );
+  let events;
+  try {
+    events = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+      'node--event',
+      context,
+      {
+        params: new DrupalJsonApiParams()
+          .addFilter('status', '1')
+          .addSort('field_event_start', 'ASC')
+          .addFilter('field_event_start', new Date().toISOString(), '>=')
+          .addInclude(['field_event_image.image', 'field_event_place'])
+          .addFields('node--event', [
+            'id',
+            'title',
+            'body',
+            'path',
+            'field_event_start',
+            'field_event_image',
+            'field_event_duration',
+            'field_event_place',
+          ])
+          .addFields('node--place', ['title', 'path'])
+          .getQueryObject(),
+      },
+    );
+  } catch (e) {
+    console.log(
+      'There is likely no existing content of this type in Drupal.\n',
+      e,
+    );
+    events = [];
+  }
 
   return {
     props: {

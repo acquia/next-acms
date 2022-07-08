@@ -34,24 +34,33 @@ export default function PeoplePage({ menus, people }: PeoplePageProps) {
 export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<PeoplePageProps>> {
-  const people = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
-    'node--person',
-    context,
-    {
-      params: new DrupalJsonApiParams()
-        .addFilter('status', '1')
-        .addSort('title', 'ASC')
-        .addInclude(['field_person_image.image'])
-        .addFields('node--person', [
-          'id',
-          'title',
-          'path',
-          'field_job_title',
-          'field_person_image',
-        ])
-        .getQueryObject(),
-    },
-  );
+  let people;
+  try {
+    people = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+      'node--person',
+      context,
+      {
+        params: new DrupalJsonApiParams()
+          .addFilter('status', '1')
+          .addSort('title', 'ASC')
+          .addInclude(['field_person_image.image'])
+          .addFields('node--person', [
+            'id',
+            'title',
+            'path',
+            'field_job_title',
+            'field_person_image',
+          ])
+          .getQueryObject(),
+      },
+    );
+  } catch (e) {
+    console.log(
+      'There is likely no existing content of this type in Drupal.\n',
+      e,
+    );
+    people = [];
+  }
 
   return {
     props: {
