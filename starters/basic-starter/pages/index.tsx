@@ -7,7 +7,6 @@ import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 import Image from 'next/image';
 import Link from 'next/link';
 import { drupal } from '../lib/drupal';
-import {InvalidEvent} from "react";
 
 interface IndexPageProps extends LayoutProps {
   events: DrupalNode[];
