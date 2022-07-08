@@ -7,6 +7,7 @@ import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 import Image from 'next/image';
 import Link from 'next/link';
 import { drupal } from '../lib/drupal';
+import {InvalidEvent} from "react";
 
 interface IndexPageProps extends LayoutProps {
   events: DrupalNode[];
@@ -88,44 +89,62 @@ export default function IndexPage({ menus, events, places }: IndexPageProps) {
 export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<IndexPageProps>> {
-  const events = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
-    'node--event',
-    context,
-    {
-      params: new DrupalJsonApiParams()
-        .addFilter('status', '1')
-        .addSort('field_event_start', 'ASC')
-        .addFilter('field_event_start', new Date().toISOString(), '>=')
-        .addInclude(['field_event_image.image', 'field_event_place'])
-        .addFields('node--event', [
-          'id',
-          'title',
-          'path',
-          'field_event_start',
-          'field_event_image',
-          'field_event_place',
-        ])
-        .addFields('node--place', ['title', 'path'])
-        .getQueryObject(),
-    },
-  );
-  const places = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
-    'node--place',
-    context,
-    {
-      params: new DrupalJsonApiParams()
-        .addFilter('status', '1')
-        .addSort('title', 'ASC')
-        .addFields('node--place', [
-          'id',
-          'title',
-          'path',
-          'field_place_address',
-          'field_place_telephone',
-        ])
-        .getQueryObject(),
-    },
-  );
+  let events;
+  let places;
+  try {
+    events = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+      'node--event',
+      context,
+      {
+        params: new DrupalJsonApiParams()
+          .addFilter('status', '1')
+          .addSort('field_event_start', 'ASC')
+          .addFilter('field_event_start', new Date().toISOString(), '>=')
+          .addInclude(['field_event_image.image', 'field_event_place'])
+          .addFields('node--event', [
+            'id',
+            'title',
+            'path',
+            'field_event_start',
+            'field_event_image',
+            'field_event_place',
+          ])
+          .addFields('node--place', ['title', 'path'])
+          .getQueryObject(),
+      },
+    );
+  } catch (e) {
+    console.log(
+      'There is likely no existing content of this type in Drupal.\n',
+      e,
+    );
+    events = [];
+  }
+  try {
+    places = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+      'node--place',
+      context,
+      {
+        params: new DrupalJsonApiParams()
+          .addFilter('status', '1')
+          .addSort('title', 'ASC')
+          .addFields('node--place', [
+            'id',
+            'title',
+            'path',
+            'field_place_address',
+            'field_place_telephone',
+          ])
+          .getQueryObject(),
+      },
+    );
+  } catch (e) {
+    console.log(
+      'There is likely no existing content of this type in Drupal.\n',
+      e,
+    );
+    places = [];
+  }
   return {
     props: {
       menus: await getMenus(),
