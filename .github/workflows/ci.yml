@@ -45,4 +45,6 @@ jobs:
           curl --fail --silent --output /dev/null http://127.0.0.1:8080
         working-directory: acms
       - name: Build
-        run: cat ./starters/basic-starter/.env.local
+        run: |
+          cat ./starters/basic-starter/.env.local
+          yarn build
