@@ -13,7 +13,7 @@ use Drupal\consumers\Entity\Consumer;
 /** @var \Drupal\acquia_cms_headless\Service\StarterkitNextjsService $starter_kit */
 $starter_kit = Drupal::service('acquia_cms_headless.starterkit_nextjs');
 
-// Create a user account to access Drupal data headlessly.
+// Ensure we have a user account that can access Drupal data headlessly.
 $starter_kit->createHeadlessUser();
 $accounts = Drupal::entityTypeManager()
   ->getStorage('user')
@@ -30,8 +30,7 @@ $starter_kit->generateOauthKeys();
 $starter_kit->updateDefaultConsumer(FALSE);
 
 // Create the headless consumer.
-$secret = Drupal::service('password_generator')->generate(21);
-
+$secret = $starter_kit->createHeadlessSecret();
 $consumer = Consumer::create();
 $consumer->set('label', 'Headless Site 1');
 $consumer->set('secret', $secret);
@@ -45,13 +44,14 @@ $consumer->save();
 $site = $starter_kit->createHeadlessSite();
 $starter_kit->createHeadlessSiteEntities();
 
+// The starter kit service sets these values, but doesn't save them. SMH.
 Drupal::configFactory()
   ->getEditable('acquia_cms_headless.settings')
   ->set('consumer_uuid', $consumer->uuid())
   ->set('user_uuid', $account->uuid())
   ->save();
 
-// We have everything we need to write the contents of .env.local.
+// We have everything we need to generate the environment variables.
 $env = [
   'NEXT_PUBLIC_DRUPAL_BASE_URL' => 'http://127.0.0.1:8080',
   'NEXT_IMAGE_DOMAIN' => '127.0.0.1:8080',
