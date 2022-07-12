@@ -14,7 +14,8 @@ describe('Basic Starter', () => {
         .contains(link)
         .invoke('attr', 'href')
         .then((href) => {
-          cy.request(href);
+          cy.visit(href);
+          cy.title().should('eq', `${link} - Acquia CMS`);
         });
     });
   });
