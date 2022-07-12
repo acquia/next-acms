@@ -4,7 +4,7 @@ beforeEach(() => {
 
 describe('Basic Starter', () => {
   it('has a navigation menu', () => {
-    cy.get('header nav').should('exist.and.be.visible');
+    cy.get('.nav-menu').should('exist.and.be.visible');
   });
 
   it('has working nav menu links', () => {
