@@ -15,7 +15,7 @@ export function MenuMain({ menu, ...props }: MenuMainProps) {
   }
 
   return (
-    <nav {...props}>
+    <nav className="nav-menu" {...props}>
       <ul className="flex items-center space-x-4 md:space-x-8">
         {menu?.map((item) => {
           const isActive =
