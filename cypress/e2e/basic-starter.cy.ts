@@ -8,10 +8,10 @@ describe('Basic Starter', () => {
   });
 
   it('has working nav menu links', () => {
-    const pages = ['Home', 'Articles', 'Events', 'People', 'Places'];
-    pages.forEach((page) => {
-      cy.get(`[data-cy="${page}"]`)
-        .should('have.text', page)
+    const links = ['Home', 'Articles', 'Events', 'People', 'Places'];
+    links.forEach((link) => {
+      cy.get(`[data-cy="${link}"]`)
+        .should('have.text', link)
         .invoke('attr', 'href')
         .then((href) => {
           cy.request(href);
