@@ -15,9 +15,10 @@ export function MenuMain({ menu, ...props }: MenuMainProps) {
   }
 
   return (
-    <nav {...props}>
+    <nav className="nav-menu" {...props}>
       <ul className="flex items-center space-x-4 md:space-x-8">
         {menu?.map((item) => {
+          console.log(item);
           const isActive =
             router.asPath === item.url ||
             (item.url !== '/' ? router.asPath.indexOf(item.url) === 0 : false);
@@ -34,6 +35,7 @@ export function MenuMain({ menu, ...props }: MenuMainProps) {
                   className={classNames('hover:text-blue-600', {
                     'text-blue-600': isActive,
                   })}
+                  data-cy={item.title}
                 >
                   {item.title}
                 </a>
