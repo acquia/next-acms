@@ -7,6 +7,7 @@ import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 import Image from 'next/image';
 import Link from 'next/link';
 import { drupal } from '../lib/drupal';
+import {CONTENT_TYPES} from "./[...slug]";
 
 interface IndexPageProps extends LayoutProps {
   events: DrupalNode[];
@@ -88,6 +89,18 @@ export default function IndexPage({ menus, events, places }: IndexPageProps) {
 export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<IndexPageProps>> {
+  // Check that the backend content model includes all content types first.
+  for (const type of CONTENT_TYPES) {
+    try {
+      await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+        type,
+        context,
+      );
+    } catch (e) {
+      throw Error(`Content type: ${type} does not exist in the backend.`);
+    }
+  }
+
   const events = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
     'node--event',
     context,
