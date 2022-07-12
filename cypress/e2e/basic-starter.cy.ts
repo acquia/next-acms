@@ -12,7 +12,6 @@ describe('Basic Starter', () => {
     links.forEach((link) => {
       cy.get('.nav-menu')
         .contains(link)
-        .should('have.text', link)
         .invoke('attr', 'href')
         .then((href) => {
           cy.request(href);
