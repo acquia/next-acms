@@ -7,7 +7,7 @@ import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 import Image from 'next/image';
 import Link from 'next/link';
 import { drupal } from '../lib/drupal';
-import {CONTENT_TYPES} from "./[...slug]";
+import { CONTENT_TYPES } from './[...slug]';
 
 interface IndexPageProps extends LayoutProps {
   events: DrupalNode[];
