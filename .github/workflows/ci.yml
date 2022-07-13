@@ -22,7 +22,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - run: /bin/sh ./drupal/install-composer.sh
+      - name: Install Composer
+      - run: |
+          /bin/sh ./drupal/install-composer.sh
+          ./composer.phar --version
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
