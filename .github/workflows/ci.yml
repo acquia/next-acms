@@ -16,6 +16,9 @@ jobs:
       matrix:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
         node-version: [14.x, 16.x, 18.x]
+    services:
+      httpd:
+        image: php:7.4-apache
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -30,18 +33,18 @@ jobs:
         with:
           php-version: 7.4
           tools: composer
-      - name: Create Acquia CMS project
-        run: composer create-project acquia/drupal-recommended-project acms
-      - name: Copy Drush configuration
-        run: |
-          mkdir $HOME/.drush
-          cp ./drupal/drush.yml $HOME/.drush
-      - name: Install Acquia CMS with demo content, and start web server
-        run: |
-          ./vendor/bin/acms acms:install acquia_cms_headless --no-interaction
-          composer require drupal/acquia_cms_starter
-          ./vendor/bin/drush pm:enable acquia_cms_starter --yes
-          ./vendor/bin/drush serve --quiet 8080 &
-          sleep 2
-        working-directory: acms
-      - run: curl --fail http://127.0.0.1:8080/jsonapi
+#      - name: Create Acquia CMS project
+#        run: composer create-project acquia/drupal-recommended-project acms
+#      - name: Copy Drush configuration
+#        run: |
+#          mkdir $HOME/.drush
+#          cp ./drupal/drush.yml $HOME/.drush
+#      - name: Install Acquia CMS with demo content, and start web server
+#        run: |
+#          ./vendor/bin/acms acms:install acquia_cms_headless --no-interaction
+#          composer require drupal/acquia_cms_starter
+#          ./vendor/bin/drush pm:enable acquia_cms_starter --yes
+#          ./vendor/bin/drush serve --quiet 8080 &
+#          sleep 2
+#        working-directory: acms
+#      - run: curl --fail http://127.0.0.1:8080/jsonapi
