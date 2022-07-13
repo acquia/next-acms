@@ -15,10 +15,10 @@ jobs:
     container:
       image: php:7.4-apache
       ports: [80]
-    strategy:
-      matrix:
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-        node-version: [14.x, 16.x, 18.x]
+#    strategy:
+#      matrix:
+#        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+#        node-version: [14.x, 16.x, 18.x]
     steps:
       - uses: actions/checkout@v3
 
@@ -27,20 +27,23 @@ jobs:
           /bin/sh ./drupal/install-composer.sh
           ./composer.phar --version
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
+      - name: Copy Drush configuration
+        run: |
+          mkdir $HOME/.drush
+          cp ./drupal/drush.yml $HOME/.drush
+
+      - run: ls -l /var/www/html
+
+#      - name: Use Node.js ${{ matrix.node-version }}
+#        uses: actions/setup-node@v3
+#        with:
+#          node-version: ${{ matrix.node-version }}
 
 #      - run: yarn install --frozen-lockfile
 #      - run: yarn prettier --check .
 #      - run: yarn run lint
 #      - name: Create Acquia CMS project
 #        run: composer create-project acquia/drupal-recommended-project acms
-#      - name: Copy Drush configuration
-#        run: |
-#          mkdir $HOME/.drush
-#          cp ./drupal/drush.yml $HOME/.drush
 #      - name: Install Acquia CMS with demo content, and start web server
 #        run: |
 #          ./vendor/bin/acms acms:install acquia_cms_headless --no-interaction
