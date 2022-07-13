@@ -15,7 +15,8 @@ $ git remote add upstream https://github.com/acquia/next-acms
 
 4. Create an `.env.local` file in the `/starters` directory in your forked repo and paste in your environment variables from step 1.
 5. From the root directory, run `yarn install,` `yarn build`, then `yarn dev` to start the development server on `http://localhost:3000`.
-> **_NOTE:_** Next.js preview mode only works in production mode.
+
+   > **_NOTE:_** Next.js preview mode only works in production mode.
 
 6. Now you can make changes to your repo, commit them, push them up to your remote, then create a pull request for `acquia/next-acms` to contribute.
 
@@ -27,6 +28,6 @@ Running `yarn dev` will also run `NODE_OPTIONS='--inspect'` which will allow you
 
 ![image](https://user-images.githubusercontent.com/35243020/178579872-6f30e37f-275e-449b-a798-64c55c7de912.png)
 
-Click the inspect link at the end of file path at the end of the page, and it will open up a DevTools window. From there, you can click the Sources tab, hit Ctrl+P on Windows/Linux or ⌘+P on macOS  to navigate to the file you want to debug.
+Click the inspect link at the end of file path at the end of the page, and it will open up a DevTools window. From there, you can click the Sources tab, hit Ctrl+P on Windows/Linux or ⌘+P on macOS to navigate to the file you want to debug.
 
 For debugging using the VS Code debugger please see: https://nextjs.org/docs/advanced-features/debugging
