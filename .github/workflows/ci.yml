@@ -39,6 +39,7 @@ jobs:
       - name: Install Acquia CMS and start web server
         run: |
           ./vendor/bin/acms acms:install acquia_cms_headless --no-interaction
+          ./vendor/bin/drush pm:enable acquia_cms_starter --yes
           ./vendor/bin/drush php:script ../init-ci.php > ../starters/basic-starter/.env.local
           ./vendor/bin/drush serve --quiet 8080 &
           sleep 2
