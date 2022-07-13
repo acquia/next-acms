@@ -46,7 +46,6 @@ jobs:
           sleep 2
           curl --fail --silent --output /dev/null http://127.0.0.1:8080
         working-directory: acms
-        working-directory: acms
       - name: Build
         run: |
           cat ./starters/basic-starter/.env.local
