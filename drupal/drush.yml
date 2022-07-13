@@ -1,3 +1,5 @@
+# This is a global configuration file for Drush to be used in
+# our GitHub Actions CI environment.
 command:
   site:
     install:

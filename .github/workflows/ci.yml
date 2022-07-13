@@ -35,7 +35,7 @@ jobs:
       - name: Copy Drush configuration
         run: |
           mkdir $HOME/.drush
-          cp drush.yml $HOME/.drush
+          cp ./drupal/drush.yml $HOME/.drush
       - name: Install Acquia CMS with demo content, and start web server
         run: |
           ./vendor/bin/acms acms:install acquia_cms_headless --no-interaction
