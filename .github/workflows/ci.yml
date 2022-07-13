@@ -17,14 +17,16 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
         node-version: [14.x, 16.x, 18.x]
     services:
-      httpd:
+      apache:
         image: php:7.4-apache
         ports:
           - 80:80
-        volumes:
-          - ${{ env.GITHUB_WORKSPACE }}:/var/www/html
+        options: -v ${{ github.workspace }}:/var/www/html --name apache
     steps:
       - uses: actions/checkout@v3
+      - uses: docker://docker
+        with:
+          args: docker restart apache
 #      - name: Use Node.js ${{ matrix.node-version }}
 #        uses: actions/setup-node@v3
 #        with:
