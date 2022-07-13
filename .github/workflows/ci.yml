@@ -41,12 +41,7 @@ jobs:
           ./vendor/bin/acms acms:install acquia_cms_headless --no-interaction
           composer require drupal/acquia_cms_starter
           ./vendor/bin/drush pm:enable acquia_cms_starter --yes
-          ./vendor/bin/drush php:script ../init-ci.php > ../starters/basic-starter/.env.local
           ./vendor/bin/drush serve --quiet 8080 &
           sleep 2
-          curl --fail --silent http://127.0.0.1:8080/jsonapi
         working-directory: acms
-      - name: Build
-        run: |
-          cat ./starters/basic-starter/.env.local
-          yarn build
+      - run: curl --fail http://127.0.0.1:8080/jsonapi
