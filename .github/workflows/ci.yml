@@ -21,6 +21,8 @@ jobs:
         image: php:7.4-apache
         ports:
           - 80:80
+        volumes:
+          - ${{ env.GITHUB_WORKSPACE }}:/var/www/html
     steps:
       - uses: actions/checkout@v3
 #      - name: Use Node.js ${{ matrix.node-version }}
