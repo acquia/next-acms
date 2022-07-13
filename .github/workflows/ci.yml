@@ -12,36 +12,41 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-        node-version: [14.x, 16.x, 18.x]
+    container:
+      image: php:7.4-apache
+      ports: [80]
+#    strategy:
+#      matrix:
+#        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+#        node-version: [14.x, 16.x, 18.x]
     steps:
       - uses: actions/checkout@v3
+      - run: which php
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-      - run: yarn install --frozen-lockfile
-      - run: yarn prettier --check .
-      - run: yarn run lint
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 7.4
-          tools: composer
-      - name: Create Acquia CMS project
-        run: composer create-project acquia/drupal-recommended-project acms
-      - name: Copy Drush configuration
-        run: |
-          mkdir $HOME/.drush
-          cp ./drupal/drush.yml $HOME/.drush
-      - name: Install Acquia CMS with demo content, and start web server
-        run: |
-          ./vendor/bin/acms acms:install acquia_cms_headless --no-interaction
-          composer require drupal/acquia_cms_starter
-          ./vendor/bin/drush pm:enable acquia_cms_starter --yes
-          ./vendor/bin/drush serve --quiet 8080 &
-          sleep 2
-        working-directory: acms
-      - run: curl --fail http://127.0.0.1:8080/jsonapi
+#          node-version: ${{ matrix.node-version }}
+          node-version: 18.x
+#      - run: yarn install --frozen-lockfile
+#      - run: yarn prettier --check .
+#      - run: yarn run lint
+#      - name: Set up PHP
+#        uses: shivammathur/setup-php@v2
+#        with:
+#          php-version: 7.4
+#          tools: composer
+#      - name: Create Acquia CMS project
+#        run: composer create-project acquia/drupal-recommended-project acms
+#      - name: Copy Drush configuration
+#        run: |
+#          mkdir $HOME/.drush
+#          cp ./drupal/drush.yml $HOME/.drush
+#      - name: Install Acquia CMS with demo content, and start web server
+#        run: |
+#          ./vendor/bin/acms acms:install acquia_cms_headless --no-interaction
+#          composer require drupal/acquia_cms_starter
+#          ./vendor/bin/drush pm:enable acquia_cms_starter --yes
+#          ./vendor/bin/drush serve --quiet 8080 &
+#          sleep 2
+#        working-directory: acms
+#      - run: curl --fail http://127.0.0.1:8080/jsonapi
