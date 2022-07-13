@@ -47,4 +47,4 @@ jobs:
 #          ./vendor/bin/drush serve --quiet 8080 &
 #          sleep 2
 #        working-directory: acms
-#      - run: curl --fail http://127.0.0.1:8080/jsonapi
+      - run: curl --fail http://127.0.0.1
