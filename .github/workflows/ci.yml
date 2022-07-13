@@ -44,7 +44,7 @@ jobs:
           ./vendor/bin/drush php:script ../init-ci.php > ../starters/basic-starter/.env.local
           ./vendor/bin/drush serve --quiet 8080 &
           sleep 2
-          curl --fail --silent --output /dev/null http://127.0.0.1:8080
+          curl --fail --silent http://127.0.0.1:8080/jsonapi
         working-directory: acms
       - name: Build
         run: |
