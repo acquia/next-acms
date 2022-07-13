@@ -21,18 +21,18 @@ jobs:
         image: php:7.4-apache
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: yarn install --frozen-lockfile
-      - run: yarn prettier --check .
-      - run: yarn run lint
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 7.4
-          tools: composer
+#      - name: Use Node.js ${{ matrix.node-version }}
+#        uses: actions/setup-node@v3
+#        with:
+#          node-version: ${{ matrix.node-version }}
+#      - run: yarn install --frozen-lockfile
+#      - run: yarn prettier --check .
+#      - run: yarn run lint
+#      - name: Set up PHP
+#        uses: shivammathur/setup-php@v2
+#        with:
+#          php-version: 7.4
+#          tools: composer
 #      - name: Create Acquia CMS project
 #        run: composer create-project acquia/drupal-recommended-project acms
 #      - name: Copy Drush configuration
