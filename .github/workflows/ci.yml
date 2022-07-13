@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: php:7.4-apache
+      env:
+        APACHE_DOCUMENT_ROOT: /var/www/html/drupal/docroot
       ports: [80]
 #    strategy:
 #      matrix:
@@ -32,7 +34,7 @@ jobs:
           mkdir $HOME/.drush
           cp ./drupal/drush.yml $HOME/.drush
 
-      - run: ls -l /var/www/html
+      - run: ./composer.phar create-project acquia/drupal-recommended-project /var/www/html/drupal
 
 #      - name: Use Node.js ${{ matrix.node-version }}
 #        uses: actions/setup-node@v3
