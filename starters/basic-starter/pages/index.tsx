@@ -89,15 +89,20 @@ export default function IndexPage({ menus, events, places }: IndexPageProps) {
 export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<IndexPageProps>> {
-  // Check that the backend content model includes all content types first.
+  let index;
+  try {
+    index = await drupal.getIndex();
+  } catch (e) {
+    throw new Error(
+      e +
+        '\nThe ACMS backend is not working as required by the Next.js app. \nSee here for documentation on how to debug most common failures.',
+    );
+  }
   for (const type of CONTENT_TYPES) {
-    try {
-      await drupal.getResourceCollectionFromContext<DrupalNode[]>(
-        type,
-        context,
+    if (!Object.keys(index.links).includes(type)) {
+      throw new Error(
+        `Content type: ${type} does not exist in the backend. There is a content mismatch between the Next.js app and the ACMS backend. \nSee here for documentation on how to fix the error.`,
       );
-    } catch (e) {
-      throw Error(`Content type: ${type} does not exist in the backend.`);
     }
   }
 
