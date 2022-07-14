@@ -13,10 +13,7 @@ import { NodePerson } from 'components/node--person';
 import { NodePlace } from 'components/node--place';
 import { NodeBasicPage } from 'components/node--page';
 import { drupal } from '../lib/drupal';
-import { TaxonomyPerson } from '../components/taxonomy/taxonomy--person_type';
-import { TaxonomyArticle } from '../components/taxonomy/taxonomy--article_type';
-import { TaxonomyEvent } from '../components/taxonomy/taxonomy--event_type';
-import { TaxonomyPlace } from '../components/taxonomy/taxonomy--place_type';
+import { TaxonomyTerm } from '../components/taxonomy/taxonomy-term';
 
 // List of all the entity types handled by this route.
 const CONTENT_TYPES = [
@@ -32,50 +29,21 @@ const CONTENT_TYPES = [
   'taxonomy_term--place_type',
 ];
 
-interface NodePageProps extends LayoutProps {
-  // getStaticProps() will return an array as the node when a user requests /taxonomy/term/3 for example.
-  node: DrupalNode | DrupalNode[];
-  label?: string;
+interface EntityPageProps extends LayoutProps {
+  node?: DrupalNode;
+  node_list?: DrupalNode[];
+  taxonomy_term?: string;
   type?: string;
 }
 
-export default function NodePage({ node, menus, label, type }: NodePageProps) {
-  if (!node) return null;
-
-  return Array.isArray(node) ? (
-    <Layout title={label} menus={menus}>
-      {type === 'taxonomy_term--article_type' &&
-        node.every(
-          (n) =>
-            n.field_article_type &&
-            n.field_article_type.type === 'taxonomy_term--article_type',
-        ) && <TaxonomyArticle nodes={node} label={label} />}
-      {type === 'taxonomy_term--categories' &&
-        node.every(
-          (n) =>
-            n.field_categories &&
-            n.field_categories[0].type === 'taxonomy_term--categories',
-        ) && <TaxonomyArticle nodes={node} label={label} />}
-      {type === 'taxonomy_term--person_type' &&
-        node.every(
-          (n) =>
-            n.field_person_type &&
-            n.field_person_type.type === 'taxonomy_term--person_type',
-        ) && <TaxonomyPerson nodes={node} label={label} />}
-      {type === 'taxonomy_term--event_type' &&
-        node.every(
-          (n) =>
-            n.field_event_type &&
-            n.field_event_type.type === 'taxonomy_term--event_type',
-        ) && <TaxonomyEvent nodes={node} label={label} />}
-      {type === 'taxonomy_term--place_type' &&
-        node.every(
-          (n) =>
-            n.field_place_type &&
-            n.field_place_type.type === 'taxonomy_term--place_type',
-        ) && <TaxonomyPlace nodes={node} label={label} />}
-    </Layout>
-  ) : (
+export default function EntityPage({
+  node,
+  node_list,
+  menus,
+  taxonomy_term,
+  type,
+}: EntityPageProps) {
+  return node ? (
     <Layout title={node.title} menus={menus}>
       {node.type === 'node--page' && <NodeBasicPage node={node} />}
       {node.type === 'node--article' && <NodeArticle node={node} />}
@@ -83,6 +51,13 @@ export default function NodePage({ node, menus, label, type }: NodePageProps) {
       {node.type === 'node--person' && <NodePerson node={node} />}
       {node.type === 'node--place' && <NodePlace node={node} />}
     </Layout>
+  ) : (
+    <TaxonomyTerm
+      node_list={node_list}
+      menus={menus}
+      taxonomy_term={taxonomy_term}
+      type={type}
+    />
   );
 }
 
@@ -99,7 +74,7 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 
 export async function getStaticProps(
   context,
-): Promise<GetStaticPropsResult<NodePageProps>> {
+): Promise<GetStaticPropsResult<EntityPageProps>> {
   // Find a matching path from Drupal from context.
   const path = await drupal.translatePathFromContext(context);
 
@@ -162,106 +137,130 @@ export async function getStaticProps(
     params.addInclude(['field_place_image.image']);
   }
 
-  // Fetch the node/resource from Drupal.
+  let node_list;
   let node;
-  if (type === 'taxonomy_term--person_type') {
-    node = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
-      'node--person',
-      context,
-      {
-        params: new DrupalJsonApiParams()
-          .addInclude(['field_person_image.image', 'field_person_type'])
-          .addFilter('field_person_type.name', label)
-          .getQueryObject(),
-      },
-    );
-  } else if (type === 'taxonomy_term--article_type') {
-    node = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
-      'node--article',
-      context,
-      {
-        params: new DrupalJsonApiParams()
-          .addInclude([
-            'field_article_media.image',
-            'field_article_image.image',
-            'field_display_author',
-            'field_article_type',
-          ])
-          .addFilter('field_article_type.name', label)
-          .getQueryObject(),
-      },
-    );
-  } else if (type === 'taxonomy_term--categories') {
-    node = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
-      'node--article',
-      context,
-      {
-        params: new DrupalJsonApiParams()
-          .addInclude([
-            'field_article_media.image',
-            'field_article_image.image',
-            'field_display_author',
-            'field_categories',
-          ])
-          .addFilter('field_categories.name', label)
-          .getQueryObject(),
-      },
-    );
-  } else if (type === 'taxonomy_term--event_type') {
-    node = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
-      'node--event',
-      context,
-      {
-        params: new DrupalJsonApiParams()
-          .addInclude([
-            'field_event_image.image',
-            'field_event_place',
-            'field_event_type',
-          ])
-          .addFilter('field_event_type.name', label)
-          .getQueryObject(),
-      },
-    );
-  } else if (type === 'taxonomy_term--place_type') {
-    node = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
-      'node--place',
-      context,
-      {
-        params: new DrupalJsonApiParams()
-          .addInclude(['field_place_image.image', 'field_place_type'])
-          .addFilter('field_place_type.name', label)
-          .getQueryObject(),
-      },
-    );
-  } else {
-    node = await drupal.getResourceFromContext<DrupalNode>(type, context, {
-      params: params.getQueryObject(),
-    });
+  // Fetch the resource from Drupal.
+  switch (type) {
+    case 'taxonomy_term--person_type': {
+      node_list = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+        'node--person',
+        context,
+        {
+          params: new DrupalJsonApiParams()
+            .addInclude(['field_person_image.image', 'field_person_type'])
+            .addFilter('field_person_type.name', label)
+            .getQueryObject(),
+        },
+      );
+      break;
+    }
+    case 'taxonomy_term--article_type': {
+      node_list = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+        'node--article',
+        context,
+        {
+          params: new DrupalJsonApiParams()
+            .addInclude([
+              'field_article_media.image',
+              'field_article_image.image',
+              'field_display_author',
+              'field_article_type',
+            ])
+            .addFilter('field_article_type.name', label)
+            .getQueryObject(),
+        },
+      );
+      break;
+    }
+    case 'taxonomy_term--categories': {
+      node_list = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+        'node--article',
+        context,
+        {
+          params: new DrupalJsonApiParams()
+            .addInclude([
+              'field_article_media.image',
+              'field_article_image.image',
+              'field_display_author',
+              'field_categories',
+            ])
+            .addFilter('field_categories.name', label)
+            .getQueryObject(),
+        },
+      );
+      break;
+    }
+    case 'taxonomy_term--event_type': {
+      node_list = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+        'node--event',
+        context,
+        {
+          params: new DrupalJsonApiParams()
+            .addInclude([
+              'field_event_image.image',
+              'field_event_place',
+              'field_event_type',
+            ])
+            .addFilter('field_event_type.name', label)
+            .getQueryObject(),
+        },
+      );
+      break;
+    }
+    case 'taxonomy_term--place_type': {
+      node_list = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
+        'node--place',
+        context,
+        {
+          params: new DrupalJsonApiParams()
+            .addInclude(['field_place_image.image', 'field_place_type'])
+            .addFilter('field_place_type.name', label)
+            .getQueryObject(),
+        },
+      );
+      break;
+    }
+    default: {
+      node = await drupal.getResourceFromContext<DrupalNode>(type, context, {
+        params: params.getQueryObject(),
+      });
+
+      // At this point, we know the path exists and it points to a resource. If we
+      // receive an error, it means something went wrong on Drupal. We throw an
+      // error to tell revalidation to skip this for now. Revalidation can try again
+      // on next request.
+      if (!node) {
+        throw new Error(`Failed to fetch resource: ${path.jsonapi.individual}`);
+      }
+
+      // If we're not in preview mode and the resource is not published,
+      // Return page not found.
+      if (!context.preview && node?.status === false) {
+        return {
+          notFound: true,
+        };
+      }
+      break;
+    }
   }
 
-  // At this point, we know the path exists and it points to a resource. If we
-  // receive an error, it means something went wrong on Drupal. We throw an
-  // error to tell revalidation to skip this for now. Revalidation can try again
-  // on next request.
-  if (!node) {
-    throw new Error(`Failed to fetch resource: ${path.jsonapi.individual}`);
-  }
-
-  // If we're not in preview mode and the resource is not published,
-  // Return page not found.
-  if (!context.preview && node?.status === false) {
+  if (node) {
     return {
-      notFound: true,
+      props: {
+        node,
+        menus: await getMenus(),
+      },
+      revalidate: 60,
+    };
+  } else {
+    return {
+      props: {
+        node_list,
+        menus: await getMenus(),
+        taxonomy_term: label,
+        type,
+      },
+      revalidate: 60,
     };
   }
-
-  return {
-    props: {
-      node,
-      menus: await getMenus(),
-      label,
-      type,
-    },
-    revalidate: 60,
-  };
 }
