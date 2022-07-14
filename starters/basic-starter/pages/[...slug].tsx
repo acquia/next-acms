@@ -51,14 +51,14 @@ export default function EntityPage({
       {node.type === 'node--person' && <NodePerson node={node} />}
       {node.type === 'node--place' && <NodePlace node={node} />}
     </Layout>
-  ) : (
+  ) : node_list ? (
     <TaxonomyTerm
       node_list={node_list}
       menus={menus}
       taxonomy_term={taxonomy_term}
       type={type}
     />
-  );
+  ) : null;
 }
 
 // Use the 'paths' key to specify wanted paths to be pre-rendered at build time.
