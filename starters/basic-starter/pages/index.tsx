@@ -95,13 +95,13 @@ export async function getStaticProps(
   } catch (e) {
     throw new Error(
       e +
-        '\nThe ACMS backend is not working as required by the Next.js app. \nSee here for documentation on how to debug most common failures.',
+        '\nSee here for documentation on how to debug common failures: https://github.com/acquia/next-acms/wiki/Debugging-common-errors-with-Next.js-and-Drupal-integration#incompatible-web-server-setup-or-incorrect-environment-variables-generated',
     );
   }
   for (const type of CONTENT_TYPES) {
     if (!Object.keys(index.links).includes(type)) {
       throw new Error(
-        `Content type: ${type} does not exist in the backend. There is a content mismatch between the Next.js app and the ACMS backend. \nSee here for documentation on how to fix the error.`,
+        `Content type ${type} does not exist in ACMS. \nSee here for documentation on content model mismatch: https://github.com/acquia/next-acms/wiki/Debugging-common-errors-with-Next.js-and-Drupal-integration#content-model-mismatch`,
       );
     }
   }
