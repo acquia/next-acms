@@ -39,7 +39,7 @@ jobs:
           sed -i -e 's!docroot!web!g' composer.json
           composer install
           composer require drupal/acquia_cms_common:^1.4 drupal/acquia_cms_starter
-          acms install --no-interaction acquia_cms_headless
+          acms acms:install --no-interaction acquia_cms_headless
           drush pm:enable acquia_cms_starter --yes
         working-directory: /opt/drupal
 #
