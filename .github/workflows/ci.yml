@@ -30,10 +30,12 @@ jobs:
           rm -rf drupal
           composer create-project --no-install acquia/drupal-recommended-project drupal
         working-directory: /opt
-      - name: Prepare global Drush configuration
+      - name: Prepare global Drush and PHP configuration
         run: |
           mkdir $HOME/.drush
           cp ./drupal/drush.yml $HOME/.drush
+          cp ./drupal/php.ini /usr/local/etc/php/conf.d/drupal.ini
+          php -i | grep memory_limit
       - name: Install Acquia CMS
         run: |
           sed -i -e 's!docroot!web!g' composer.json
