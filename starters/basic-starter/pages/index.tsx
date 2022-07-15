@@ -94,7 +94,7 @@ export async function getStaticProps(
     try {
       index = await drupal.getIndex();
     } catch (e) {
-      console.log(
+      console.error(
         e.message +
           '\nFailed to connect to the backend. See here for documentation on how to debug common failures: \nhttps://github.com/acquia/next-acms/wiki/Debugging-common-errors-with-Next.js-and-Drupal-integration#incompatible-web-server-setup-or-incorrect-environment-variables-generated',
       );
