@@ -1,10 +1,10 @@
 import { PageHeader } from '../page-header';
 import { NodeEventTeaser } from '../node--event';
 
-export function TaxonomyEvent({ nodes, label }) {
+export function TaxonomyEvent({ nodes, taxonomy_term }) {
   return (
     <div>
-      <PageHeader heading={label} text="" />
+      <PageHeader heading={taxonomy_term} text="" />
       <div className="container px-6 pb-10 mx-auto">
         {nodes?.length ? (
           <div className="grid gap-14">
