@@ -12,29 +12,27 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: php:7.4-apache
-      env:
-        APACHE_DOCUMENT_ROOT: /var/www/html/drupal/docroot
-      ports: [80]
+    container: drupal:9-apache
 #    strategy:
 #      matrix:
 #        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 #        node-version: [14.x, 16.x, 18.x]
     steps:
       - uses: actions/checkout@v3
+      - run: pwd
+      - run: ls
+#
+#      - name: Install Composer
+#        run: |
+#          /bin/sh ./drupal/install-composer.sh
+#          ./composer.phar --version
 
-      - name: Install Composer
-        run: |
-          /bin/sh ./drupal/install-composer.sh
-          ./composer.phar --version
-
-      - name: Copy Drush configuration
-        run: |
-          mkdir $HOME/.drush
-          cp ./drupal/drush.yml $HOME/.drush
-
-      - run: ./composer.phar create-project acquia/drupal-recommended-project /var/www/html/drupal
+#      - name: Copy Drush configuration
+#        run: |
+#          mkdir $HOME/.drush
+#          cp ./drupal/drush.yml $HOME/.drush
+#
+#      - run: ./composer.phar create-project acquia/drupal-recommended-project /var/www/html/drupal
 
 #      - name: Use Node.js ${{ matrix.node-version }}
 #        uses: actions/setup-node@v3
