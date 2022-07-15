@@ -19,10 +19,14 @@ jobs:
 #        node-version: [14.x, 16.x, 18.x]
     steps:
       - uses: actions/checkout@v3
-      - run: rm -rf /opt/drupal
-      - run: apt-get update
-      - run: apt-get install -y git unzip
-      - run: composer create-project --no-install acquia/drupal-recommended-project drupal
+      - name: Install system dependencies
+        run: |
+          apt-get update
+          apt-get install -y git unzip
+      - name: Create Acquia CMS project
+        run: |
+          rm -rf drupal
+          composer create-project --no-install acquia/drupal-recommended-project drupal
         working-directory: /opt
       - name: Prepare global Drush configuration
         run: |
