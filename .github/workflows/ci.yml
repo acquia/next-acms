@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: pwd
-      - run: ls
+      - run: ls /opt/drupal
 #
 #      - name: Install Composer
 #        run: |
