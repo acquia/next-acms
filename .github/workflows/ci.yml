@@ -34,8 +34,7 @@ jobs:
         run: |
           mkdir $HOME/.drush
           cp ./drupal/drush.yml $HOME/.drush
-          cp ./drupal/php.ini /usr/local/etc/php/conf.d/drupal.ini
-          php -i | grep memory_limit
+          echo 'memory_limit = 512M' > /usr/local/etc/php/conf.d/drupal.ini
       - name: Install Acquia CMS
         run: |
           sed -i -e 's!docroot!web!g' composer.json
@@ -44,6 +43,7 @@ jobs:
           acms acms:install --no-interaction acquia_cms_headless
           drush pm:enable acquia_cms_starter --yes
         working-directory: /opt/drupal
+      - run: curl --fail http://localhost/jsonapi
 #
 #      - name: Install Composer
 #        run: |
