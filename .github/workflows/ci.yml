@@ -20,6 +20,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: rm -rf /opt/drupal
+      - run: apt-get update
+      - run: apt-get install git unzip
       - run: composer create-project --no-install acquia/drupal-recommended-project drupal
         working-directory: /opt
       - name: Install Acquia CMS
