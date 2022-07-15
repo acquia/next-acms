@@ -23,7 +23,7 @@ jobs:
         run: |
           apt-get update
           apt-get install -y git libicu-dev unzip
-          docker-php-ext-install intl
+          pecl install intl
           docker-php-ext-enable intl
       - name: Create Acquia CMS project
         run: |
@@ -43,7 +43,11 @@ jobs:
           acms acms:install --no-interaction acquia_cms_headless
           drush pm:enable acquia_cms_starter --yes
         working-directory: /opt/drupal
-      - run: curl --fail http://localhost/jsonapi
+      - name: Check for success
+        run: |
+          ps ax | grep httpd
+          ps ax | grep apache
+          curl --fail http://localhost/jsonapi
 #
 #      - name: Install Composer
 #        run: |
