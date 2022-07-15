@@ -24,13 +24,17 @@ jobs:
       - run: apt-get install -y git unzip
       - run: composer create-project --no-install acquia/drupal-recommended-project drupal
         working-directory: /opt
+      - name: Prepare global Drush configuration
+        run: |
+          mkdir $HOME/.drush
+          cp ./drupal/drush.yml $HOME/.drush
       - name: Install Acquia CMS
         run: |
           sed -i -e 's!docroot!web!g' composer.json
           composer install
-          drush --version
-          acms --version
-          ls
+          composer require drupal/acquia_cms_starter
+          acms install --no-interaction acquia_cms_headless
+          drush pm:enable acquia_cms_starter --yes
         working-directory: /opt/drupal
 #
 #      - name: Install Composer
