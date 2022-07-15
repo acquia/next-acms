@@ -48,7 +48,7 @@ export default function IndexPage({ menus, events, places }: IndexPageProps) {
           Featured Events
         </h2>
         {events?.length ? (
-          <div className="grid gap-14">
+          <div className="grid gap-14 featured-events">
             {events.slice(0, 3).map((event) => (
               <NodeEventTeaser key={event.id} node={event} />
             ))}
@@ -60,7 +60,7 @@ export default function IndexPage({ menus, events, places }: IndexPageProps) {
       <div className="container px-6 pb-10 mx-auto mt-12 text-center items-center">
         <h2 className="text-md mb-2 lg:text-2xl text-gray-600">Contact Us</h2>
         {places?.length ? (
-          <div className="grid gap-14">
+          <div className="grid gap-14 contact-us">
             {places.slice(0, 3).map((place) => (
               <article key={place.id}>
                 <Link href={place.path.alias} passHref>
