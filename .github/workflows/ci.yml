@@ -23,6 +23,8 @@ jobs:
         run: |
           apt-get update
           apt-get install -y git unzip
+          docker-php-ext-install intl
+          docker-php-ext-enable intl
       - name: Create Acquia CMS project
         run: |
           rm -rf drupal
