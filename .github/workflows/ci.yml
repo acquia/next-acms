@@ -22,7 +22,14 @@ jobs:
       - run: rm -rf /opt/drupal
       - run: composer create-project --no-install acquia/drupal-recommended-project drupal
         working-directory: /opt
-      - run: ls /opt/drupal
+      - name: Install Acquia CMS
+        run: |
+          sed -i -e 's!docroot!web!g' composer.json
+          composer install
+          drush --version
+          acms --version
+          ls
+        working-directory: /opt/drupal
 #
 #      - name: Install Composer
 #        run: |
