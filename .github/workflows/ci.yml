@@ -45,10 +45,8 @@ jobs:
         working-directory: /opt/drupal
       - name: Check for success
         run: |
-          apache2 start
-          service apache2 start
-          ps ax | grep httpd
-          ps ax | grep apache
+          apache2 -k start
+          sleep 2
           curl --fail http://localhost/jsonapi
 #
 #      - name: Install Composer
