@@ -45,7 +45,7 @@ jobs:
         working-directory: /opt/drupal
       - name: Check for success
         run: |
-          apache2 -k start
+          service apache2 start
           sleep 2
           curl --fail http://localhost/jsonapi
 #
