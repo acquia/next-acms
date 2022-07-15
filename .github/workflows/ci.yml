@@ -19,7 +19,9 @@ jobs:
 #        node-version: [14.x, 16.x, 18.x]
     steps:
       - uses: actions/checkout@v3
-      - run: pwd
+      - run: rm -rf /opt/drupal
+      - run: composer create-project --no-install acquia/drupal-recommended-project drupal
+        working-directory: /opt
       - run: ls /opt/drupal
 #
 #      - name: Install Composer
