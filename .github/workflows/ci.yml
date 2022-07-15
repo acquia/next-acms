@@ -45,7 +45,8 @@ jobs:
         working-directory: /opt/drupal
       - name: Check for success
         run: |
-          systemctl start apache2
+          apache2 start
+          service apache2 start
           ps ax | grep httpd
           ps ax | grep apache
           curl --fail http://localhost/jsonapi
