@@ -59,4 +59,5 @@ jobs:
           service apache2 start
           sleep 2
           curl --fail http://localhost/jsonapi
-      - run: drush php:script ./drupal/init-ci.php --root /opt/drupal
+      - run: drush php:script ./drupal/init-ci.php --root /opt/drupal > ./starters/basic-starter/.env.local
+      - run: yarn build
