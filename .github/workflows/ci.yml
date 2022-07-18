@@ -80,4 +80,7 @@ jobs:
         run: |
           yarn dev &
           sleep 10
-      - run: yarn test:e2e
+      - name: Run tests
+        run: docker run -v $PWD:/e2e -w /e2e cypress/included:10.3.0 --config baseUrl=http://host.docker.internal:3000
+#      - run: yarn test:e2e
+# docker run --interactive --tty -v $PWD:/e2e -w /e2e cypress/included:10.3.0 --config baseUrl=http://host.docker.internal:3000
