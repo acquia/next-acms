@@ -68,8 +68,10 @@ jobs:
           service apache2 start
           sleep 2
           curl --fail http://localhost/jsonapi
-      - run: drush php:script ./drupal/init-ci.php --root /opt/drupal > ./starters/basic-starter/.env.local
-      - run: cat ./starters/basic-starter/.env.local
+      - name: Generate environment variables
+        run: |
+          drush php:script ./drupal/init-ci.php --root /opt/drupal > ./starters/basic-starter/.env.local
+          chown -R www-data:www-data /opt/drupal/oauth_keys
       - run: yarn build
       - run: drush watchdog:show --severity 3
         if: failure()
