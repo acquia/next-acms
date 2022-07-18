@@ -76,3 +76,8 @@ jobs:
       - run: drush watchdog:show --severity 3
         if: failure()
         working-directory: /opt/drupal
+      - name: Start application
+        run: |
+          yarn dev &
+          sleep 10
+      - run: yarn test:e2e
