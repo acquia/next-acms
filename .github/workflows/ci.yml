@@ -26,15 +26,6 @@ jobs:
       matrix:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
         node-version: [14.x, 16.x, 18.x]
-    services:
-      database:
-        image: mysql:5.7
-        env:
-          MYSQL_DATABASE: drupal
-          MYSQL_USER: drupal
-          MYSQL_PASSWORD: drupal
-          MYSQL_ROOT_PASSWORD: root
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
