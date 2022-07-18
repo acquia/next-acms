@@ -64,4 +64,5 @@ jobs:
           sleep 2
           curl --fail http://localhost/jsonapi
       - run: drush php:script ./drupal/init-ci.php --root /opt/drupal > ./starters/basic-starter/.env.local
+      - run: cat ./starters/basic-starter/.env.local
       - run: yarn build
