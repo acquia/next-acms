@@ -33,9 +33,8 @@ const CONTENT_TYPES = [
 ];
 
 interface EntityPageProps extends LayoutProps {
-  entity?: DrupalNode | DrupalTaxonomyTerm;
+  entity: DrupalNode | DrupalTaxonomyTerm;
   additionalContent?: DrupalNode[];
-  type?: string;
 }
 
 export default function EntityPage({
