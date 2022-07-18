@@ -90,11 +90,30 @@ export default function EntityPage({
 
 // Use the 'paths' key to specify wanted paths to be pre-rendered at build time.
 // See https://nextjs.org/docs/basic-features/data-fetching/get-static-paths.
-export async function getStaticPaths(): Promise<GetStaticPathsResult> {
+export async function getStaticPaths(context): Promise<GetStaticPathsResult> {
+  const limit = 100; // Change as desired.
+  const paths = await drupal.getPathsFromContext(CONTENT_TYPES, context);
+
+  // Get paths from menu links to pre-render.
+  // const menu = await drupal.getMenu('main');
+  // const menuPaths = menu.items.map((item) => ({
+  //   params: { slug: [item.url[0] === '/' ? item.url.slice(1) : item.url] },
+  // }));
+
+  // const articlePaths = await drupal.getPathsFromContext(
+  //   'node--article',
+  //   context,
+  // );
+  // Get paths of all blogs to pre-render.
+  // const blogPaths = articlePaths.filter((item) => {
+  //   if (typeof item !== 'string') {
+  //     return item.params.slug.includes('blog');
+  //   }
+  // });
+
   return {
-    // By default, individual entity pages are not pre-rendered at build time to
-    // optimize for faster build time.
-    paths: [],
+    // Pre-render the first 100 node pages.
+    paths: paths.slice(0, limit),
     fallback: 'blocking',
   };
 }
