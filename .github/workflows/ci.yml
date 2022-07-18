@@ -42,7 +42,7 @@ jobs:
       - name: Install system dependencies for PHP and Composer
         run: |
           apt-get update
-          apt-get install -y git libicu-dev mariadb-client unzip xvfb
+          apt-get install -y git libicu-dev mariadb-client unzip
           docker-php-ext-install intl
       - name: Prepare global Drush and PHP configuration
         run: |
