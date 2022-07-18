@@ -80,3 +80,6 @@ jobs:
       - run: drush php:script ./drupal/init-ci.php --root /opt/drupal > ./starters/basic-starter/.env.local
       - run: cat ./starters/basic-starter/.env.local
       - run: yarn build
+        continue-on-error: true
+      - run: drush ws --severity 3
+        working-directory: /opt/drupal
