@@ -33,59 +33,47 @@ const CONTENT_TYPES = [
 ];
 
 interface EntityPageProps extends LayoutProps {
-  node?: DrupalNode;
+  entity?: DrupalNode | DrupalTaxonomyTerm;
   additionalContent?: DrupalNode[];
-  taxonomy_term?: string;
   type?: string;
 }
 
 export default function EntityPage({
-  node,
+  entity,
   additionalContent,
   menus,
-  taxonomy_term,
-  type,
 }: EntityPageProps) {
-  return node ? (
-    <Layout title={node.title} menus={menus}>
-      {node.type === 'node--page' && <NodeBasicPage node={node} />}
-      {node.type === 'node--article' && <NodeArticle node={node} />}
-      {node.type === 'node--event' && <NodeEvent node={node} />}
-      {node.type === 'node--person' && <NodePerson node={node} />}
-      {node.type === 'node--place' && <NodePlace node={node} />}
+  return additionalContent ? (
+    <Layout title={entity.name} menus={menus}>
+      {entity.type === 'taxonomy_term--article_type' && (
+        <TaxonomyArticle
+          nodes={additionalContent}
+          taxonomy_term={entity.name}
+        />
+      )}
+      {entity.type === 'taxonomy_term--categories' && (
+        <TaxonomyArticle
+          nodes={additionalContent}
+          taxonomy_term={entity.name}
+        />
+      )}
+      {entity.type === 'taxonomy_term--person_type' && (
+        <TaxonomyPerson nodes={additionalContent} taxonomy_term={entity.name} />
+      )}
+      {entity.type === 'taxonomy_term--event_type' && (
+        <TaxonomyEvent nodes={additionalContent} taxonomy_term={entity.name} />
+      )}
+      {entity.type === 'taxonomy_term--place_type' && (
+        <TaxonomyPlace nodes={additionalContent} taxonomy_term={entity.name} />
+      )}
     </Layout>
-  ) : additionalContent ? (
-    <Layout title={taxonomy_term} menus={menus}>
-      {type === 'taxonomy_term--article_type' && (
-        <TaxonomyArticle
-          nodes={additionalContent}
-          taxonomy_term={taxonomy_term}
-        />
-      )}
-      {type === 'taxonomy_term--categories' && (
-        <TaxonomyArticle
-          nodes={additionalContent}
-          taxonomy_term={taxonomy_term}
-        />
-      )}
-      {type === 'taxonomy_term--person_type' && (
-        <TaxonomyPerson
-          nodes={additionalContent}
-          taxonomy_term={taxonomy_term}
-        />
-      )}
-      {type === 'taxonomy_term--event_type' && (
-        <TaxonomyEvent
-          nodes={additionalContent}
-          taxonomy_term={taxonomy_term}
-        />
-      )}
-      {type === 'taxonomy_term--place_type' && (
-        <TaxonomyPlace
-          nodes={additionalContent}
-          taxonomy_term={taxonomy_term}
-        />
-      )}
+  ) : entity ? (
+    <Layout title={entity.title} menus={menus}>
+      {entity.type === 'node--page' && <NodeBasicPage node={entity} />}
+      {entity.type === 'node--article' && <NodeArticle node={entity} />}
+      {entity.type === 'node--event' && <NodeEvent node={entity} />}
+      {entity.type === 'node--person' && <NodePerson node={entity} />}
+      {entity.type === 'node--place' && <NodePlace node={entity} />}
     </Layout>
   ) : null;
 }
@@ -129,7 +117,7 @@ export async function getStaticProps(
   const taxonomy_term = await drupal
     .getResourceFromContext<DrupalTaxonomyTerm>(type, context)
     .then((value) => {
-      return value.name;
+      return value;
     });
 
   if (!CONTENT_TYPES.includes(type)) {
@@ -177,7 +165,7 @@ export async function getStaticProps(
         {
           params: new DrupalJsonApiParams()
             .addInclude(['field_person_image.image', 'field_person_type'])
-            .addFilter('field_person_type.name', taxonomy_term)
+            .addFilter('field_person_type.name', taxonomy_term.name)
             .addSort('created', 'ASC')
             .getQueryObject(),
         },
@@ -196,7 +184,7 @@ export async function getStaticProps(
               'field_display_author',
               'field_article_type',
             ])
-            .addFilter('field_article_type.name', taxonomy_term)
+            .addFilter('field_article_type.name', taxonomy_term.name)
             .addSort('created', 'ASC')
             .getQueryObject(),
         },
@@ -215,7 +203,7 @@ export async function getStaticProps(
               'field_display_author',
               'field_categories',
             ])
-            .addFilter('field_categories.name', taxonomy_term)
+            .addFilter('field_categories.name', taxonomy_term.name)
             .addSort('created', 'ASC')
             .getQueryObject(),
         },
@@ -233,7 +221,7 @@ export async function getStaticProps(
               'field_event_place',
               'field_event_type',
             ])
-            .addFilter('field_event_type.name', taxonomy_term)
+            .addFilter('field_event_type.name', taxonomy_term.name)
             .addSort('created', 'ASC')
             .getQueryObject(),
         },
@@ -247,7 +235,7 @@ export async function getStaticProps(
         {
           params: new DrupalJsonApiParams()
             .addInclude(['field_place_image.image', 'field_place_type'])
-            .addFilter('field_place_type.name', taxonomy_term)
+            .addFilter('field_place_type.name', taxonomy_term.name)
             .addSort('created', 'ASC')
             .getQueryObject(),
         },
@@ -281,7 +269,7 @@ export async function getStaticProps(
   if (node) {
     return {
       props: {
-        node,
+        entity: node,
         menus: await getMenus(),
       },
       revalidate: 60,
@@ -289,10 +277,9 @@ export async function getStaticProps(
   } else {
     return {
       props: {
+        entity: taxonomy_term,
         additionalContent: node_list,
         menus: await getMenus(),
-        taxonomy_term,
-        type,
       },
       revalidate: 60,
     };
