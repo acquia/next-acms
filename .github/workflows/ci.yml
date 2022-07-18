@@ -59,3 +59,4 @@ jobs:
           service apache2 start
           sleep 2
           curl --fail http://localhost/jsonapi
+      - uses: browser-actions/setup-chrome@latest
