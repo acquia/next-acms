@@ -52,6 +52,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Install npm and yarn
+        run: |
+          npm --version
+          npm -g install yarn
       - run: yarn install --frozen-lockfile
       - run: yarn prettier --check .
       - run: yarn run lint
