@@ -71,6 +71,6 @@ jobs:
       - run: drush php:script ./drupal/init-ci.php --root /opt/drupal > ./starters/basic-starter/.env.local
       - run: cat ./starters/basic-starter/.env.local
       - run: yarn build
-        continue-on-error: true
-      - run: drush ws --severity 3
+      - run: drush watchdog:show --severity 3
+        if: failure()
         working-directory: /opt/drupal
