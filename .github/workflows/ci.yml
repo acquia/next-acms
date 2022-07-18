@@ -24,16 +24,16 @@ jobs:
           apt-get update
           apt-get install -y git libicu-dev unzip
           docker-php-ext-install intl
-      - name: Create Acquia CMS project
-        run: |
-          rm -rf drupal
-          composer create-project --no-install acquia/drupal-recommended-project drupal
-        working-directory: /opt
       - name: Prepare global Drush and PHP configuration
         run: |
           mkdir $HOME/.drush
           cp ./drupal/drush.yml $HOME/.drush
           echo 'memory_limit = 512M' > /usr/local/etc/php/conf.d/drupal.ini
+      - name: Create Acquia CMS project
+        run: |
+          rm -rf drupal
+          composer create-project --no-install acquia/drupal-recommended-project drupal
+        working-directory: /opt
       - name: Install Acquia CMS
         run: |
           sed -i -e 's!docroot!web!g' composer.json
@@ -41,6 +41,7 @@ jobs:
           composer require drupal/acquia_cms_common:^1.4 drupal/acquia_cms_starter
           acms acms:install --no-interaction acquia_cms_headless
           drush pm:enable acquia_cms_starter --yes
+          chown -R www-data:www-data ./web/sites/default/files
         working-directory: /opt/drupal
       - name: Check for success
         run: |
