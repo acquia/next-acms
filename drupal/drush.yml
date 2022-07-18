@@ -4,5 +4,5 @@ command:
   site:
     install:
       options:
-        db-url: 'sqlite://db.sqlite'
+        db-url: 'sqlite://sites/default/files/.ht.sqlite'
         account-pass: admin

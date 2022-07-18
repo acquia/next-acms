@@ -1,5 +1,22 @@
+beforeEach(() => {
+  cy.visit('/');
+});
+
 describe('Basic Starter', () => {
   it('has a navigation menu', () => {
-    cy.visit('/').get('header nav').should('exist.and.be.visible');
+    cy.get('.nav-menu').should('exist.and.be.visible');
+  });
+
+  it('has working nav menu links', () => {
+    const links = ['Home', 'Articles', 'Events', 'People', 'Places'];
+    links.forEach((link) => {
+      cy.get('.nav-menu')
+        .contains(link)
+        .invoke('attr', 'href')
+        .then((href) => {
+          cy.visit(href);
+          cy.title().should('eq', `${link} - Acquia CMS`);
+        });
+    });
   });
 });
