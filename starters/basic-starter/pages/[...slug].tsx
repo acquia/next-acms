@@ -17,6 +17,8 @@ import { TaxonomyArticle } from '../components/taxonomy/taxonomy--article_type';
 import { TaxonomyPerson } from '../components/taxonomy/taxonomy--person_type';
 import { TaxonomyEvent } from '../components/taxonomy/taxonomy--event_type';
 import { TaxonomyPlace } from '../components/taxonomy/taxonomy--place_type';
+import fs from 'fs';
+import path from 'path';
 
 // List of all the entity types handled by this route.
 const ENTITY_TYPES = [
@@ -92,28 +94,55 @@ export default function EntityPage({
 // See https://nextjs.org/docs/basic-features/data-fetching/get-static-paths.
 export async function getStaticPaths(context): Promise<GetStaticPathsResult> {
   const limit = 100; // Change as desired.
-  const paths = await drupal.getPathsFromContext(CONTENT_TYPES, context);
+  const pathsFromContext = await drupal.getPathsFromContext(
+    ENTITY_TYPES,
+    context,
+  );
+  const pathsFromPages = [];
+  // Get the paths from the pages directory that are pre-rendered by default.
+  fs.readdir(__dirname, (e, files) => {
+    if (e) {
+      return console.log(e);
+    } else {
+      for (const file of files) {
+        if (path.extname(file) === '.js') {
+          pathsFromPages.push(path.parse(file).name);
+        }
+      }
+    }
+  });
 
   // Get paths from menu links to pre-render.
-  // const menu = await drupal.getMenu('main');
-  // const menuPaths = menu.items.map((item) => ({
-  //   params: { slug: [item.url[0] === '/' ? item.url.slice(1) : item.url] },
-  // }));
+  const menu = await drupal.getMenu('main');
+  // Filter out the menu items that exist in the pages directory to prevent duplicates.
+  const menuItems = menu.items.filter(
+    (item) =>
+      !pathsFromPages.includes(
+        item.url[0] === '/' ? item.url.slice(1) : item.url,
+      ),
+  );
+  // Remove the '/' path as well because it conflicts with [...slug].
+  const filteredMenuItems = menuItems.filter((item) => item.url !== '/');
+  // Generate the paths from the menu links.
+  const pathsFromMenuItems = filteredMenuItems.map((item) => ({
+    params: { slug: item.url.split('/').slice(1) },
+  }));
+  // Combine the menu item paths and the paths from context.
+  const merged = [...pathsFromMenuItems, ...pathsFromContext];
 
-  // const articlePaths = await drupal.getPathsFromContext(
-  //   'node--article',
-  //   context,
-  // );
-  // Get paths of all blogs to pre-render.
-  // const blogPaths = articlePaths.filter((item) => {
-  //   if (typeof item !== 'string') {
-  //     return item.params.slug.includes('blog');
-  //   }
-  // });
-
+  // Remove duplicate paths since a menu link path may have the same as a path from context.
+  const temp = [];
+  const allPaths = merged.filter((path) => {
+    if (typeof path !== 'string') {
+      if (temp.indexOf(path.params.slug.toString()) < 0) {
+        temp.push(path.params.slug.toString());
+        return path;
+      }
+    }
+  });
+  console.log(pathsFromContext.length, merged.length, allPaths.length);
   return {
-    // Pre-render the first 100 node pages.
-    paths: paths.slice(0, limit),
+    paths: allPaths.slice(0, limit),
     fallback: 'blocking',
   };
 }
