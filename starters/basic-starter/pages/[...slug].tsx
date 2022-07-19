@@ -93,54 +93,9 @@ export default function EntityPage({
 // Use the 'paths' key to specify wanted paths to be pre-rendered at build time.
 // See https://nextjs.org/docs/basic-features/data-fetching/get-static-paths.
 export async function getStaticPaths(context): Promise<GetStaticPathsResult> {
-  const limit = 100; // Change as desired.
-  const pathsFromContext = await drupal.getPathsFromContext(
-    ENTITY_TYPES,
-    context,
-  );
-  const pathsFromPages = [];
-  // Get the paths from the pages directory that are pre-rendered by default.
-  fs.readdir(__dirname, (e, files) => {
-    if (e) {
-      return console.log(e);
-    } else {
-      for (const file of files) {
-        if (path.extname(file) === '.js') {
-          pathsFromPages.push(path.parse(file).name);
-        }
-      }
-    }
-  });
+  const limit = 200; // Change as desired.
+  const allPaths = await generatePathsToPrerender(context);
 
-  // Get paths from menu links to pre-render.
-  const menu = await drupal.getMenu('main');
-  // Filter out the menu items that exist in the pages directory to prevent duplicates.
-  const menuItems = menu.items.filter(
-    (item) =>
-      !pathsFromPages.includes(
-        item.url[0] === '/' ? item.url.slice(1) : item.url,
-      ),
-  );
-  // Remove the '/' path as well because it conflicts with [...slug].
-  const filteredMenuItems = menuItems.filter((item) => item.url !== '/');
-  // Generate the paths from the menu links.
-  const pathsFromMenuItems = filteredMenuItems.map((item) => ({
-    params: { slug: item.url.split('/').slice(1) },
-  }));
-  // Combine the menu item paths and the paths from context.
-  const merged = [...pathsFromMenuItems, ...pathsFromContext];
-
-  // Remove duplicate paths since a menu link path may have the same as a path from context.
-  const temp = [];
-  const allPaths = merged.filter((path) => {
-    if (typeof path !== 'string') {
-      if (temp.indexOf(path.params.slug.toString()) < 0) {
-        temp.push(path.params.slug.toString());
-        return path;
-      }
-    }
-  });
-  console.log(pathsFromContext.length, merged.length, allPaths.length);
   return {
     paths: allPaths.slice(0, limit),
     fallback: 'blocking',
@@ -292,4 +247,55 @@ export async function getStaticProps(
     },
     revalidate: 60,
   };
+}
+
+// Generate paths to pre-render with prioritization of menu links.
+async function generatePathsToPrerender(context) {
+  const pathsFromContext = await drupal.getPathsFromContext(
+    ENTITY_TYPES,
+    context,
+  );
+  const pathsFromPages = [];
+  // Get the paths from the pages directory that are pre-rendered by default.
+  fs.readdir(__dirname, (e, files) => {
+    if (e) {
+      return console.log(e);
+    } else {
+      for (const file of files) {
+        if (path.extname(file) === '.js') {
+          pathsFromPages.push(path.parse(file).name);
+        }
+      }
+    }
+  });
+
+  // Get paths from menu links to pre-render.
+  const menu = await drupal.getMenu('main');
+  // Filter out the menu items that exist in the pages directory to prevent duplicates.
+  const menuItems = menu.items.filter(
+    (item) =>
+      !pathsFromPages.includes(
+        item.url[0] === '/' ? item.url.slice(1) : item.url,
+      ),
+  );
+  // Remove the '/' path as well because it conflicts with [...slug].
+  const filteredMenuItems = menuItems.filter((item) => item.url !== '/');
+  // Generate the paths from the menu links.
+  const pathsFromMenuItems = filteredMenuItems.map((item) => ({
+    params: { slug: item.url.split('/').slice(1) },
+  }));
+  // Combine the menu item paths and the paths from context.
+  const merged = [...pathsFromMenuItems, ...pathsFromContext];
+
+  // Remove duplicate paths since a menu link path may have the same as a path from context.
+  const temp = [];
+
+  return merged.filter((path) => {
+    if (typeof path !== 'string') {
+      if (temp.indexOf(path.params.slug.toString()) < 0) {
+        temp.push(path.params.slug.toString());
+        return path;
+      }
+    }
+  });
 }
