@@ -15,7 +15,7 @@ import { NodeBasicPage } from 'components/node--page';
 import { drupal } from '../lib/drupal';
 
 // List of all the entity types handled by this route.
-export const CONTENT_TYPES = [
+const CONTENT_TYPES = [
   'node--page',
   'node--article',
   'node--event',

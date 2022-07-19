@@ -2,13 +2,11 @@ import { GetStaticPropsResult } from 'next';
 import { Layout, LayoutProps } from 'components/layout';
 import { getMenus } from 'lib/get-menus';
 import { DrupalNode } from 'next-drupal';
-import { testApiConnection } from 'next-acms';
 import { NodeEventTeaser } from '../components/node--event';
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 import Image from 'next/image';
 import Link from 'next/link';
 import { drupal } from '../lib/drupal';
-import { CONTENT_TYPES } from './[...slug]';
 
 interface IndexPageProps extends LayoutProps {
   events: DrupalNode[];
@@ -90,12 +88,6 @@ export default function IndexPage({ menus, events, places }: IndexPageProps) {
 export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<IndexPageProps>> {
-  // Test server connection on development environment. This translates common
-  // API errors to more developer friendly error messages.
-  if (process.env.NODE_ENV === 'development') {
-    await testApiConnection(CONTENT_TYPES, drupal);
-  }
-
   const events = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
     'node--event',
     context,
