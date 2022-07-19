@@ -41,6 +41,7 @@ export function MediaImage({
         alt={image.resourceIdObjMeta.alt || 'Image'}
         title={image.resourceIdObjMeta.title}
         priority={priority}
+        sizes="50vw"
         {...sizeProps}
       />
     </div>
