@@ -94,7 +94,7 @@ export default function EntityPage({
 // See https://nextjs.org/docs/basic-features/data-fetching/get-static-paths.
 export async function getStaticPaths(context): Promise<GetStaticPathsResult> {
   const limit = 200; // Change as desired.
-  const allPaths = await generatePathsToPrerender(context);
+  const allPaths = await generatePathsForPrerender(context);
 
   return {
     paths: allPaths.slice(0, limit),
@@ -249,8 +249,8 @@ export async function getStaticProps(
   };
 }
 
-// Generate paths to pre-render with prioritization of menu links.
-async function generatePathsToPrerender(context) {
+// Generates paths of pages to pre-render with prioritization of menu links.
+async function generatePathsForPrerender(context) {
   const pathsFromContext = await drupal.getPathsFromContext(
     ENTITY_TYPES,
     context,
