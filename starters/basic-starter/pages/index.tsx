@@ -88,6 +88,7 @@ export default function IndexPage({ menus, events, places }: IndexPageProps) {
 export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<IndexPageProps>> {
+  console.log(await drupal.getIndex());
   const events = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
     'node--event',
     context,
