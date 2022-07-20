@@ -3,11 +3,11 @@ beforeEach(() => {
 });
 
 describe('Basic Starter', () => {
-  it('has a navigation menu', () => {
+  it('should have a navigation menu', () => {
     cy.get('.nav-menu').should('exist.and.be.visible');
   });
 
-  it('has working nav menu links', () => {
+  it('should have working nav menu links', () => {
     const links = ['Home', 'Articles', 'Events', 'People', 'Places'];
     links.forEach((link) => {
       cy.get('.nav-menu')
@@ -20,7 +20,7 @@ describe('Basic Starter', () => {
     });
   });
 
-  it('has working footer menu links', () => {
+  it('should have working footer menu links', () => {
     const links = ['Home', 'Articles', 'Events', 'People', 'Places'];
     links.forEach((link) => {
       cy.get('.footer-menu')
@@ -33,7 +33,7 @@ describe('Basic Starter', () => {
     });
   });
 
-  it('has featured events on the home page', () => {
+  it('should have featured events on the home page', () => {
     cy.get('.featured-events > article')
       .should('have.length', 3)
       .find('h2')
@@ -42,79 +42,61 @@ describe('Basic Starter', () => {
       });
   });
 
-  it('has a contact us on the home page', () => {
-    const places = [
-      'Boston Head Office',
-      'Brighton Office',
-      'London sales and support office',
-    ];
+  it('should have a contact us information on the home page', () => {
     cy.get('.contact-us > article')
-      .should('have.length', 3)
+      .should('have.length.greaterThan', 1)
       .find('h2')
-      .each(($h2) => {
-        expect(places).contains($h2.text());
+      .should(($h2) => {
+        expect($h2.first()).to.contain('Boston Head Office');
       });
   });
 
-  it('has demo content on the articles page', () => {
-    const bodyText =
-      'This is placeholder text. If you are reading this, it is here by mistake and we would appreciate it if you could email us with a link to the page you found it on.';
+  it('should render /articles page', () => {
     cy.visit('/articles');
+    cy.get('h1').should('contain.text', 'Articles');
     cy.get('article')
-      .should('have.length', 16)
+      .should('have.length.greaterThan', 1)
       .find('p.summary')
-      .each(($p) => {
-        expect($p.text()).contains(bodyText);
+      .should(($p) => {
+        expect($p.first()).to.contain.text('This is placeholder text.');
       });
   });
 
-  it('has demo content on the events page', () => {
-    const bodyText =
-      'This is placeholder text. If you are reading this, it is here by mistake and we would appreciate it if you could email us with a link to the page you found it on.';
+  it('should render /events page', () => {
     cy.visit('/events');
+    cy.get('h1').should('contain.text', 'Events');
     cy.get('article')
-      .should('have.length', 20)
+      .should('have.length.greaterThan', 1)
       .find('p')
-      .each(($p) => {
-        expect($p.text()).contains(bodyText);
+      .should(($p) => {
+        expect($p.first()).to.contain.text('This is placeholder text.');
       });
   });
 
-  it('has demo content on the people page', () => {
-    const roles = [
-      'Product Owner',
-      'Financial Controller',
-      'Sales Executive',
-      'Manager',
-      'Head of Operations',
-      'Office Manager',
-      'Finance Manager',
-      'Logistics Manager',
-      'Operations Manager',
-      'Head of Sales',
-      'IT Manager',
-    ];
+  it('should render /people page', () => {
     cy.visit('/people');
+    cy.get('h1').should('contain.text', 'People');
     cy.get('article')
-      .should('have.length', 14)
-      .find('p')
-      .each(($p) => {
-        expect(roles).contains($p.text());
-      });
+      .should('have.length.greaterThan', 1)
+      .find('.media__content')
+      .should('exist');
+
+    cy.get('article')
+      .find('h2')
+      .should('exist');
   });
 
-  it('has demo content on the places page', () => {
-    const places = [
-      'Boston Head Office',
-      'Brighton Office',
-      'London sales and support office',
-    ];
+  it('should render /places page', () => {
     cy.visit('/places');
+    cy.get('h1').should('contain.text', 'Places');
     cy.get('article')
-      .should('have.length', 3)
+      .should('have.length.greaterThan', 1)
       .find('h2')
-      .each(($h2) => {
-        expect(places).contains($h2.text());
+      .should(($h2) => {
+        expect($h2.first()).to.contain('Boston Head Office');
       });
+    cy.get('article')
+      .find('.media__content')
+      .should('exist');
   });
 });
