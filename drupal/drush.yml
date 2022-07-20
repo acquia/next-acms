@@ -4,5 +4,5 @@ command:
   site:
     install:
       options:
-        db-url: 'sqlite://db.sqlite'
+        db-url: 'mysql://drupal:drupal@database/drupal'
         account-pass: admin
