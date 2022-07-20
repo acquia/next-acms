@@ -1,2 +1,2 @@
 export * from './revalidate';
-export * from './test-api-connection';
+export * from './test-api-compatibility';
