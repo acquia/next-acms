@@ -10,7 +10,11 @@ export function NodePlace({ node, ...props }) {
         {node.field_place_image && (
           <Link href={node.path.alias} passHref>
             <a className="block overflow-hidden no-underline rounded-md">
-              <MediaImage media={node.field_place_image} priority />
+              <MediaImage
+                media={node.field_place_image}
+                priority
+                sizes="(min-width: 968px) 405px, (min-width: 768px) 50vw, 100vw"
+              />
             </a>
           </Link>
         )}
@@ -49,7 +53,11 @@ export function NodePlaceTeaser({ node, ...props }) {
       {node.field_place_image && (
         <Link href={node.path.alias} passHref>
           <a className="block overflow-hidden no-underline rounded-md">
-            <MediaImage media={node.field_place_image} priority />
+            <MediaImage
+              media={node.field_place_image}
+              priority
+              sizes="(min-width: 968px) 425px, (min-width: 768px) 50vw, 100vw"
+            />
           </a>
         </Link>
       )}
