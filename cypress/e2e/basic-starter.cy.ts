@@ -80,7 +80,6 @@ describe('Basic Starter', () => {
       .should('have.length.greaterThan', 1)
       .find('.media__content')
       .should('exist');
-
     cy.get('article').find('h2').should('exist');
   });
 
