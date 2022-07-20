@@ -13,6 +13,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: drupal:9-apache
+    services:
+      database:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: drupal
+          MYSQL_USER: drupal
+          MYSQL_PASSWORD: drupal
+          MYSQL_ROOT_PASSWORD: root
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10
     strategy:
       matrix:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
@@ -30,10 +39,12 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn prettier --check .
       - run: yarn run lint
+      - name: Run jest unit tests
+        run: yarn run test:jest
       - name: Install system dependencies for PHP and Composer
         run: |
           apt-get update
-          apt-get install -y git libicu-dev unzip
+          apt-get install -y git libicu-dev mariadb-client unzip
           docker-php-ext-install intl
       - name: Prepare global Drush and PHP configuration
         run: |
