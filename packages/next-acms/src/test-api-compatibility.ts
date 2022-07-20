@@ -1,6 +1,6 @@
 import { DrupalClient } from 'next-drupal';
 
-export async function testApiConnection(
+export async function testApiCompatibility(
   contentTypes: Array<string>,
   drupal: DrupalClient,
 ) {
