@@ -9,7 +9,11 @@ export function NodePerson({ node, ...props }) {
       <div className="grid items-center justify-center gap-4 text-center md:text-left md:grid-cols-2">
         {node.field_person_image && (
           <div className="block w-48 h-48 overflow-hidden no-underline rounded-full">
-            <MediaImage media={node.field_person_image} priority />
+            <MediaImage
+              media={node.field_person_image}
+              priority
+              sizes="192px"
+            />
           </div>
         )}
         <div className="space-y-2">
@@ -37,7 +41,11 @@ export function NodePersonTeaser({ node, ...props }) {
       {node.field_person_image && (
         <Link href={node.path.alias} passHref>
           <a className="block w-32 h-32 overflow-hidden no-underline rounded-full">
-            <MediaImage media={node.field_person_image} priority />
+            <MediaImage
+              media={node.field_person_image}
+              priority
+              sizes="128px"
+            />
           </a>
         </Link>
       )}

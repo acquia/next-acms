@@ -39,6 +39,8 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn prettier --check .
       - run: yarn run lint
+      - name: Run jest unit tests
+        run: yarn run test:jest
       - name: Install system dependencies for PHP and Composer
         run: |
           apt-get update

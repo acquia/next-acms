@@ -16,6 +16,7 @@ export function MediaImage({
   width,
   height,
   priority,
+  sizes,
   ...props
 }: MediaImageProps) {
   const image = media?.image;
@@ -41,6 +42,7 @@ export function MediaImage({
         alt={image.resourceIdObjMeta.alt || 'Image'}
         title={image.resourceIdObjMeta.title}
         priority={priority}
+        sizes={sizes}
         {...sizeProps}
       />
     </div>
