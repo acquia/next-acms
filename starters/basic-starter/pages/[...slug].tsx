@@ -93,11 +93,13 @@ export default function EntityPage({
 // Use the 'paths' key to specify wanted paths to be pre-rendered at build time.
 // See https://nextjs.org/docs/basic-features/data-fetching/get-static-paths.
 export async function getStaticPaths(context): Promise<GetStaticPathsResult> {
+  // By limiting the number of static paths, larger sites can keep build times
+  // within a reasonable timeframe.
   const limit = 200; // Change as desired.
-  const allPaths = await generatePathsForPrerender(context);
+  const paths = await generatePathsForPrerender(context);
 
   return {
-    paths: allPaths.slice(0, limit),
+    paths: paths.slice(0, limit),
     fallback: 'blocking',
   };
 }
@@ -251,51 +253,73 @@ export async function getStaticProps(
 
 // Generates paths of pages to pre-render with prioritization of menu links.
 async function generatePathsForPrerender(context) {
-  const pathsFromContext = await drupal.getPathsFromContext(
+  let pathsFromContext = await drupal.getPathsFromContext(
     ENTITY_TYPES,
     context,
   );
-  const pathsFromPages = [];
-  // Get the paths from the pages directory that are pre-rendered by default.
-  fs.readdir(__dirname, (e, files) => {
-    if (e) {
-      return console.log(e);
-    } else {
-      for (const file of files) {
-        if (path.extname(file) === '.js') {
-          pathsFromPages.push(path.parse(file).name);
-        }
-      }
-    }
-  });
-
   // Get paths from menu links to pre-render.
   const menu = await drupal.getMenu('main');
-  // Filter out the menu items that exist in the pages directory to prevent duplicates.
-  const menuItems = menu.items.filter(
-    (item) =>
-      !pathsFromPages.includes(
-        item.url[0] === '/' ? item.url.slice(1) : item.url,
-      ),
-  );
-  // Remove the '/' path as well because it conflicts with [...slug].
-  const filteredMenuItems = menuItems.filter((item) => item.url !== '/');
+
+  // Remove the '/' path because it conflicts with [...slug].
+  const filteredMenuItems = menu.items.filter((item) => item.url !== '/');
+
   // Generate the paths from the menu links.
-  const pathsFromMenuItems = filteredMenuItems.map((item) => ({
+  let pathsFromMenuItems = filteredMenuItems.map((item) => ({
     params: { slug: item.url.split('/').slice(1) },
   }));
-  // Combine the menu item paths and the paths from context.
-  const merged = [...pathsFromMenuItems, ...pathsFromContext];
 
-  // Remove duplicate paths since a menu link path may have the same as a path from context.
-  const temp = [];
+  // Remove static paths /articles /events from pathsFromMenuItems
+  pathsFromMenuItems = pathsFromMenuItems.filter((menuPath) =>
+    shallowEqual(pathsFromContext, menuPath),
+  );
+  console.log(pathsFromMenuItems[0]);
 
-  return merged.filter((path) => {
-    if (typeof path !== 'string') {
-      if (temp.indexOf(path.params.slug.toString()) < 0) {
-        temp.push(path.params.slug.toString());
-        return path;
-      }
+  let temp;
+  // Filter out pathsFromMenuItems then call unshift on pathsFromContext
+  // pathsFromContext = pathsFromContext.filter((path) =>
+  //   shallowEqual(pathsFromMenuItems, path),
+  // );
+  pathsFromContext = pathsFromContext.filter((path) => {
+    if (shallowEqual(pathsFromMenuItems, path)) {
+      temp = path;
+      return false;
+    } else {
+      return true;
     }
   });
+  pathsFromContext.unshift(temp);
+  console.log('temp', temp);
+
+  // for (const menuPath of pathsFromMenuItems) {
+  //   for (const path of pathsFromContext) {
+  //     if (typeof path !== 'string') {
+  //       // returns list of paths without menu links
+  //       return path.params.slug !== menuPath.params.slug;
+  //     }
+  //   }
+  // }
+
+  pathsFromContext.map((item) => {
+    if (typeof item !== 'string') {
+      console.log('AFTER', item.params.slug);
+    }
+  });
+
+  return [];
+}
+
+function shallowEqual(object1, path) {
+  for (const p of object1) {
+    // console.log(
+    //   JSON.stringify(),
+    //   `\n`,
+    //   JSON.stringify(slug2),
+    //   `\n`,
+    //   JSON.stringify(p.params.slug) === JSON.stringify(slug2),
+    // );
+    if (JSON.stringify(p) === JSON.stringify(path)) {
+      return true;
+    }
+  }
+  return false;
 }
