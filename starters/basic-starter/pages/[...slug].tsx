@@ -258,56 +258,43 @@ async function generatePathsForPrerender(context) {
     ENTITY_TYPES,
     context,
   );
-  // Get paths from menu links to pre-render.
   const menu = await drupal.getMenu('main');
 
-  // Remove the '/' path because it conflicts with [...slug].
+  // Remove the '/' path from the menu items because it conflicts with [...slug].
   const filteredMenuItems = menu.items.filter((item) => item.url !== '/');
 
-  // Generate the paths from the menu links.
+  // Generate paths from the menu links.
   let pathsFromMenuItems = filteredMenuItems.map((item) => ({
     params: { slug: item.url.split('/').slice(1) },
   }));
 
-  // Remove static paths /articles /events from pathsFromMenuItems
+  // Remove static paths from the menu that are already getting pre-rendered.
   pathsFromMenuItems = pathsFromMenuItems.filter((menuPath) =>
     shallowEqual(pathsFromContext, menuPath),
   );
-  console.log(pathsFromMenuItems[0]);
 
-  const temp = [];
-  // Filter out pathsFromMenuItems then call unshift on pathsFromContext
+  const priorityMenuPaths = [];
+  // Remove the menu link paths from the pathsFromContext before moving them to the beginning.
   pathsFromContext = pathsFromContext.filter((path) => {
     if (shallowEqual(pathsFromMenuItems, path)) {
-      temp.push(path);
+      priorityMenuPaths.push(path);
       return false;
     } else {
       return true;
     }
   });
-  console.log(Array.isArray(pathsFromContext));
-  // pathsFromContext.unshift(temp);
-  console.log('temp', temp);
 
-  pathsFromContext.map((item) => {
-    if (typeof item !== 'string') {
-      // console.log('AFTER', item.params.slug);
-    }
-  });
-
+  // Now move the menu link paths to the beginning of the array so they are prioritized.
+  for (const p of priorityMenuPaths) {
+    pathsFromContext.unshift(p);
+  }
   return pathsFromContext;
 }
 
-function shallowEqual(object1, path) {
-  for (const p of object1) {
-    // console.log(
-    //   JSON.stringify(),
-    //   `\n`,
-    //   JSON.stringify(slug2),
-    //   `\n`,
-    //   JSON.stringify(p.params.slug) === JSON.stringify(slug2),
-    // );
-    if (JSON.stringify(p) === JSON.stringify(path)) {
+// Shallow equality check to see if a list of paths contains the given path.
+function shallowEqual(arr, path) {
+  for (const i of arr) {
+    if (JSON.stringify(i) === JSON.stringify(path)) {
       return true;
     }
   }
