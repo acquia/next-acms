@@ -81,9 +81,7 @@ describe('Basic Starter', () => {
       .find('.media__content')
       .should('exist');
 
-    cy.get('article')
-      .find('h2')
-      .should('exist');
+    cy.get('article').find('h2').should('exist');
   });
 
   it('should render /places page', () => {
@@ -95,8 +93,6 @@ describe('Basic Starter', () => {
       .should(($h2) => {
         expect($h2.first()).to.contain('Boston Head Office');
       });
-    cy.get('article')
-      .find('.media__content')
-      .should('exist');
+    cy.get('article').find('.media__content').should('exist');
   });
 });
