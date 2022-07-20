@@ -20,3 +20,23 @@ describe('Basic Starter', () => {
     });
   });
 });
+
+describe('Taxonomy term page', () => {
+  it('should render articles for Design', () => {
+    cy.visit('/taxonomy/term/2');
+    cy.get('h1').should('contain.text', 'Design');
+    cy.get('article')
+      .should('have.length.greaterThan', 1)
+      .find('p.summary')
+      .should(($p) => {
+        expect($p.first()).to.contain.text('This is placeholder text.');
+      });
+  });
+
+  it('should still render for a taxonomy term with no nodes', () => {
+    cy.visit('/taxonomy/term/12');
+    cy.get('h1').should('contain.text', 'Software');
+    cy.get('article').should('have.length', 0);
+    cy.get('p').should('contain.text', 'No content found.');
+  });
+});
