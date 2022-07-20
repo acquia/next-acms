@@ -15,6 +15,7 @@ import { NodeBasicPage } from 'components/node--page';
 import { drupal } from '../lib/drupal';
 import fs from 'fs';
 import path from 'path';
+import {isArray} from "util";
 
 // List of all the entity types handled by this route.
 const CONTENT_TYPES = [
@@ -169,38 +170,27 @@ async function generatePathsForPrerender(context) {
   );
   console.log(pathsFromMenuItems[0]);
 
-  let temp;
+  const temp = [];
   // Filter out pathsFromMenuItems then call unshift on pathsFromContext
-  // pathsFromContext = pathsFromContext.filter((path) =>
-  //   shallowEqual(pathsFromMenuItems, path),
-  // );
   pathsFromContext = pathsFromContext.filter((path) => {
     if (shallowEqual(pathsFromMenuItems, path)) {
-      temp = path;
+      temp.push(path);
       return false;
     } else {
       return true;
     }
   });
-  pathsFromContext.unshift(temp);
+  console.log(Array.isArray(pathsFromContext));
+  // pathsFromContext.unshift(temp);
   console.log('temp', temp);
-
-  // for (const menuPath of pathsFromMenuItems) {
-  //   for (const path of pathsFromContext) {
-  //     if (typeof path !== 'string') {
-  //       // returns list of paths without menu links
-  //       return path.params.slug !== menuPath.params.slug;
-  //     }
-  //   }
-  // }
 
   pathsFromContext.map((item) => {
     if (typeof item !== 'string') {
-      console.log('AFTER', item.params.slug);
+      // console.log('AFTER', item.params.slug);
     }
   });
 
-  return [];
+  return pathsFromContext;
 }
 
 function shallowEqual(object1, path) {
