@@ -4,13 +4,13 @@ beforeEach(() => {
 
 describe('Basic Starter', () => {
   it('should have a navigation menu', () => {
-    cy.get('.nav-menu').should('exist.and.be.visible');
+    cy.get('[data-cy="nav-menu"]').should('exist.and.be.visible');
   });
 
   it('should have working nav menu links', () => {
     const links = ['Home', 'Articles', 'Events', 'People', 'Places'];
     links.forEach((link) => {
-      cy.get('.nav-menu')
+      cy.get('[data-cy="nav-menu"]')
         .contains(link)
         .invoke('attr', 'href')
         .then((href) => {
@@ -23,7 +23,7 @@ describe('Basic Starter', () => {
   it('should have working footer menu links', () => {
     const links = ['Home', 'Articles', 'Events', 'People', 'Places'];
     links.forEach((link) => {
-      cy.get('.footer-menu')
+      cy.get('[data-cy="footer-menu"]')
         .contains(link)
         .invoke('attr', 'href')
         .then((href) => {
@@ -34,7 +34,7 @@ describe('Basic Starter', () => {
   });
 
   it('should have featured events on the home page', () => {
-    cy.get('.featured-events > article')
+    cy.get('[data-cy="featured-events"] > article')
       .should('have.length', 3)
       .find('h2')
       .each(($h2) => {
@@ -42,8 +42,8 @@ describe('Basic Starter', () => {
       });
   });
 
-  it('should have a contact us information on the home page', () => {
-    cy.get('.contact-us > article')
+  it('should have contact us information on the home page', () => {
+    cy.get('[data-cy="contact-us"] > article')
       .should('have.length.greaterThan', 1)
       .find('h2')
       .should(($h2) => {

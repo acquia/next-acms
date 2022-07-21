@@ -15,7 +15,7 @@ export function MenuFooter({ menu, ...props }: MenuFooterProps) {
   }
 
   return (
-    <nav className="footer-menu" {...props}>
+    <nav data-cy="footer-menu" {...props}>
       <ul className="flex justify-center space-x-4 text-sm">
         {menu?.map((item) => {
           const isActive =
