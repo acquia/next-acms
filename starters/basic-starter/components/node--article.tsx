@@ -10,7 +10,7 @@ export function NodeArticle({ node, ...props }) {
       <h1 className="mb-4 text-3xl font-black leading-tight md:text-4xl">
         {node.title}
       </h1>
-      <p className="mb-4 text-gray-600">
+      <p className="mb-4 text-secondary">
         {node.field_display_author?.title ? (
           <span>
             Posted by{' '}
@@ -67,7 +67,7 @@ export function NodeArticleTeaser({ node, ...props }) {
         </Link>
       )}
       <div>
-        <p className="mb-4 text-sm text-gray-500">
+        <p className="mb-4 text-sm text-grey">
           {node.field_display_author?.title ? (
             <span>
               Posted by{' '}
@@ -79,13 +79,11 @@ export function NodeArticleTeaser({ node, ...props }) {
           {node.created && <span> on {formatDate(node.created)}</span>}
         </p>
         <Link href={node.path.alias} passHref>
-          <a className="no-underline hover:text-blue-600">
+          <a className="no-underline hover:text-accent">
             <h2 className="mb-4 text-xl font-bold">{node.title}</h2>
           </a>
         </Link>
-        {node.body?.summary && (
-          <p className="text-gray-500">{node.body.summary}</p>
-        )}
+        {node.body?.summary && <p className="text-grey">{node.body.summary}</p>}
       </div>
     </article>
   );

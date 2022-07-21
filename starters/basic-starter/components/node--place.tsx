@@ -63,7 +63,7 @@ export function NodePlaceTeaser({ node, ...props }) {
       )}
       <div className="space-y-4">
         <Link href={node.path.alias} passHref>
-          <a className="no-underline hover:text-blue-600">
+          <a className="no-underline hover:text-accent">
             <h2 className="text-3xl font-bold">{node.title}</h2>
           </a>
         </Link>

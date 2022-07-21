@@ -22,24 +22,24 @@ export function NodeEvent({ node, ...props }) {
         <div className="mt-8">
           <div className="mb-2 space-x-2 text-sm">
             {node.field_event_duration && (
-              <span className="font-medium text-gray-600">
+              <span className="font-medium text-secondary">
                 {formatDate(node.field_event_start)}
               </span>
             )}
             {node.field_event_duration && (
-              <span className="text-gray-500">
+              <span className="text-grey">
                 &middot; {node.field_event_duration}
               </span>
             )}
             {node.field_event_place && (
-              <span className="text-gray-500">
+              <span className="text-grey">
                 &middot; {node.field_event_place.title}
               </span>
             )}
           </div>
           <h1 className="mb-4 text-3xl font-bold">{node.title}</h1>
           {node.body?.summary && (
-            <p className="text-sm text-gray-500">{node.body.summary}</p>
+            <p className="text-sm text-grey">{node.body.summary}</p>
           )}
         </div>
       </div>
@@ -74,28 +74,28 @@ export function NodeEventTeaser({ node, ...props }) {
       <div className="col-span-2">
         <div className="mb-2 space-x-2 text-sm">
           {node.field_event_start && (
-            <span className="font-medium text-gray-600">
+            <span className="font-medium text-secondary">
               {formatDate(node.field_event_start)}
             </span>
           )}
           {node.field_event_duration && (
-            <span className="text-gray-500">
+            <span className="text-grey">
               &middot; {node.field_event_duration}
             </span>
           )}
           {node.field_event_place && (
-            <span className="text-gray-500">
+            <span className="text-grey">
               &middot; {node.field_event_place.title}
             </span>
           )}
         </div>
         <Link href={node.path.alias} passHref>
-          <a className="no-underline hover:text-blue-600">
+          <a className="no-underline hover:text-accent">
             <h2 className="mb-4 text-3xl font-bold">{node.title}</h2>
           </a>
         </Link>
         {node.body?.summary && (
-          <p className="text-sm text-gray-500">{node.body.summary}</p>
+          <p className="text-sm text-grey">{node.body.summary}</p>
         )}
       </div>
     </article>

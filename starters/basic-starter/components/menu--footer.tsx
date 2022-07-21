@@ -32,7 +32,7 @@ export function MenuFooter({ menu, ...props }: MenuFooterProps) {
               <Link href={item.url} passHref>
                 <a
                   className={classNames(
-                    isActive ? 'text-black' : 'text-gray-600',
+                    isActive ? 'text-black' : 'text-secondary',
                   )}
                 >
                   {item.title}

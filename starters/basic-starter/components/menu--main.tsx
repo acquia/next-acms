@@ -31,8 +31,8 @@ export function MenuMain({ menu, ...props }: MenuMainProps) {
             >
               <Link href={item.url} passHref>
                 <a
-                  className={classNames('hover:text-blue-600', {
-                    'text-blue-600': isActive,
+                  className={classNames('hover:text-accent', {
+                    'text-accent': isActive,
                   })}
                 >
                   {item.title}
