@@ -97,7 +97,7 @@ export async function getStaticPaths(context): Promise<GetStaticPathsResult> {
   // By limiting the number of static paths, larger sites can keep build times
   // within a reasonable timeframe.
   const limit = 200; // Change as desired.
-  const paths = await generatePathsForPrerender(context);
+  const paths = await generatePathsForBuild(context);
 
   return {
     paths: paths.slice(0, limit),
@@ -253,7 +253,7 @@ export async function getStaticProps(
 }
 
 // Generates paths of pages to pre-render with prioritization of menu links.
-async function generatePathsForPrerender(context) {
+export async function generatePathsForBuild(context) {
   let pathsFromContext = await drupal.getPathsFromContext(
     ENTITY_TYPES,
     context,
