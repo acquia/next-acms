@@ -84,7 +84,9 @@ export function NodeArticleTeaser({ node, ...props }) {
           </a>
         </Link>
         {node.body?.summary && (
-          <p className="text-gray-500">{node.body.summary}</p>
+          <p className="text-gray-500" data-cy="summary">
+            {node.body.summary}
+          </p>
         )}
       </div>
     </article>
