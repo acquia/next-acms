@@ -56,7 +56,7 @@ describe('Basic Starter', () => {
     cy.get('h1').should('contain.text', 'Articles');
     cy.get('article')
       .should('have.length.greaterThan', 1)
-      .find('p.summary')
+      .find('[data-cy="summary"]')
       .should(($p) => {
         expect($p.first()).to.contain.text('This is placeholder text.');
       });
