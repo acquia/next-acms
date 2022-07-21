@@ -65,11 +65,4 @@ describe('Taxonomy term page', () => {
       });
     cy.get('article').find('.media__content').should('exist');
   });
-
-  it('should still render for a taxonomy term with no nodes', () => {
-    cy.visit('/taxonomy/term/12');
-    cy.get('h1').should('contain.text', 'Software');
-    cy.get('article').should('have.length', 0);
-    cy.get('p').should('contain.text', 'No content found.');
-  });
 });
