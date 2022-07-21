@@ -33,17 +33,6 @@ describe('Taxonomy term page', () => {
       });
   });
 
-  it('should render articles for Design (categories)', () => {
-    cy.visit('/taxonomy/term/2');
-    cy.get('h1').should('contain.text', 'Design');
-    cy.get('article')
-      .should('have.length.greaterThan', 1)
-      .find('[data-cy="summary"]')
-      .should(($p) => {
-        expect($p.first()).to.contain.text('This is placeholder text.');
-      });
-  });
-
   it('should render people for Management (person type)', () => {
     cy.visit('/taxonomy/term/3');
     cy.get('h1').should('contain.text', 'Management');

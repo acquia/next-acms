@@ -26,7 +26,6 @@ const ENTITY_TYPES = [
   'node--person',
   'node--place',
   'taxonomy_term--article_type',
-  'taxonomy_term--categories',
   'taxonomy_term--event_type',
   'taxonomy_term--person_type',
   'taxonomy_term--place_type',
@@ -62,12 +61,6 @@ export default function EntityPage({
         <NodePlace node={entity as DrupalNode} />
       )}
       {entity.type === 'taxonomy_term--article_type' && (
-        <TaxonomyArticle
-          additionalContent={additionalContent as { nodes: DrupalNode[] }}
-          taxonomy_term={entity as DrupalTaxonomyTerm}
-        />
-      )}
-      {entity.type === 'taxonomy_term--categories' && (
         <TaxonomyArticle
           additionalContent={additionalContent as { nodes: DrupalNode[] }}
           taxonomy_term={entity as DrupalTaxonomyTerm}
@@ -212,22 +205,6 @@ export async function getStaticProps(
           'field_article_type',
         ])
         .addFilter('field_article_type.id', entity.id)
-        .addSort('created', 'ASC')
-        .getQueryObject(),
-    });
-  }
-  if (type === 'taxonomy_term--categories') {
-    additionalContent['nodes'] = await drupal.getResourceCollectionFromContext<
-      DrupalNode[]
-    >('node--article', context, {
-      params: new DrupalJsonApiParams()
-        .addInclude([
-          'field_article_media.image',
-          'field_article_image.image',
-          'field_display_author',
-          'field_categories',
-        ])
-        .addFilter('field_categories.id', entity.id)
         .addSort('created', 'ASC')
         .getQueryObject(),
     });
