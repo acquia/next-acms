@@ -3120,12 +3120,12 @@ domutils@^2.8.0:
     domelementtype "^2.2.0"
     domhandler "^4.2.0"
 
-drupal-jsonapi-params@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/drupal-jsonapi-params/-/drupal-jsonapi-params-1.2.3.tgz#e27676f897732c6093081f45853ec2612f1bd6b8"
-  integrity sha512-ZyPXlJkwnNoQ8ERtJiPKY44UzdZDt2RF5NJdh+7UQywx/Q+e7Cu6pHtRs3MJUPEcPUV0dN3jiqCupzBsTGgjmA==
+drupal-jsonapi-params@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/drupal-jsonapi-params/-/drupal-jsonapi-params-2.1.0.tgz#03d67ed9523c33dde1e62fb4311b5d17e7a5d123"
+  integrity sha512-s8eVK5bDfMbVoutqXo9bEnE8+5p6lDUlylTC/N2OdxAB3dgzet6sFNyKxh0D8TUi3w/CgmiGYI1qdLLcLIS14g==
   dependencies:
-    qs "^6.10.0"
+    qs "^6.10.3"
 
 duplexer@0.1.1:
   version "0.1.1"
@@ -6115,7 +6115,7 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-qs@^6.10.0, qs@^6.10.3:
+qs@^6.10.3:
   version "6.11.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.11.0.tgz#fd0d963446f7a65e1367e01abd85429453f0c37a"
   integrity sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==

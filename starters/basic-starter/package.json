@@ -13,7 +13,7 @@
   "dependencies": {
     "@tailwindcss/typography": "^0.5.0",
     "classnames": "^2.3.1",
-    "drupal-jsonapi-params": "^1.2.3",
+    "drupal-jsonapi-params": "^2.1.0",
     "html-react-parser": "^1.4.8",
     "next": "^12.2.0",
     "next-acms": "^1.0.0-beta1",
