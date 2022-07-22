@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import parse, { HTMLReactParserOptions, domToReact } from 'html-react-parser';
-import { Element } from 'domhandler/lib/esm/node.js';
+import { Element } from 'domhandler/lib/esm/index.js';
 
 import { isRelative } from 'lib/is-relative';
 
