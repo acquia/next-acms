@@ -141,3 +141,57 @@ describe('Taxonomy term page', () => {
     cy.get('article').find('.media__content').should('exist');
   });
 });
+
+describe('Node page', () => {
+  it('should show an article', () => {
+    cy.visit('/article/blog/article-ten-medium-length-placeholder-heading');
+    cy.get('h1').should(
+      'contain.text',
+      'Article ten medium length placeholder heading.',
+    );
+    cy.get('article')
+      .should('have.length', 1)
+      .find('.prose')
+      .should(($p) => {
+        expect($p.first()).to.contain.text('This is placeholder text.');
+      });
+  });
+
+  it('should show an event', () => {
+    cy.visit(
+      '/event/webinar/2022/08/event-two-medium-length-placeholder-heading',
+    );
+    cy.get('h1').should(
+      'contain.text',
+      'Event two medium length placeholder heading.',
+    );
+    cy.get('article')
+      .should('have.length', 1)
+      .find('.prose')
+      .should(($p) => {
+        expect($p.first()).to.contain.text('This is placeholder text.');
+      });
+  });
+
+  it('should show a person', () => {
+    cy.visit('/person/operations/alex-kowen');
+    cy.get('h1').should('contain.text', 'Alex Kowen');
+    cy.get('article')
+      .should('have.length', 1)
+      .find('.prose')
+      .should(($p) => {
+        expect($p.first()).to.contain.text('This is placeholder text.');
+      });
+  });
+
+  it('should show a place', () => {
+    cy.visit('/place/office/boston-head-office');
+    cy.get('h1').should('contain.text', 'Boston Head Office');
+    cy.get('article')
+      .should('have.length', 1)
+      .find('.prose')
+      .should(($p) => {
+        expect($p.first()).to.contain.text('This is placeholder text.');
+      });
+  });
+});
