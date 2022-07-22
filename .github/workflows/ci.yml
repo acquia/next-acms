@@ -70,3 +70,17 @@ jobs:
           service apache2 start
           sleep 2
           curl --fail http://localhost/jsonapi
+      - name: Generate environment variables
+        run: |
+          drush php:script ./drupal/init-ci.php --root /opt/drupal > ./starters/basic-starter/.env.local
+          chown -R www-data:www-data /opt/drupal/oauth_keys
+      - run: yarn build
+      - run: drush watchdog:show --severity 3
+        if: failure()
+        working-directory: /opt/drupal
+      - name: Start application
+        run: |
+          yarn dev &
+          sleep 10
+      - name: Run tests
+        run: docker run -v $PWD:/e2e -w /e2e cypress/included:10.3.0 --config baseUrl=http://host.docker.internal:3000
