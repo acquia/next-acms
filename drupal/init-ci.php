@@ -53,8 +53,8 @@ Drupal::configFactory()
 
 // We have everything we need to generate the environment variables.
 $env = [
-  'NEXT_PUBLIC_DRUPAL_BASE_URL' => 'http://localhost',
-  'NEXT_IMAGE_DOMAIN' => 'localhost',
+  'NEXT_PUBLIC_DRUPAL_BASE_URL' => 'http://127.0.0.1',
+  'NEXT_IMAGE_DOMAIN' => '127.0.0.1',
   'DRUPAL_SITE_ID' => $site->id(),
   'DRUPAL_FRONT_PAGE' => Drupal::config('system.site')->get('page.front'),
   'DRUPAL_PREVIEW_SECRET' => $site->getPreviewSecret(),
