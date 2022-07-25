@@ -23,14 +23,22 @@ export function NodeArticle({ node, ...props }) {
       </p>
       {node.field_article_image && (
         <div className="my-6 overflow-hidden rounded-md">
-          <MediaImage media={node.field_article_image} priority />
+          <MediaImage
+            media={node.field_article_image}
+            priority
+            sizes="(min-width: 768px) 625px, 100vw"
+          />
         </div>
       )}
       {node.field_article_media?.length ? (
         <div className="mb-6">
           {node.field_article_media.map((media) => (
             <div key={media.id} className="overflow-hidden rounded-md">
-              <MediaImage media={media} priority />
+              <MediaImage
+                media={media}
+                priority
+                sizes="(min-width: 768px) 625px, 100vw"
+              />
             </div>
           ))}
         </div>
@@ -50,7 +58,11 @@ export function NodeArticleTeaser({ node, ...props }) {
       {node.field_article_image && (
         <Link href={node.path.alias} passHref>
           <a className="block overflow-hidden no-underline rounded-md">
-            <MediaImage media={node.field_article_image} priority />
+            <MediaImage
+              media={node.field_article_image}
+              priority
+              sizes="(min-width: 968px) 420px, (min-width: 768px) 50vw, 100vw"
+            />
           </a>
         </Link>
       )}
@@ -72,7 +84,9 @@ export function NodeArticleTeaser({ node, ...props }) {
           </a>
         </Link>
         {node.body?.summary && (
-          <p className="text-gray-500">{node.body.summary}</p>
+          <p className="text-gray-500" data-cy="summary">
+            {node.body.summary}
+          </p>
         )}
       </div>
     </article>

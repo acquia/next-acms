@@ -1,19 +1,29 @@
 {
   "name": "next-acms",
+  "description": "Tools for building decoupled front-ends for Acquia CMS",
   "version": "1.0.0-beta1",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/acquia/next-acms.git",
+  "bugs": {
+    "url": "https://github.com/acquia/next-acms/issues"
+  },
   "license": "MIT",
+  "keywords": [
+    "acquia",
+    "next.js",
+    "drupal",
+    "jsonapi"
+  ],
   "scripts": {
     "build": "microbundle --no-compress --jsx React.createElement",
     "dev": "microbundle watch --no-compress --jsx React.createElement"
   },
   "peerDependencies": {
     "next": "^12.2.0",
-    "next-drupal": "^1.1.1"
+    "next-drupal": "^1.4.0"
   },
   "devDependencies": {
     "microbundle": "^0.15.0",
