@@ -143,7 +143,7 @@ describe('Taxonomy term page', () => {
 });
 
 describe('Node page', () => {
-  it('should show an article', () => {
+  it('should render an article node', () => {
     cy.visit('/article/blog/article-ten-medium-length-placeholder-heading');
     cy.get('h1').should(
       'contain.text',
@@ -157,7 +157,7 @@ describe('Node page', () => {
       });
   });
 
-  it('should show an event', () => {
+  it('should render an event node', () => {
     cy.visit(
       '/event/webinar/2022/08/event-two-medium-length-placeholder-heading',
     );
@@ -173,7 +173,7 @@ describe('Node page', () => {
       });
   });
 
-  it('should show a person', () => {
+  it('should render a person node', () => {
     cy.visit('/person/operations/alex-kowen');
     cy.get('h1').should('contain.text', 'Alex Kowen');
     cy.get('article')
@@ -184,7 +184,7 @@ describe('Node page', () => {
       });
   });
 
-  it('should show a place', () => {
+  it('should render a place node', () => {
     cy.visit('/place/office/boston-head-office');
     cy.get('h1').should('contain.text', 'Boston Head Office');
     cy.get('article')
