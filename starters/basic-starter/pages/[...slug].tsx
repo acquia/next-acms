@@ -2,7 +2,7 @@
 // It is the entry point for handling entity routes from Drupal.
 import * as React from 'react';
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
-import { DrupalNode, DrupalTaxonomyTerm } from 'next-drupal';
+import { DrupalClient, DrupalNode, DrupalTaxonomyTerm } from 'next-drupal';
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 
 import { getMenus } from 'lib/get-menus';
@@ -105,7 +105,7 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<EntityPageProps>> {
-  console.log(await getForm());
+  // console.log(await getForm());
   // Find a matching path from Drupal from context.
   const path = await drupal.translatePathFromContext(context);
 
@@ -255,28 +255,8 @@ export async function getStaticProps(
 async function getForm() {
   const baseUrl = drupal.baseUrl;
   const path = '/webform_rest/contact/fields?_format=json';
-  console.log(`${baseUrl}${path}`);
   const response = await drupal.fetch(`${baseUrl}${path}`, {
     method: 'GET',
   });
   return response.json();
-}
-
-async function submitForm(values) {
-  console.log(drupal.baseUrl);
-  // const baseUrl = await drupal.baseUrl;
-  const path = '/webform_rest/submit';
-  const body = {
-    webform_id: 'contact',
-    name: values['name'],
-    email: values['email'],
-    subject: values['subject'],
-    message: values['message'],
-  };
-  // console.log(`${baseUrl}${path}`);
-  // const response = await drupal.fetch(`${baseUrl}${path}`, {
-  //   method: 'POST',
-  //   body: JSON.stringify(body),
-  // });
-  // console.log(response.json());
 }

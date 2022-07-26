@@ -4,7 +4,7 @@ import { formatDate } from 'lib/format-date';
 import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
 import React, { useState } from 'react';
-// import { submitForm } from '../pages/[...slug]';
+import { drupal } from '../lib/drupal';
 
 const initialValues = {
   name: '',
@@ -27,6 +27,27 @@ export function NodeArticle({ node, additionalContent, ...props }) {
       [name]: value,
     });
     console.log(e.target);
+  }
+
+  // Commenting this function out will make page render
+  async function submitForm() {
+    const baseUrl = await drupal.baseUrl;
+    const path = '/webform_rest/submit?_format=json';
+    const body = {
+      webform_id: 'contact',
+      name: values['name'],
+      email: values['email'],
+      subject: values['subject'],
+      message: values['message'],
+    };
+    const response = await drupal.fetch(`${baseUrl}${path}`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    console.log(response.json());
   }
   return (
     <article className="max-w-2xl px-6 py-10 mx-auto" {...props}>
@@ -54,10 +75,9 @@ export function NodeArticle({ node, additionalContent, ...props }) {
         name={additionalContent.webform.message['#webform_key']}
         onChange={handleInputChange}
       />
-      {/*<button type="submit" onClick={() => submitForm(values)}>*/}
-      {/*  {additionalContent.webform.actions['#submit__label']}*/}
-      {/*</button>*/}
-      {console.log(additionalContent)}
+      <button type="submit" onClick={() => submitForm()}>
+        {additionalContent.webform.actions['#submit__label']}
+      </button>
       <p className="mb-4 text-gray-600">
         {node.field_display_author?.title ? (
           <span>
