@@ -49,7 +49,10 @@ export default function EntityPage({
         <NodeBasicPage node={entity as DrupalNode} />
       )}
       {entity.type === 'node--article' && (
-        <NodeArticle node={entity as DrupalNode} />
+        <NodeArticle
+          node={entity as DrupalNode}
+          additionalContent={additionalContent as { webform: any }}
+        />
       )}
       {entity.type === 'node--event' && (
         <NodeEvent node={entity as DrupalNode} />
@@ -102,6 +105,7 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<EntityPageProps>> {
+  console.log(await getForm());
   // Find a matching path from Drupal from context.
   const path = await drupal.translatePathFromContext(context);
 
@@ -142,7 +146,9 @@ export async function getStaticProps(
       'field_article_media.image',
       'field_article_image.image',
       'field_display_author',
+      'field_webform',
     ]);
+    additionalContent['webform'] = await getForm();
   }
 
   if (type === 'node--event') {
@@ -244,4 +250,33 @@ export async function getStaticProps(
     },
     revalidate: 60,
   };
+}
+
+async function getForm() {
+  const baseUrl = drupal.baseUrl;
+  const path = '/webform_rest/contact/fields?_format=json';
+  console.log(`${baseUrl}${path}`);
+  const response = await drupal.fetch(`${baseUrl}${path}`, {
+    method: 'GET',
+  });
+  return response.json();
+}
+
+async function submitForm(values) {
+  console.log(drupal.baseUrl);
+  // const baseUrl = await drupal.baseUrl;
+  const path = '/webform_rest/submit';
+  const body = {
+    webform_id: 'contact',
+    name: values['name'],
+    email: values['email'],
+    subject: values['subject'],
+    message: values['message'],
+  };
+  // console.log(`${baseUrl}${path}`);
+  // const response = await drupal.fetch(`${baseUrl}${path}`, {
+  //   method: 'POST',
+  //   body: JSON.stringify(body),
+  // });
+  // console.log(response.json());
 }

@@ -3,13 +3,61 @@ import Link from 'next/link';
 import { formatDate } from 'lib/format-date';
 import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
+import React, { useState } from 'react';
+// import { submitForm } from '../pages/[...slug]';
 
-export function NodeArticle({ node, ...props }) {
+const initialValues = {
+  name: '',
+  email: '',
+  subject: '',
+  message: '',
+};
+
+export function NodeArticle({ node, additionalContent, ...props }) {
+  const [values, setValues] = useState(initialValues);
+
+  function handleInputChange(
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
+  ) {
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
+    console.log(e.target);
+  }
   return (
     <article className="max-w-2xl px-6 py-10 mx-auto" {...props}>
       <h1 className="mb-4 text-3xl font-black leading-tight md:text-4xl">
         {node.title}
       </h1>
+      <h2>Contact</h2>
+      <input
+        placeholder={additionalContent.webform.name['#title']}
+        name={additionalContent.webform.name['#webform_key']}
+        onChange={handleInputChange}
+      />
+      <input
+        placeholder={additionalContent.webform.email['#title']}
+        name={additionalContent.webform.email['#webform_key']}
+        onChange={handleInputChange}
+      />
+      <input
+        placeholder={additionalContent.webform.subject['#title']}
+        name={additionalContent.webform.subject['#webform_key']}
+        onChange={handleInputChange}
+      />
+      <textarea
+        placeholder={additionalContent.webform.message['#title']}
+        name={additionalContent.webform.message['#webform_key']}
+        onChange={handleInputChange}
+      />
+      {/*<button type="submit" onClick={() => submitForm(values)}>*/}
+      {/*  {additionalContent.webform.actions['#submit__label']}*/}
+      {/*</button>*/}
+      {console.log(additionalContent)}
       <p className="mb-4 text-gray-600">
         {node.field_display_author?.title ? (
           <span>
