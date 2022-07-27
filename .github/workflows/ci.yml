@@ -54,3 +54,6 @@ jobs:
       - run: yarn run lint
       - name: Run jest unit tests
         run: yarn run test:jest
+
+      - run: cp ./drupal/.env ./starters/basic-starter/.env.local
+      - run: yarn build
