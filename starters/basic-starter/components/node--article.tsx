@@ -3,51 +3,26 @@ import Link from 'next/link';
 import { formatDate } from 'lib/format-date';
 import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
-import React, { useState } from 'react';
-import { drupal } from '../lib/drupal';
-
-const initialValues = {
-  name: '',
-  email: '',
-  subject: '',
-  message: '',
-};
 
 export function NodeArticle({ node, additionalContent, ...props }) {
-  const [values, setValues] = useState(initialValues);
-
-  function handleInputChange(
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>,
-  ) {
-    const { name, value } = e.target;
-    setValues({
-      ...values,
-      [name]: value,
-    });
-    console.log(e.target);
-  }
-
-  // Commenting this function out will make page render
-  async function submitForm() {
-    const baseUrl = await drupal.baseUrl;
-    const path = '/webform_rest/submit?_format=json';
-    const body = {
-      webform_id: 'contact',
-      name: values['name'],
-      email: values['email'],
-      subject: values['subject'],
-      message: values['message'],
-    };
-    const response = await drupal.fetch(`${baseUrl}${path}`, {
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const response = await fetch('/api/submit-form', {
       method: 'POST',
-      body: JSON.stringify(body),
+      body: JSON.stringify({
+        name: event.target.name.value,
+        email: event.target.email.value,
+        subject: event.target.subject.value,
+        message: event.target.message.value,
+      }),
       headers: {
         'Content-Type': 'application/json',
       },
     });
-    console.log(response.json());
+    if (response.ok) {
+      // Show success.
+    }
+    // Handle error.
   }
   return (
     <article className="max-w-2xl px-6 py-10 mx-auto" {...props}>
@@ -55,29 +30,27 @@ export function NodeArticle({ node, additionalContent, ...props }) {
         {node.title}
       </h1>
       <h2>Contact</h2>
-      <input
-        placeholder={additionalContent.webform.name['#title']}
-        name={additionalContent.webform.name['#webform_key']}
-        onChange={handleInputChange}
-      />
-      <input
-        placeholder={additionalContent.webform.email['#title']}
-        name={additionalContent.webform.email['#webform_key']}
-        onChange={handleInputChange}
-      />
-      <input
-        placeholder={additionalContent.webform.subject['#title']}
-        name={additionalContent.webform.subject['#webform_key']}
-        onChange={handleInputChange}
-      />
-      <textarea
-        placeholder={additionalContent.webform.message['#title']}
-        name={additionalContent.webform.message['#webform_key']}
-        onChange={handleInputChange}
-      />
-      <button type="submit" onClick={() => submitForm()}>
-        {additionalContent.webform.actions['#submit__label']}
-      </button>
+      <form onSubmit={handleSubmit}>
+        <input
+          placeholder={additionalContent.webform.name['#title']}
+          name={additionalContent.webform.name['#webform_key']}
+        />
+        <input
+          placeholder={additionalContent.webform.email['#title']}
+          name={additionalContent.webform.email['#webform_key']}
+        />
+        <input
+          placeholder={additionalContent.webform.subject['#title']}
+          name={additionalContent.webform.subject['#webform_key']}
+        />
+        <textarea
+          placeholder={additionalContent.webform.message['#title']}
+          name={additionalContent.webform.message['#webform_key']}
+        />
+        <button type="submit">
+          {additionalContent.webform.actions['#submit__label']}
+        </button>
+      </form>
       <p className="mb-4 text-gray-600">
         {node.field_display_author?.title ? (
           <span>

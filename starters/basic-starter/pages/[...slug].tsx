@@ -2,7 +2,7 @@
 // It is the entry point for handling entity routes from Drupal.
 import * as React from 'react';
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
-import { DrupalClient, DrupalNode, DrupalTaxonomyTerm } from 'next-drupal';
+import { DrupalNode, DrupalTaxonomyTerm } from 'next-drupal';
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 
 import { getMenus } from 'lib/get-menus';
@@ -253,9 +253,8 @@ export async function getStaticProps(
 }
 
 async function getForm() {
-  const baseUrl = drupal.baseUrl;
   const path = '/webform_rest/contact/fields?_format=json';
-  const response = await drupal.fetch(`${baseUrl}${path}`, {
+  const response = await fetch(`${drupal.baseUrl}${path}`, {
     method: 'GET',
   });
   return response.json();
