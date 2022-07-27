@@ -33,6 +33,8 @@ jobs:
 #        node-version: [14.x, 16.x, 18.x]
     steps:
       - uses: actions/checkout@v3
+      - run: docker cp ./drupal/settings.local.php drupal:/opt/drupal/web/sites/default/settings.local.php
+      - run: docker exec --workdir /opt/drupal/web/sites/default drupal ls
 #      - name: Use Node.js ${{ matrix.node-version }}
 #        uses: actions/setup-node@v3
 #        with:
