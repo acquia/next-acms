@@ -35,6 +35,7 @@ interface EntityPageProps extends LayoutProps {
   entity: DrupalNode | DrupalTaxonomyTerm;
   additionalContent?: {
     nodes?: DrupalNode[];
+    webform?: object;
   };
 }
 
@@ -51,7 +52,7 @@ export default function EntityPage({
       {entity.type === 'node--article' && (
         <NodeArticle
           node={entity as DrupalNode}
-          additionalContent={additionalContent as { webform: any }}
+          additionalContent={additionalContent as { webform: object }}
         />
       )}
       {entity.type === 'node--event' && (
@@ -105,7 +106,6 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
 export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<EntityPageProps>> {
-  // console.log(await getForm());
   // Find a matching path from Drupal from context.
   const path = await drupal.translatePathFromContext(context);
 
@@ -148,7 +148,6 @@ export async function getStaticProps(
       'field_display_author',
       'field_webform',
     ]);
-    additionalContent['webform'] = await getForm();
   }
 
   if (type === 'node--event') {
@@ -185,6 +184,12 @@ export async function getStaticProps(
     return {
       notFound: true,
     };
+  }
+
+  if (entity.field_webform) {
+    // @todo: account for multiple webforms
+    const webform_id = entity.field_webform['drupal_internal__id'];
+    additionalContent['webform'] = await getWebform(webform_id);
   }
 
   // Fetch additional content for rendering taxonomy term pages.
@@ -252,8 +257,8 @@ export async function getStaticProps(
   };
 }
 
-async function getForm() {
-  const path = '/webform_rest/contact/fields?_format=json';
+async function getWebform(id) {
+  const path = `/webform_rest/${id}/fields?_format=json`;
   const response = await fetch(`${drupal.baseUrl}${path}`, {
     method: 'GET',
   });

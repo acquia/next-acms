@@ -4,6 +4,36 @@ import { formatDate } from 'lib/format-date';
 import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
 
+function renderWebformElement(el) {
+  switch (el['#type']) {
+    case 'textfield':
+    case 'tel':
+    case 'number':
+    case 'email':
+    case 'hidden':
+      return <input placeholder={el['#title']} name={el['#webform_key']} />;
+    case 'textarea':
+      return <textarea placeholder={el['#title']} name={el['#webform_key']} />;
+    case 'checkbox':
+      return <input type="checkbox" />;
+    case 'radio':
+      return <input type="radio" />;
+    case 'checkboxes':
+      return <input type="checkbox" />;
+    case 'radios':
+      return '';
+    case 'select':
+      return '';
+    case 'webform_markup':
+    case 'processed_text':
+      return '';
+    case 'webform_actions':
+      return <button type="submit">{el['#submit__label']}</button>;
+    default:
+      return;
+  }
+}
+
 export function NodeArticle({ node, additionalContent, ...props }) {
   async function handleSubmit(event) {
     event.preventDefault();
@@ -29,27 +59,13 @@ export function NodeArticle({ node, additionalContent, ...props }) {
       <h1 className="mb-4 text-3xl font-black leading-tight md:text-4xl">
         {node.title}
       </h1>
-      <h2>Contact</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          placeholder={additionalContent.webform.name['#title']}
-          name={additionalContent.webform.name['#webform_key']}
-        />
-        <input
-          placeholder={additionalContent.webform.email['#title']}
-          name={additionalContent.webform.email['#webform_key']}
-        />
-        <input
-          placeholder={additionalContent.webform.subject['#title']}
-          name={additionalContent.webform.subject['#webform_key']}
-        />
-        <textarea
-          placeholder={additionalContent.webform.message['#title']}
-          name={additionalContent.webform.message['#webform_key']}
-        />
-        <button type="submit">
-          {additionalContent.webform.actions['#submit__label']}
-        </button>
+        {additionalContent.webform
+          ? Object.values(additionalContent.webform).map((item, index) => {
+              console.log('item', item);
+              return renderWebformElement(item);
+            })
+          : null}
       </form>
       <p className="mb-4 text-gray-600">
         {node.field_display_author?.title ? (
