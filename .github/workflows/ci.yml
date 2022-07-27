@@ -37,7 +37,7 @@ jobs:
       - run: docker cp ./drupal/settings.local.php drupal:/opt/drupal/web/sites/default/settings.local.php
       - run: docker cp ./drupal/database.php.gz drupal:/opt/drupal/web
       - run: docker exec --workdir /opt/drupal/web/sites/default drupal ls
-      - run: docker exec --workdir /opt/drupal/web drupal php ./core/script/db-tools.php import database.php.gz
+      - run: docker exec --workdir /opt/drupal/web drupal php ./core/scripts/db-tools.php import database.php.gz
 #      - name: Use Node.js ${{ matrix.node-version }}
 #        uses: actions/setup-node@v3
 #        with:
