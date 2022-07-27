@@ -34,11 +34,10 @@ jobs:
 #        node-version: [14.x, 16.x, 18.x]
     steps:
       - uses: actions/checkout@v3
-      - run: docker cp ./drupal/settings.local.php drupal:/opt/drupal/web/sites/default/settings.local.php
-      - run: docker cp ./drupal/database.php.gz drupal:/opt/drupal/web/database.php.gz
-      - run: docker exec --workdir /opt/drupal/web/sites/default drupal ls
-      - run: docker exec --workdir /opt/drupal/web drupal ls
-      - run: docker exec --workdir /opt/drupal/web drupal php ./core/scripts/db-tools.php import database.php.gz
+      - name: Import database
+        run: |
+          docker cp ./drupal/database.php.gz drupal:/opt/drupal/web
+          docker exec --workdir /opt/drupal/web drupal php ./core/scripts/db-tools.php import database.php.gz      - run: docker cp ./drupal/database.php.gz drupal:/opt/drupal/web/database.php.gz
 #      - name: Use Node.js ${{ matrix.node-version }}
 #        uses: actions/setup-node@v3
 #        with:
@@ -76,8 +75,8 @@ jobs:
 #          drush pm:enable acquia_cms_starter --yes
 #          chown -R www-data:www-data ./web/sites/default/files
 #        working-directory: /opt/drupal
-#      - name: Check for success
-#        run: |
+      - name: Check for success
+        run: |
 #          service apache2 start
 #          sleep 2
-#          curl --fail http://localhost/jsonapi
+          curl --fail http://localhost/jsonapi
