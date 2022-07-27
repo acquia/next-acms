@@ -55,5 +55,7 @@ jobs:
       - name: Run jest unit tests
         run: yarn run test:jest
 
-      - run: cp ./drupal/.env ./starters/basic-starter/.env.local
-      - run: yarn build
+      - name: Build application
+        run: |
+          cp ./drupal/.env ./starters/basic-starter/.env.local
+          yarn build
