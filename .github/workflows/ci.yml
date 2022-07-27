@@ -27,6 +27,7 @@ jobs:
         image: phenaproxima/acquia_cms:headless
         ports:
           - 80:80
+        options: --name drupal
 #    strategy:
 #      matrix:
 #        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
