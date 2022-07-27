@@ -37,7 +37,7 @@ jobs:
       - name: Import database
         run: |
           docker cp ./drupal/database.php.gz drupal:/opt/drupal/web
-          docker exec --workdir /opt/drupal/web drupal php ./core/scripts/db-tools.php import database.php.gz      - run: docker cp ./drupal/database.php.gz drupal:/opt/drupal/web/database.php.gz
+          docker exec --workdir /opt/drupal/web drupal php ./core/scripts/db-tools.php import database.php.gz
       - name: Ensure Drupal is installed
         run: curl --fail http://localhost/jsonapi
 #      - name: Use Node.js ${{ matrix.node-version }}
