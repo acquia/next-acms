@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import parse, { HTMLReactParserOptions, domToReact } from 'html-react-parser';
 import { Element } from 'domhandler/lib/node';
-import { absoluteURL} from '../lib/absolute-url';
+import { absoluteURL } from '../lib/absolute-url';
 
 import { isRelative } from 'lib/is-relative';
 
