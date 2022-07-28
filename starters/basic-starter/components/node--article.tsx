@@ -80,17 +80,16 @@ function renderWebformElement(el) {
 export function NodeArticle({ node, additionalContent, ...props }) {
   console.log('additionalContent', additionalContent);
   async function handleSubmit(event, webform_id) {
-    console.log('event', event);
+    const body = {};
+    body['webform_id'] = webform_id;
+    for (const el of event.target) {
+      body[el.id] = el.value;
+    }
     event.preventDefault();
+    console.log(body);
     const response = await fetch('/api/submit-form', {
       method: 'POST',
-      body: JSON.stringify({
-        webform_id,
-        name: event.target.name.value,
-        email: event.target.email.value,
-        subject: event.target.subject.value,
-        message: event.target.message.value,
-      }),
+      body: JSON.stringify(body),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -105,7 +104,6 @@ export function NodeArticle({ node, additionalContent, ...props }) {
       <h1 className="mb-4 text-3xl font-black leading-tight md:text-4xl">
         {node.title}
       </h1>
-      {console.log(Object.keys(additionalContent.webform))}
       {additionalContent.webform
         ? Object.keys(additionalContent.webform).map((key) => {
             return (
