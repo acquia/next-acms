@@ -12,17 +12,59 @@ function renderWebformElement(el) {
     case 'number':
     case 'email':
     case 'hidden':
-      return <input placeholder={el['#title']} name={el['#webform_key']} />;
+      return (
+        <input
+          placeholder={el['#title']}
+          id={el['#webform_key']}
+          name={el['#webform_key']}
+        />
+      );
     case 'textarea':
-      return <textarea placeholder={el['#title']} name={el['#webform_key']} />;
+      return (
+        <textarea
+          placeholder={el['#title']}
+          id={el['#webform_key']}
+          name={el['#webform_key']}
+        />
+      );
     case 'checkbox':
-      return <input type="checkbox" />;
+      return (
+        <input
+          type="checkbox"
+          id={el['#webform_key']}
+          name={el['#webform_key']}
+        />
+      );
     case 'radio':
-      return <input type="radio" />;
+      return (
+        <input type="radio" id={el['#webform_key']} name={el['#webform_key']} />
+      );
     case 'checkboxes':
-      return <input type="checkbox" />;
+      return (
+        <input
+          type="checkbox"
+          id={el['#webform_key']}
+          name={el['#webform_key']}
+        />
+      );
     case 'radios':
-      return '';
+      console.log(el['#options']);
+      return (
+        el['#options'] &&
+        Object.keys(el['#options']).map((option) => (
+          <div className="form-check" key={option}>
+            {/** Input for this option. */}
+            <input
+              type="radio"
+              // id={getOptionId(el.name, option.value)}
+              value={option}
+              // defaultChecked={defaultValue === option.value}
+            />
+            {/** Label for this option. */}
+            <label className="form-check-label">{option}</label>
+          </div>
+        ))
+      );
     case 'select':
       return '';
     case 'webform_markup':
@@ -37,11 +79,13 @@ function renderWebformElement(el) {
 
 export function NodeArticle({ node, additionalContent, ...props }) {
   console.log('additionalContent', additionalContent);
-  async function handleSubmit(event) {
+  async function handleSubmit(event, webform_id) {
+    console.log('event', event);
     event.preventDefault();
     const response = await fetch('/api/submit-form', {
       method: 'POST',
       body: JSON.stringify({
+        webform_id,
         name: event.target.name.value,
         email: event.target.email.value,
         subject: event.target.subject.value,
@@ -61,12 +105,15 @@ export function NodeArticle({ node, additionalContent, ...props }) {
       <h1 className="mb-4 text-3xl font-black leading-tight md:text-4xl">
         {node.title}
       </h1>
-      {/*<form onSubmit={handleSubmit}>*/}
+      {console.log(Object.keys(additionalContent.webform))}
       {additionalContent.webform
-        ? Object.values(additionalContent.webform).map((form) => {
+        ? Object.keys(additionalContent.webform).map((key) => {
             return (
-              <form key="" onSubmit={handleSubmit}>
-                {Object.values(form).map((el) => renderWebformElement(el))};
+              <form key="" onSubmit={(e) => handleSubmit(e, key)}>
+                {Object.values(additionalContent.webform[key]).map((el) =>
+                  renderWebformElement(el),
+                )}
+                ;
               </form>
             );
           })

@@ -7,25 +7,19 @@ export default async function handler(
 ) {
   try {
     if (request.method === 'POST') {
-      const url = drupal.buildUrl('/webform_rest/submit?_format=json');
+      const url = drupal.buildUrl('/webform_est/submit?_format=json');
       console.log('received body', request.body);
       // Submit to Drupal.
       const result = await fetch(url.toString(), {
         method: 'POST',
-        body: JSON.stringify({
-          webform_id: 'contact',
-          name: request.body.name,
-          email: request.body.email,
-          subject: request.body.subject,
-          message: request.body.message,
-        }),
+        body: JSON.stringify(request.body),
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
       if (!result.ok) {
-        console.error(result.json());
+        console.log(result.json());
         throw new Error();
       }
 

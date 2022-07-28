@@ -188,18 +188,20 @@ export async function getStaticProps(
   }
 
   // Check if the entity has webform(s).
+  // @todo: Figure out how to dynamically get webform field.
   if (entity.field_webform2) {
-    const arr = [];
+    additionalContent['webform'] = [];
+    const arr = {};
     if (Array.isArray(entity.field_webform2)) {
       for (const form of entity.field_webform2) {
         const webform_id = form['drupal_internal__id'];
-        arr.push(await getWebform(webform_id));
+        arr[webform_id] = await getWebform(webform_id);
       }
     } else {
       console.log('webform 1', entity.field_webform);
       console.log('webform 2', entity.field_webform2);
       const webform_id = entity.field_webform2['drupal_internal__id'];
-      arr.push(await getWebform(webform_id));
+      arr[webform_id] = await getWebform(webform_id);
     }
     additionalContent['webform'] = arr;
   }
