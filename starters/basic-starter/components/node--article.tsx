@@ -4,8 +4,20 @@ import { formatDate } from 'lib/format-date';
 import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
 
+const styles = {
+  btn: {
+    backgroundColor: 'rgb(14 165 233)',
+    color: 'white',
+    border: 'none',
+    padding: '12px 16px',
+    textDecoration: 'none',
+    display: 'inlineBlock',
+    fontSize: '16px',
+    borderRadius: '8px',
+  },
+};
+
 function renderWebformElement(el) {
-  console.log('el', el);
   switch (el['#type']) {
     case 'textfield':
     case 'tel':
@@ -29,11 +41,14 @@ function renderWebformElement(el) {
       );
     case 'checkbox':
       return (
-        <input
-          type="checkbox"
-          id={el['#webform_key']}
-          name={el['#webform_key']}
-        />
+        <div>
+          <input
+            type="checkbox"
+            id={el['#webform_key']}
+            name={el['#webform_key']}
+          />
+          <label className="form-check-label">{el['#description']}</label>
+        </div>
       );
     case 'radio':
       return (
@@ -41,11 +56,20 @@ function renderWebformElement(el) {
       );
     case 'checkboxes':
       return (
-        <input
-          type="checkbox"
-          id={el['#webform_key']}
-          name={el['#webform_key']}
-        />
+        <div id={el['#webform_key']}>
+          {el['#options'] &&
+            Object.keys(el['#options']).map((option) => (
+              <>
+                <input
+                  type="checkbox"
+                  name={el['#webform_key']}
+                  id={option}
+                  value={option}
+                />
+                <label className="form-check-label">{option}</label>
+              </>
+            ))}
+        </div>
       );
     case 'radios':
       console.log(el['#options']);
@@ -53,14 +77,12 @@ function renderWebformElement(el) {
         el['#options'] &&
         Object.keys(el['#options']).map((option) => (
           <div className="form-check" key={option}>
-            {/** Input for this option. */}
             <input
               type="radio"
-              // id={getOptionId(el.name, option.value)}
+              name={el['#webform_key']}
+              id={option}
               value={option}
-              // defaultChecked={defaultValue === option.value}
             />
-            {/** Label for this option. */}
             <label className="form-check-label">{option}</label>
           </div>
         ))
@@ -71,7 +93,11 @@ function renderWebformElement(el) {
     case 'processed_text':
       return '';
     case 'webform_actions':
-      return <button type="submit">{el['#submit__label']}</button>;
+      return (
+        <button type="submit" style={styles.btn}>
+          {el['#submit__label']}
+        </button>
+      );
     default:
       return;
   }
@@ -80,10 +106,27 @@ function renderWebformElement(el) {
 export function NodeArticle({ node, additionalContent, ...props }) {
   console.log('additionalContent', additionalContent);
   async function handleSubmit(event, webform_id) {
+    console.log('e', event.target);
     const body = {};
+    // JSON format for checkboxes, checkbox, radio buttons
+    // {
+    //   "webform_id": "application",
+    //   "checkbox_test": false,
+    //   "food": "banana",
+    //   "checkboxes": ["cat", "dog"]
+    // }
+    //todo: Create formToJSON(event.target.elements) function;
     body['webform_id'] = webform_id;
     for (const el of event.target) {
-      body[el.id] = el.value;
+      body[el.name] = el.value;
+      // console.log('el', el);
+      // if (el.checked) {
+      //   body[el.name] = 1;
+      // } else if (el.checked === false) {
+      //   body[el.name] = 0;
+      // } else {
+      //   body[el.name] = el.value;
+      // }
     }
     event.preventDefault();
     console.log(body);
@@ -107,11 +150,12 @@ export function NodeArticle({ node, additionalContent, ...props }) {
       {additionalContent.webform
         ? Object.keys(additionalContent.webform).map((key) => {
             return (
-              <form key="" onSubmit={(e) => handleSubmit(e, key)}>
+              <form key={key} onSubmit={(e) => handleSubmit(e, key)}>
                 {Object.values(additionalContent.webform[key]).map((el) =>
                   renderWebformElement(el),
                 )}
-                ;
+                <br></br>
+                <br></br>
               </form>
             );
           })
