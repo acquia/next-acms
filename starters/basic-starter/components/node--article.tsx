@@ -5,6 +5,7 @@ import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
 
 function renderWebformElement(el) {
+  console.log('el', el);
   switch (el['#type']) {
     case 'textfield':
     case 'tel':
@@ -35,6 +36,7 @@ function renderWebformElement(el) {
 }
 
 export function NodeArticle({ node, additionalContent, ...props }) {
+  console.log('additionalContent', additionalContent);
   async function handleSubmit(event) {
     event.preventDefault();
     const response = await fetch('/api/submit-form', {
@@ -59,14 +61,16 @@ export function NodeArticle({ node, additionalContent, ...props }) {
       <h1 className="mb-4 text-3xl font-black leading-tight md:text-4xl">
         {node.title}
       </h1>
-      <form onSubmit={handleSubmit}>
-        {additionalContent.webform
-          ? Object.values(additionalContent.webform).map((item, index) => {
-              console.log('item', item);
-              return renderWebformElement(item);
-            })
-          : null}
-      </form>
+      {/*<form onSubmit={handleSubmit}>*/}
+      {additionalContent.webform
+        ? Object.values(additionalContent.webform).map((form) => {
+            return (
+              <form key="" onSubmit={handleSubmit}>
+                {Object.values(form).map((el) => renderWebformElement(el))};
+              </form>
+            );
+          })
+        : null}
       <p className="mb-4 text-gray-600">
         {node.field_display_author?.title ? (
           <span>

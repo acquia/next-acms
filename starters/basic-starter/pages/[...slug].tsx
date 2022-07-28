@@ -147,6 +147,7 @@ export async function getStaticProps(
       'field_article_image.image',
       'field_display_author',
       'field_webform',
+      'field_webform2',
     ]);
   }
 
@@ -186,10 +187,21 @@ export async function getStaticProps(
     };
   }
 
-  if (entity.field_webform) {
-    // @todo: account for multiple webforms
-    const webform_id = entity.field_webform['drupal_internal__id'];
-    additionalContent['webform'] = await getWebform(webform_id);
+  // Check if the entity has webform(s).
+  if (entity.field_webform2) {
+    const arr = [];
+    if (Array.isArray(entity.field_webform2)) {
+      for (const form of entity.field_webform2) {
+        const webform_id = form['drupal_internal__id'];
+        arr.push(await getWebform(webform_id));
+      }
+    } else {
+      console.log('webform 1', entity.field_webform);
+      console.log('webform 2', entity.field_webform2);
+      const webform_id = entity.field_webform2['drupal_internal__id'];
+      arr.push(await getWebform(webform_id));
+    }
+    additionalContent['webform'] = arr;
   }
 
   // Fetch additional content for rendering taxonomy term pages.
