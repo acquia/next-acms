@@ -62,4 +62,6 @@ jobs:
       - name: Run application
         run: |
           yarn dev &
-          sleep 5
+          sleep 8
+      - name: Run end-to-end tests
+        run: docker run --interactive --tty --volume $PWD:/e2e --workdir /e2e cypress/included:10.3.1
