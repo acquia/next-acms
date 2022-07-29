@@ -1,7 +1,7 @@
 This directory contains everything needed to build a container image of the
 Acquia CMS Headless backend.
 
-You'll need to be on a *nix-type system (I'm using macOS) with the Docker engine
+You'll need to be on a \*nix-type system (I'm using macOS) with the Docker engine
 installed (i.e., the `docker` command needs to be available). I'm using Colima
 as my container runtime, and have not tested this with anything else.
 
