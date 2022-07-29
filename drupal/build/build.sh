@@ -18,8 +18,8 @@ docker build --no-cache --tag phenaproxima/acquia_cms:headless --network host .
 docker run --detach --name build_drupal --rm phenaproxima/acquia_cms:headless
 
 docker cp init-env.php build_drupal:/opt/drupal
-docker exec build_drupal drush php:script init-env.php > .env
-docker exec build_drupal php ./web/core/scripts/db-tools.php dump-database-d8-mysql | gzip -9 > database.php.gz
+docker exec build_drupal drush php:script init-env.php > ../.env
+docker exec build_drupal php ./web/core/scripts/db-tools.php dump-database-d8-mysql | gzip -9 > ../database.php.gz
 
 # Stop the ephemeral containers, which will also destroy them.
 docker stop build_database build_drupal
