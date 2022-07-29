@@ -59,3 +59,7 @@ jobs:
         run: |
           cp ./drupal/.env ./starters/basic-starter/.env.local
           yarn build
+      - name: Run application
+        run: |
+          yarn dev &
+          sleep 5
