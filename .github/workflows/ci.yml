@@ -62,4 +62,4 @@ jobs:
           yarn dev &
           sleep 8
       - name: Run end-to-end tests
-        run: docker run --volume $PWD:/e2e --workdir /e2e --publish 3000:3000 cypress/included:10.3.1
+        run: docker run --volume $PWD:/e2e --workdir /e2e --publish 3001:3000 cypress/included:10.3.1 --config baseUrl=http://localhost:3001
