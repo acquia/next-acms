@@ -17,9 +17,6 @@ import { TaxonomyArticle } from '../components/taxonomy/taxonomy--article_type';
 import { TaxonomyPerson } from '../components/taxonomy/taxonomy--person_type';
 import { TaxonomyEvent } from '../components/taxonomy/taxonomy--event_type';
 import { TaxonomyPlace } from '../components/taxonomy/taxonomy--place_type';
-import fs from 'fs';
-import path from 'path';
-import {isArray} from "util";
 
 // List of all the entity types handled by this route.
 const ENTITY_TYPES = [
@@ -254,7 +251,7 @@ export async function getStaticProps(
 
 // Generates paths of pages to pre-render with prioritization of menu links.
 export async function generatePathsForBuild(context) {
-  let pathsFromContext = await drupal.getPathsFromContext(
+  let pathsFromContext = await drupal.getStaticPathsFromContext(
     ENTITY_TYPES,
     context,
   );
@@ -264,16 +261,12 @@ export async function generatePathsForBuild(context) {
   const filteredMenuItems = menu.items.filter((item) => item.url !== '/');
 
   // Generate paths from the menu links.
-  let pathsFromMenuItems = filteredMenuItems.map((item) => ({
+  const pathsFromMenuItems = filteredMenuItems.map((item) => ({
     params: { slug: item.url.split('/').slice(1) },
   }));
 
-  // Remove static paths from the menu that are already getting pre-rendered.
-  pathsFromMenuItems = pathsFromMenuItems.filter((menuPath) =>
-    shallowEqual(pathsFromContext, menuPath),
-  );
-
   const priorityMenuPaths = [];
+
   // Remove the menu link paths from the pathsFromContext before moving them to the beginning.
   pathsFromContext = pathsFromContext.filter((path) => {
     if (shallowEqual(pathsFromMenuItems, path)) {
