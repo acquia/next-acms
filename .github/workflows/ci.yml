@@ -12,7 +12,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: drupal:9-apache
     services:
       database:
         image: mysql:5.7
@@ -21,13 +20,27 @@ jobs:
           MYSQL_USER: drupal
           MYSQL_PASSWORD: drupal
           MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10
+      drupal:
+        image: phenaproxima/acquia_cms:headless
+        ports:
+          - 80:80
+        options: --name drupal
     strategy:
       matrix:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
         node-version: [14.x, 16.x, 18.x]
     steps:
       - uses: actions/checkout@v3
+      - name: Import database
+        run: |
+          docker cp ./drupal/database.php.gz drupal:/opt/drupal/web
+          docker exec --workdir /opt/drupal/web drupal php ./core/scripts/db-tools.php import database.php.gz
+      - name: Ensure Drupal is installed
+        run: curl --fail http://localhost/jsonapi
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -41,32 +54,8 @@ jobs:
       - run: yarn run lint
       - name: Run jest unit tests
         run: yarn run test:jest
-      - name: Install system dependencies for PHP and Composer
+
+      - name: Build application
         run: |
-          apt-get update
-          apt-get install -y git libicu-dev mariadb-client unzip
-          docker-php-ext-install intl
-      - name: Prepare global Drush and PHP configuration
-        run: |
-          mkdir $HOME/.drush
-          cp ./drupal/drush.yml $HOME/.drush
-          echo 'memory_limit = 512M' > /usr/local/etc/php/conf.d/drupal.ini
-      - name: Create Acquia CMS project
-        run: |
-          rm -rf drupal
-          composer create-project --no-install acquia/drupal-recommended-project drupal
-        working-directory: /opt
-      - name: Install Acquia CMS
-        run: |
-          sed -i -e 's!docroot!web!g' composer.json
-          composer install
-          composer require drupal/acquia_cms_common:^1.4 drupal/acquia_cms_starter
-          acms acms:install --no-interaction acquia_cms_headless
-          drush pm:enable acquia_cms_starter --yes
-          chown -R www-data:www-data ./web/sites/default/files
-        working-directory: /opt/drupal
-      - name: Check for success
-        run: |
-          service apache2 start
-          sleep 2
-          curl --fail http://localhost/jsonapi
+          cp ./drupal/.env ./starters/basic-starter/.env.local
+          yarn build
