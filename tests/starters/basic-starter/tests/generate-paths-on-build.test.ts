@@ -1,6 +1,6 @@
 import { expect } from '@jest/globals';
 import { DrupalClient } from 'next-drupal';
-import { generatePathsForBuild } from '../pages/[...slug]';
+import { generatePathsForBuild } from 'next-acms-basic-starter/pages/[...slug]';
 
 const context = { locales: null, defaultLocale: null };
 
@@ -11,8 +11,9 @@ const client = new DrupalClient('http://🐈');
 
 describe('generate paths on build with menu links prioritization', () => {
   test('menu links are part of the paths from context', async () => {
+    console.log(DrupalClient.prototype.getPathFromContext);
     jest
-      .spyOn(DrupalClient.prototype, 'getPathsFromContext')
+      .spyOn(DrupalClient.prototype, 'getStaticPathsFromContext')
       .mockImplementation(() => {
         return Promise.resolve([
           { params: { slug: ['article, 1'] } },
@@ -43,13 +44,13 @@ describe('generate paths on build with menu links prioritization', () => {
       { params: { slug: ['article, 2'] } },
       { params: { slug: ['article, 3'] } },
     ]);
-    expect(client.getPathsFromContext).toBeCalledTimes(1);
+    expect(client.getStaticPathsFromContext).toBeCalledTimes(1);
     expect(client.getMenu).toBeCalledTimes(1);
   });
 
   test('menu links are not part of the paths from context', async () => {
     jest
-      .spyOn(DrupalClient.prototype, 'getPathsFromContext')
+      .spyOn(DrupalClient.prototype, 'getStaticPathsFromContext')
       .mockImplementation(() => {
         return Promise.resolve([
           { params: { slug: ['article, 1'] } },
@@ -73,13 +74,13 @@ describe('generate paths on build with menu links prioritization', () => {
       { params: { slug: ['place, boston, south, 1'] } },
       { params: { slug: ['place, london, 2'] } },
     ]);
-    expect(client.getPathsFromContext).toBeCalledTimes(1);
+    expect(client.getStaticPathsFromContext).toBeCalledTimes(1);
     expect(client.getMenu).toBeCalledTimes(1);
   });
 
   test('no menu links', async () => {
     jest
-      .spyOn(DrupalClient.prototype, 'getPathsFromContext')
+      .spyOn(DrupalClient.prototype, 'getStaticPathsFromContext')
       .mockImplementation(() => {
         return Promise.resolve([
           { params: { slug: ['article, 1'] } },
@@ -103,7 +104,7 @@ describe('generate paths on build with menu links prioritization', () => {
       { params: { slug: ['place, boston, south, 1'] } },
       { params: { slug: ['place, london, 2'] } },
     ]);
-    expect(client.getPathsFromContext).toBeCalledTimes(1);
+    expect(client.getStaticPathsFromContext).toBeCalledTimes(1);
     expect(client.getMenu).toBeCalledTimes(1);
   });
 });
