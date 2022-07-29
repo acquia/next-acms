@@ -17,6 +17,7 @@ import { TaxonomyArticle } from '../components/taxonomy/taxonomy--article_type';
 import { TaxonomyPerson } from '../components/taxonomy/taxonomy--person_type';
 import { TaxonomyEvent } from '../components/taxonomy/taxonomy--event_type';
 import { TaxonomyPlace } from '../components/taxonomy/taxonomy--place_type';
+import { drupalNoAuth } from '../lib/drupal-no-auth';
 
 // List of all the entity types handled by this route.
 const ENTITY_TYPES = [
@@ -251,11 +252,11 @@ export async function getStaticProps(
 
 // Generates paths of pages to pre-render with prioritization of menu links.
 export async function generatePathsForBuild(context) {
-  let pathsFromContext = await drupal.getStaticPathsFromContext(
+  let pathsFromContext = await drupalNoAuth.getStaticPathsFromContext(
     ENTITY_TYPES,
     context,
   );
-  const menu = await drupal.getMenu('main');
+  const menu = await drupalNoAuth.getMenu('main');
 
   // Remove the '/' path from the menu items because it conflicts with [...slug].
   const filteredMenuItems = menu.items.filter((item) => item.url !== '/');
