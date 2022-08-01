@@ -17,6 +17,7 @@ import { TaxonomyArticle } from '../components/taxonomy/taxonomy--article_type';
 import { TaxonomyPerson } from '../components/taxonomy/taxonomy--person_type';
 import { TaxonomyEvent } from '../components/taxonomy/taxonomy--event_type';
 import { TaxonomyPlace } from '../components/taxonomy/taxonomy--place_type';
+import { getWebform } from '../lib/webform/utils';
 
 // List of all the entity types handled by this route.
 const ENTITY_TYPES = [
@@ -197,8 +198,6 @@ export async function getStaticProps(
         arr[webform_id] = await getWebform(webform_id);
       }
     } else {
-      console.log('webform 1', entity.field_webform);
-      console.log('webform 2', entity.field_webform2);
       const webform_id = entity.field_webform2['drupal_internal__id'];
       arr[webform_id] = await getWebform(webform_id);
     }
@@ -268,12 +267,4 @@ export async function getStaticProps(
     },
     revalidate: 60,
   };
-}
-
-async function getWebform(id) {
-  const path = `/webform_rest/${id}/fields?_format=json`;
-  const response = await fetch(`${drupal.baseUrl}${path}`, {
-    method: 'GET',
-  });
-  return response.json();
 }
