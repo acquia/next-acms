@@ -55,7 +55,13 @@ jobs:
       - name: Run jest unit tests
         run: yarn run test:jest
 
-      - name: Build application
+      - name: Build and start application
         run: |
           cp ./drupal/.env ./starters/basic-starter/.env.local
           yarn build
+          yarn dev &
+          sleep 8
+          curl --fail http://localhost:3000
+
+      - name: Run end-to-end tests
+        run: docker run --volume $PWD:/e2e --workdir /e2e --add-host host.docker.internal:host-gateway cypress/included:10.3.1 --config baseUrl=http://host.docker.internal:3000
