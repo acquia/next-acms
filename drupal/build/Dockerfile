@@ -14,6 +14,7 @@ WORKDIR /opt/drupal
 RUN sed -i -e 's!docroot!web!g' composer.json
 RUN composer require drupal/acquia_cms_common:^1.4 drupal/acquia_cms_starter
 RUN DRUSH_COMMAND_SITE_INSTALL_OPTIONS_DB_URL=mysql://drupal:drupal@host.docker.internal:3306/drupal DRUSH_COMMAND_SITE_INSTALL_OPTIONS_ACCOUNT_PASS=admin ./vendor/bin/acms acms:install --no-interaction acquia_cms_headless
+RUN drush php:eval 'module_load_install("pathauto"); pathauto_update_8108();'
 RUN drush pm:enable --yes acquia_cms_starter
 
 RUN chmod +w ./web/sites/default
