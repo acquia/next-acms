@@ -72,7 +72,6 @@ function renderWebformElement(el) {
         </div>
       );
     case 'radios':
-      console.log(el['#options']);
       return (
         el['#options'] &&
         Object.keys(el['#options']).map((option) => (
@@ -103,33 +102,68 @@ function renderWebformElement(el) {
   }
 }
 
+const isValidElement = (element: any) => {
+  return !!(element.name && element.value);
+};
+
+const isValidValue = (element) => {
+  return (
+    !['checkbox', 'radio'].includes(element.type) ||
+    (element as HTMLInputElement).checked
+  );
+};
+
+const isCheckbox = (element): element is HTMLInputElement =>
+  element.type === 'checkbox';
+
+const isMultiSelect = (element: any): element is HTMLSelectElement =>
+  element.options && (element as HTMLSelectElement).multiple;
+
+const getSelectValues = (options: HTMLOptionsCollection) =>
+  [].reduce.call(
+    options,
+    (values, option) =>
+      option.selected ? values.concat(option.value) : values,
+    [],
+  );
+
+const formToJSON = (elements: HTMLFormControlsCollection) =>
+  [].reduce.call(
+    elements,
+    (data, element) => {
+      // Make sure the element has the required properties and should be added.
+      if (isValidElement(element) && isValidValue(element)) {
+        if (isCheckbox(element)) {
+          data[element.name] = (data[element.name] || []).concat(element.value);
+        } else if (isMultiSelect(element)) {
+          data[element.name] = getSelectValues(element.options);
+        } else {
+          data[element.name] = element.value;
+        }
+      }
+      return data;
+    },
+    {},
+  );
+
 export function NodeArticle({ node, additionalContent, ...props }) {
   console.log('additionalContent', additionalContent);
-  async function handleSubmit(event, webform_id) {
-    console.log('e', event.target);
-    const body = {};
-    // JSON format for checkboxes, checkbox, radio buttons
-    // {
-    //   "webform_id": "application",
-    //   "checkbox_test": false,
-    //   "food": "banana",
-    //   "checkboxes": ["cat", "dog"]
-    // }
-    //todo: Create formToJSON(event.target.elements) function;
-    body['webform_id'] = webform_id;
-    for (const el of event.target) {
-      body[el.name] = el.value;
-      // console.log('el', el);
-      // if (el.checked) {
-      //   body[el.name] = 1;
-      // } else if (el.checked === false) {
-      //   body[el.name] = 0;
-      // } else {
-      //   body[el.name] = el.value;
-      // }
-    }
+
+  async function handleSubmit(event, webform_id, webform) {
     event.preventDefault();
-    console.log(body);
+    const data = formToJSON(event.target.elements);
+    // Post process serialized data:
+    // Some webform elements require specialized data formatting.
+    for (const element in Object.keys(webform)) {
+      if (data[element] && data[element].name) {
+        switch (webform.element.type) {
+          case 'checkbox':
+            data[webform.element] = 1;
+            break;
+        }
+      }
+    }
+    const body = { ...(data as object), ...{ webform_id: webform_id } };
     const response = await fetch('/api/submit-form', {
       method: 'POST',
       body: JSON.stringify(body),
@@ -148,11 +182,20 @@ export function NodeArticle({ node, additionalContent, ...props }) {
         {node.title}
       </h1>
       {additionalContent.webform
-        ? Object.keys(additionalContent.webform).map((key) => {
+        ? Object.keys(additionalContent.webform).map((webform_id) => {
             return (
-              <form key={key} onSubmit={(e) => handleSubmit(e, key)}>
-                {Object.values(additionalContent.webform[key]).map((el) =>
-                  renderWebformElement(el),
+              <form
+                key={webform_id}
+                onSubmit={(e) =>
+                  handleSubmit(
+                    e,
+                    webform_id,
+                    additionalContent.webform[webform_id],
+                  )
+                }
+              >
+                {Object.values(additionalContent.webform[webform_id]).map(
+                  (el) => renderWebformElement(el),
                 )}
                 <br></br>
                 <br></br>

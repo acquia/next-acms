@@ -188,7 +188,6 @@ export async function getStaticProps(
   }
 
   // Check if the entity has webform(s).
-  // @todo: Figure out how to dynamically get webform field.
   if (entity.field_webform2) {
     additionalContent['webform'] = [];
     const arr = {};
