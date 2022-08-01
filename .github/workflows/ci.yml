@@ -49,22 +49,7 @@ jobs:
         run: |
           npm --version
           npm -g install yarn
-
-      # Copied from https://github.com/actions/cache/blob/main/examples.md#node---yarn
-      - name: Get Yarn cache path
-        id: yarn-cache-dir
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v3
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-      - name: Install Yarn dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile
-
+      - run: yarn install --frozen-lockfile
       - run: yarn prettier --check .
       - run: yarn run lint
       - name: Run jest unit tests
