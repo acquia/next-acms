@@ -79,4 +79,4 @@ jobs:
           curl --fail http://localhost:3000
 
       - name: Run end-to-end tests
-        run: docker run --volume $PWD:/e2e --workdir /e2e --add-host host.docker.internal:host-gateway cypress/included:10.3.1 --config baseUrl=http://host.docker.internal:3000
+        run: docker run --volume $PWD:/e2e --workdir /e2e --add-host host.docker.internal:host-gateway cypress/included:10.3.1 --config baseUrl=http://host.docker.internal:3000,video=false
