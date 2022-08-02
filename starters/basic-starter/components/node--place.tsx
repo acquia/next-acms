@@ -2,8 +2,9 @@ import Link from 'next/link';
 
 import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
+import { renderWebform } from '../lib/webform/utils';
 
-export function NodePlace({ node, ...props }) {
+export function NodePlace({ node, additionalContent, ...props }) {
   return (
     <article {...props}>
       <div className="grid items-start w-full max-w-4xl gap-10 px-6 pt-12 mx-auto md:grid-cols-2">
@@ -32,7 +33,9 @@ export function NodePlace({ node, ...props }) {
           {node.field_place_telephone && <p>{node.field_place_telephone}</p>}
         </div>
       </div>
-
+      {additionalContent.webform
+        ? renderWebform(additionalContent.webform)
+        : null}
       <div className="max-w-2xl px-6 py-10 mx-auto">
         {node.body?.processed && (
           <div className="prose">

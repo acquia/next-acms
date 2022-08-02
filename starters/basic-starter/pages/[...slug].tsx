@@ -57,13 +57,22 @@ export default function EntityPage({
         />
       )}
       {entity.type === 'node--event' && (
-        <NodeEvent node={entity as DrupalNode} />
+        <NodeEvent
+          node={entity as DrupalNode}
+          additionalContent={additionalContent as { webform: object }}
+        />
       )}
       {entity.type === 'node--person' && (
-        <NodePerson node={entity as DrupalNode} />
+        <NodePerson
+          node={entity as DrupalNode}
+          additionalContent={additionalContent as { webform: object }}
+        />
       )}
       {entity.type === 'node--place' && (
-        <NodePlace node={entity as DrupalNode} />
+        <NodePlace
+          node={entity as DrupalNode}
+          additionalContent={additionalContent as { webform: object }}
+        />
       )}
       {entity.type === 'taxonomy_term--article_type' && (
         <TaxonomyArticle

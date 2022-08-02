@@ -2,8 +2,9 @@ import Link from 'next/link';
 
 import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
+import { renderWebform } from '../lib/webform/utils';
 
-export function NodePerson({ node, ...props }) {
+export function NodePerson({ node, additionalContent, ...props }) {
   return (
     <article className="max-w-2xl px-6 py-10 mx-auto" {...props}>
       <div className="grid items-center justify-center gap-4 text-center md:text-left md:grid-cols-2">
@@ -23,6 +24,9 @@ export function NodePerson({ node, ...props }) {
           )}
         </div>
       </div>
+      {additionalContent.webform
+        ? renderWebform(additionalContent.webform)
+        : null}
       {node.body?.processed && (
         <div className="py-10 prose">
           <FormattedText processed={node.body.processed} />

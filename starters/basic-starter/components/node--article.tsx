@@ -3,37 +3,14 @@ import Link from 'next/link';
 import { formatDate } from 'lib/format-date';
 import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
-import { renderWebformElement, handleSubmit } from '../lib/webform/utils';
+import { renderWebform } from '../lib/webform/utils';
 
 export function NodeArticle({ node, additionalContent, ...props }) {
-  console.log('additionalContent', additionalContent);
   return (
     <article className="max-w-2xl px-6 py-10 mx-auto" {...props}>
       <h1 className="mb-4 text-3xl font-black leading-tight md:text-4xl">
         {node.title}
       </h1>
-      {additionalContent.webform
-        ? Object.keys(additionalContent.webform).map((webform_id) => {
-            return (
-              <form
-                key={webform_id}
-                onSubmit={(e) =>
-                  handleSubmit(
-                    e,
-                    webform_id,
-                    additionalContent.webform[webform_id],
-                  )
-                }
-              >
-                {Object.values(additionalContent.webform[webform_id]).map(
-                  (el) => renderWebformElement(el),
-                )}
-                <br></br>
-                <br></br>
-              </form>
-            );
-          })
-        : null}
       <p className="mb-4 text-gray-600">
         {node.field_display_author?.title ? (
           <span>
@@ -45,6 +22,9 @@ export function NodeArticle({ node, additionalContent, ...props }) {
         ) : null}
         {node.created && <span> on {formatDate(node.created)}</span>}
       </p>
+      {additionalContent.webform
+        ? renderWebform(additionalContent.webform)
+        : null}
       {node.field_article_image && (
         <div className="my-6 overflow-hidden rounded-md">
           <MediaImage

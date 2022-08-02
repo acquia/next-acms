@@ -11,7 +11,6 @@ export default async function handler(
     );
     const result = await fetch(url.toString());
     const webform = await result.json();
-    console.log('webform', webform);
     response.status(200).json(webform);
   } catch (e) {
     console.log(e.message);

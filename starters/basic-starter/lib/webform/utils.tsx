@@ -188,3 +188,20 @@ export async function getWebform(id) {
   const response = await fetch(`http://localhost:3000/api/webform/${id}`);
   return response.json();
 }
+
+export function renderWebform(webform: object) {
+  return Object.keys(webform).map((webform_id) => {
+    return (
+      <form
+        key={webform_id}
+        onSubmit={(e) => handleSubmit(e, webform_id, webform[webform_id])}
+      >
+        {Object.values(webform[webform_id]).map((el) =>
+          renderWebformElement(el),
+        )}
+        <br></br>
+        <br></br>
+      </form>
+    );
+  });
+}
