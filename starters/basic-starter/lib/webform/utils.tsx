@@ -3,11 +3,19 @@ const styles = {
     backgroundColor: 'rgb(14 165 233)',
     color: 'white',
     border: 'none',
-    padding: '12px 16px',
+    padding: '12px 14px',
     textDecoration: 'none',
     display: 'inlineBlock',
     fontSize: '16px',
     borderRadius: '8px',
+  },
+  checkbox: {
+    marginRight: '8px',
+  },
+  textArea: {
+    border: '2px solid #e5e7eb',
+    margin: '4px',
+    borderRadius: '4px',
   },
 };
 
@@ -23,6 +31,7 @@ export function renderWebformElement(el) {
           placeholder={el['#title']}
           id={el['#webform_key']}
           name={el['#webform_key']}
+          style={styles.textArea}
         />
       );
     case 'textarea':
@@ -31,6 +40,7 @@ export function renderWebformElement(el) {
           placeholder={el['#title']}
           id={el['#webform_key']}
           name={el['#webform_key']}
+          style={styles.textArea}
         />
       );
     case 'checkbox':
@@ -40,30 +50,35 @@ export function renderWebformElement(el) {
             type="checkbox"
             id={el['#webform_key']}
             name={el['#webform_key']}
+            style={styles.checkbox}
           />
           <label className="form-check-label">{el['#description']}</label>
         </div>
       );
     case 'radio':
       return (
-        <input type="radio" id={el['#webform_key']} name={el['#webform_key']} />
+        <input
+          type="radio"
+          id={el['#webform_key']}
+          name={el['#webform_key']}
+          style={styles.checkbox}
+        />
       );
     case 'checkboxes':
       return (
-        <div id={el['#webform_key']}>
-          {el['#options'] &&
-            Object.keys(el['#options']).map((option) => (
-              <>
-                <input
-                  type="checkbox"
-                  name={el['#webform_key']}
-                  id={option}
-                  value={option}
-                />
-                <label className="form-check-label">{option}</label>
-              </>
-            ))}
-        </div>
+        el['#options'] &&
+        Object.keys(el['#options']).map((option) => (
+          <div id={el['#webform_key']} key={option}>
+            <input
+              type="checkbox"
+              name={el['#webform_key']}
+              id={option}
+              value={option}
+              style={styles.checkbox}
+            />
+            <label className="form-check-label">{option}</label>
+          </div>
+        ))
       );
     case 'radios':
       return (
@@ -75,6 +90,7 @@ export function renderWebformElement(el) {
               name={el['#webform_key']}
               id={option}
               value={option}
+              style={styles.checkbox}
             />
             <label className="form-check-label">{option}</label>
           </div>
