@@ -1,5 +1,3 @@
-import { drupal } from '../drupal';
-
 const styles = {
   btn: {
     backgroundColor: 'rgb(14 165 233)',
@@ -157,7 +155,7 @@ export async function handleSubmit(event, webform_id, webform) {
     }
   }
   const body = { ...(data as object), ...{ webform_id: webform_id } };
-  const response = await fetch('/api/submit-form', {
+  const response = await fetch('/api/webform/submit', {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
@@ -171,6 +169,6 @@ export async function handleSubmit(event, webform_id, webform) {
 }
 
 export async function getWebform(id) {
-  const response = await fetch(`/api/webform/${id}`);
+  const response = await fetch(`http://localhost:3000/api/webform/${id}`);
   return response.json();
 }
