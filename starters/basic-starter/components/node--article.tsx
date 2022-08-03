@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { formatDate } from 'lib/format-date';
 import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
-import { renderWebform } from '../lib/webform/utils';
+import { Webform } from '../lib/webform/Webform';
 
 export function NodeArticle({ node, additionalContent, ...props }) {
   return (
@@ -22,9 +22,16 @@ export function NodeArticle({ node, additionalContent, ...props }) {
         ) : null}
         {node.created && <span> on {formatDate(node.created)}</span>}
       </p>
-      {additionalContent.webform
-        ? renderWebform(additionalContent.webform)
-        : null}
+      {Object.keys(additionalContent.webform).map((webform_id) => {
+        return (
+          <Webform
+            webform={additionalContent.webform[webform_id]}
+            id={webform_id}
+            key={webform_id}
+          />
+        );
+      })}
+      {/*{additionalContent.webform ? Webform(additionalContent.webform) : null}*/}
       {node.field_article_image && (
         <div className="my-6 overflow-hidden rounded-md">
           <MediaImage

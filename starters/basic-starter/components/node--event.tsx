@@ -3,14 +3,10 @@ import Link from 'next/link';
 import { formatDate } from 'lib/format-date';
 import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
-import { renderWebform } from '../lib/webform/utils';
 
 export function NodeEvent({ node, additionalContent, ...props }) {
   return (
     <article className="container px-6 py-10 mx-auto" {...props}>
-      {additionalContent.webform
-        ? renderWebform(additionalContent.webform)
-        : null}
       <div className="grid-cols-2 gap-10 p-4 mx-auto border rounded-md md:grid">
         {node.field_event_image && (
           <Link href={node.path.alias} passHref>

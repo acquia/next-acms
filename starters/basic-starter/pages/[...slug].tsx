@@ -157,13 +157,15 @@ export async function getStaticProps(
       'field_article_image.image',
       'field_display_author',
       'field_webform',
-      'field_webform2',
     ]);
   }
 
   if (type === 'node--event') {
     params
-      .addInclude(['field_event_image.image', 'field_event_place'])
+      .addInclude([
+        'field_event_image.image',
+        'field_event_place',
+      ])
       .addFields('node--place', ['title', 'path']);
   }
 
@@ -197,17 +199,17 @@ export async function getStaticProps(
     };
   }
 
-  // Check if the entity has webform(s).
-  if (entity.field_webform2) {
+  // Check if the entity has webform(s) and create a webform object.
+  if (entity.field_webform) {
     additionalContent['webform'] = [];
     const arr = {};
-    if (Array.isArray(entity.field_webform2)) {
-      for (const form of entity.field_webform2) {
+    if (Array.isArray(entity.field_webform)) {
+      for (const form of entity.field_webform) {
         const webform_id = form['drupal_internal__id'];
         arr[webform_id] = await getWebform(webform_id);
       }
     } else {
-      const webform_id = entity.field_webform2['drupal_internal__id'];
+      const webform_id = entity.field_webform['drupal_internal__id'];
       arr[webform_id] = await getWebform(webform_id);
     }
     additionalContent['webform'] = arr;

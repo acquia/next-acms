@@ -2,7 +2,6 @@ import Link from 'next/link';
 
 import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
-import { renderWebform } from '../lib/webform/utils';
 
 export function NodePerson({ node, additionalContent, ...props }) {
   return (
@@ -24,9 +23,6 @@ export function NodePerson({ node, additionalContent, ...props }) {
           )}
         </div>
       </div>
-      {additionalContent.webform
-        ? renderWebform(additionalContent.webform)
-        : null}
       {node.body?.processed && (
         <div className="py-10 prose">
           <FormattedText processed={node.body.processed} />
