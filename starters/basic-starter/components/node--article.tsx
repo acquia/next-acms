@@ -22,16 +22,11 @@ export function NodeArticle({ node, additionalContent, ...props }) {
         ) : null}
         {node.created && <span> on {formatDate(node.created)}</span>}
       </p>
-      {Object.keys(additionalContent.webform).map((webform_id) => {
-        return (
-          <Webform
-            webform={additionalContent.webform[webform_id]}
-            id={webform_id}
-            key={webform_id}
-          />
-        );
-      })}
-      {/*{additionalContent.webform ? Webform(additionalContent.webform) : null}*/}
+      <Webform
+        webformObject={additionalContent.webform}
+        id={additionalContent.webform.drupal_internal__id}
+        key={additionalContent.webform.drupal_internal__id}
+      />
       {node.field_article_image && (
         <div className="my-6 overflow-hidden rounded-md">
           <MediaImage

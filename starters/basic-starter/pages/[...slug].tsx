@@ -17,7 +17,9 @@ import { TaxonomyArticle } from '../components/taxonomy/taxonomy--article_type';
 import { TaxonomyPerson } from '../components/taxonomy/taxonomy--person_type';
 import { TaxonomyEvent } from '../components/taxonomy/taxonomy--event_type';
 import { TaxonomyPlace } from '../components/taxonomy/taxonomy--place_type';
-import { getWebform } from '../lib/webform/utils';
+import { getWebformFields } from '../lib/webform/utils';
+import {Webform} from "../lib/webform/Webform";
+import {WebformObject} from "../lib/webform/types";
 
 // List of all the entity types handled by this route.
 const ENTITY_TYPES = [
@@ -202,17 +204,16 @@ export async function getStaticProps(
   // Check if the entity has webform(s) and create a webform object.
   if (entity.field_webform) {
     additionalContent['webform'] = [];
-    const arr = {};
-    if (Array.isArray(entity.field_webform)) {
-      for (const form of entity.field_webform) {
-        const webform_id = form['drupal_internal__id'];
-        arr[webform_id] = await getWebform(webform_id);
-      }
-    } else {
-      const webform_id = entity.field_webform['drupal_internal__id'];
-      arr[webform_id] = await getWebform(webform_id);
-    }
-    additionalContent['webform'] = arr;
+    const webformObject: WebformObject = {
+      drupal_internal__id: entity.field_webform.drupal_internal__id,
+      description: entity.field_webform.description,
+      status: entity.field_webform.status,
+      elements: await getWebformFields(
+        entity.field_webform.drupal_internal__id,
+      ),
+    };
+    console.log(entity.field_webform);
+    additionalContent['webform'] = webformObject;
   }
 
   // Fetch additional content for rendering taxonomy term pages.

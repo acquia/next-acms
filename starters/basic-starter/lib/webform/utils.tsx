@@ -108,9 +108,10 @@ export function renderWebformElement(el) {
         </button>
       );
     default:
-      return;
+      // @todo: add better default
+      return 'Element not supported';
   }
-};
+}
 
 const isValidElement = (element: any) => {
   return !!(element.name && element.value);
@@ -184,7 +185,7 @@ export async function handleSubmit(event, webform_id, webform) {
   // Handle error.
 }
 
-export async function getWebform(id) {
+export async function getWebformFields(id) {
   const response = await fetch(`http://localhost:3000/api/webform/${id}`);
   return response.json();
 }

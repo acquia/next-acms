@@ -2,11 +2,13 @@ import React from 'react';
 import { WebformProps } from './types';
 import { handleSubmit, renderWebformElement } from './utils';
 
-export const Webform = ({ webform, id }: WebformProps) => {
-  console.log('webform object', webform);
+export const Webform = ({ webformObject, id }: WebformProps) => {
+  console.log('webform object', webformObject);
   return (
-    <form onSubmit={(e) => handleSubmit(e, id, webform)}>
-      {Object.values(webform).map((el) => renderWebformElement(el))}
+    <form onSubmit={(e) => handleSubmit(e, id, webformObject)}>
+      {Object.values(webformObject.elements).map((el) =>
+        renderWebformElement(el),
+      )}
     </form>
   );
 };

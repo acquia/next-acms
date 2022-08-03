@@ -1,16 +1,15 @@
 export type WebformProps = {
-  webform: object;
+  webformObject: WebformObject;
   id: string;
 };
 
-export type WebformElementProps = {
-  // probably will need to break this up
-  el: object;
+export type WebformObject = {
+  drupal_internal__id: string;
+  description: string;
+  status: string;
+  elements: WebformElement[];
 };
 
-// Create WebformObject type
-
-// Create WebformElement type
 export type WebformElement = {
   // might need more later
   title: string;
