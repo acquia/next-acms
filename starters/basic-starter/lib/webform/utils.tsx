@@ -19,7 +19,7 @@ const styles = {
   },
 };
 
-export function renderWebformElement(el) {
+export function renderWebformElement(el, customComponents) {
   switch (el['#type']) {
     case 'textfield':
     case 'tel':

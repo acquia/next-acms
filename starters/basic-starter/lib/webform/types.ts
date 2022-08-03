@@ -1,6 +1,24 @@
+import React from 'react';
+
+export type WebformCustomComponentProps = {
+  element: WebformElement;
+  error?: string;
+};
+
+/**
+ * Custom component for webform element
+ */
+export type WebformCustomComponent = React.FC<WebformCustomComponentProps>;
+
+type CustomComponentLibrary = {
+  [name: string]: WebformCustomComponent;
+};
+
+// @todo: Remove ID
 export type WebformProps = {
   webformObject: WebformObject;
   id: string;
+  customComponents: CustomComponentLibrary;
 };
 
 export type WebformObject = {
