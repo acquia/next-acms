@@ -90,8 +90,8 @@ export default function EntityPage({
   );
 }
 
-// Generates static paths for the first 200 pages to pre-render. Menu links are prioritized due to its
-// high traffic potential.
+// Generates static paths for the first 200 pages to pre-render.
+// Menu links are prioritized due to its high traffic potential.
 // See https://nextjs.org/docs/basic-features/data-fetching/get-static-paths.
 export async function getStaticPaths(
   context: GetStaticPathsContext,
