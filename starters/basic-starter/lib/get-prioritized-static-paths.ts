@@ -1,27 +1,25 @@
 import { drupal } from './drupal';
+import { GetStaticPathsContext, GetStaticPathsResult } from 'next/types';
 
 // Generates paths of pages to pre-render with prioritization of menu links.
 export async function getPrioritizedStaticPathsFromContext(
-  context,
-  ENTITY_TYPES,
-) {
+  context: GetStaticPathsContext,
+  types: Array<string>,
+): Promise<GetStaticPathsResult<{ slug: string[] }>['paths']> {
   const pathsFromContext = await drupal.getStaticPathsFromContext(
-    ENTITY_TYPES,
+    types,
     context,
   );
   const menu = await drupal.getMenu('main');
 
-  // Remove the '/' path from the menu items because it conflicts with [...slug].
-  const filteredMenuItems = menu.items.filter((item) => item.url !== '/');
-
   // Generate paths from the menu links.
-  const pathsFromMenuItems = filteredMenuItems.map((item) => ({
+  const pathsFromMenuItems = menu.items.map((item) => ({
     params: { slug: item.url.split('/').slice(1) },
   }));
 
-  // Remove the menu item then add it to the beginning of the array.
+  // Move paths for menu items to the beginning of the array.
   for (const path of pathsFromContext) {
-    if (containsPath(pathsFromMenuItems, path)) {
+    if (containsPath(path, pathsFromMenuItems)) {
       const index = pathsFromContext.indexOf(path);
       if (index !== -1) {
         pathsFromContext.splice(index, 1);
@@ -32,10 +30,13 @@ export async function getPrioritizedStaticPathsFromContext(
   return pathsFromContext;
 }
 
-// Shallow equality check to see if a list of paths contains the given path.
-function containsPath(arr, path) {
-  for (const i of arr) {
-    if (JSON.stringify(i) === JSON.stringify(path)) {
+// Check if a list of paths contains a path.
+function containsPath(
+  searchPath: string | { params: { slug: string[] }; locale?: string },
+  sourcePaths: Array<{ params: { slug: string[] }; locale?: string }>,
+): boolean {
+  for (const p of sourcePaths) {
+    if (JSON.stringify(p) === JSON.stringify(searchPath)) {
       return true;
     }
   }
