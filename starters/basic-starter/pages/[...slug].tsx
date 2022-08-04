@@ -18,6 +18,7 @@ import { TaxonomyPerson } from '../components/taxonomy/taxonomy--person_type';
 import { TaxonomyEvent } from '../components/taxonomy/taxonomy--event_type';
 import { TaxonomyPlace } from '../components/taxonomy/taxonomy--place_type';
 import { getPrioritizedStaticPathsFromContext } from '../lib/get-prioritized-static-paths';
+import { GetStaticPathsContext } from 'next/types';
 
 // List of all the entity types handled by this route.
 const ENTITY_TYPES = [
@@ -89,12 +90,15 @@ export default function EntityPage({
   );
 }
 
-// Use the 'paths' key to specify wanted paths to be pre-rendered at build time.
+// Generates static paths for the first 200 pages to pre-render. Menu links are prioritized due to its
+// high traffic potential.
 // See https://nextjs.org/docs/basic-features/data-fetching/get-static-paths.
-export async function getStaticPaths(context): Promise<GetStaticPathsResult> {
+export async function getStaticPaths(
+  context: GetStaticPathsContext,
+): Promise<GetStaticPathsResult> {
   // By limiting the number of static paths, larger sites can keep build times
   // within a reasonable timeframe.
-  const limit = 200; // Change as desired.
+  const limit = 200;
   const paths = await getPrioritizedStaticPathsFromContext(
     context,
     ENTITY_TYPES,
