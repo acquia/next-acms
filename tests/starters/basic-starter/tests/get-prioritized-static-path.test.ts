@@ -1,8 +1,10 @@
 import { expect } from '@jest/globals';
 import { DrupalClient } from 'next-drupal';
-import { generatePathsForBuild } from 'next-acms-basic-starter/pages/[...slug]';
+import { getPrioritizedStaticPathsFromContext } from 'next-acms-basic-starter/lib/get-prioritized-static-paths';
 
 const context = { locales: null, defaultLocale: null };
+
+const ENTITY_TYPES = ['node--article', 'node--place'];
 
 afterEach(() => {
   jest.restoreAllMocks();
@@ -38,7 +40,9 @@ describe('generate paths on build with menu links prioritization', () => {
         ],
       });
     });
-    expect(await generatePathsForBuild(context)).toStrictEqual([
+    expect(
+      await getPrioritizedStaticPathsFromContext(context, ENTITY_TYPES),
+    ).toStrictEqual([
       { params: { slug: ['place', 'london', '2'] } },
       { params: { slug: ['place', 'boston', 'south', '1'] } },
       { params: { slug: ['article', '1'] } },
@@ -68,7 +72,9 @@ describe('generate paths on build with menu links prioritization', () => {
         tree: [{ url: '/' }, { url: '/articles' }, { url: '/places' }],
       });
     });
-    expect(await generatePathsForBuild(context)).toStrictEqual([
+    expect(
+      await getPrioritizedStaticPathsFromContext(context, ENTITY_TYPES),
+    ).toStrictEqual([
       { params: { slug: ['article, 1'] } },
       { params: { slug: ['article, 2'] } },
       { params: { slug: ['article, 3'] } },
@@ -98,7 +104,9 @@ describe('generate paths on build with menu links prioritization', () => {
         tree: [],
       });
     });
-    expect(await generatePathsForBuild(context)).toStrictEqual([
+    expect(
+      await getPrioritizedStaticPathsFromContext(context, ENTITY_TYPES),
+    ).toStrictEqual([
       { params: { slug: ['article, 1'] } },
       { params: { slug: ['article, 2'] } },
       { params: { slug: ['article, 3'] } },

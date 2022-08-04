@@ -17,7 +17,7 @@ import { TaxonomyArticle } from '../components/taxonomy/taxonomy--article_type';
 import { TaxonomyPerson } from '../components/taxonomy/taxonomy--person_type';
 import { TaxonomyEvent } from '../components/taxonomy/taxonomy--event_type';
 import { TaxonomyPlace } from '../components/taxonomy/taxonomy--place_type';
-import { drupalNoAuth } from '../lib/drupal-no-auth';
+import { getPrioritizedStaticPathsFromContext } from '../lib/get-prioritized-static-paths';
 
 // List of all the entity types handled by this route.
 const ENTITY_TYPES = [
@@ -95,7 +95,10 @@ export async function getStaticPaths(context): Promise<GetStaticPathsResult> {
   // By limiting the number of static paths, larger sites can keep build times
   // within a reasonable timeframe.
   const limit = 200; // Change as desired.
-  const paths = await generatePathsForBuild(context);
+  const paths = await getPrioritizedStaticPathsFromContext(
+    context,
+    ENTITY_TYPES,
+  );
 
   return {
     paths: paths.slice(0, limit),
@@ -248,49 +251,4 @@ export async function getStaticProps(
     },
     revalidate: 60,
   };
-}
-
-// Generates paths of pages to pre-render with prioritization of menu links.
-export async function generatePathsForBuild(context) {
-  let pathsFromContext = await drupalNoAuth.getStaticPathsFromContext(
-    ENTITY_TYPES,
-    context,
-  );
-  const menu = await drupalNoAuth.getMenu('main');
-
-  // Remove the '/' path from the menu items because it conflicts with [...slug].
-  const filteredMenuItems = menu.items.filter((item) => item.url !== '/');
-
-  // Generate paths from the menu links.
-  const pathsFromMenuItems = filteredMenuItems.map((item) => ({
-    params: { slug: item.url.split('/').slice(1) },
-  }));
-
-  const priorityMenuPaths = [];
-
-  // Remove the menu link paths from the pathsFromContext before moving them to the beginning.
-  pathsFromContext = pathsFromContext.filter((path) => {
-    if (shallowEqual(pathsFromMenuItems, path)) {
-      priorityMenuPaths.push(path);
-      return false;
-    } else {
-      return true;
-    }
-  });
-
-  // Now move the menu link paths to the beginning of the array so they are prioritized.
-  for (const p of priorityMenuPaths) {
-    pathsFromContext.unshift(p);
-  }
-  return pathsFromContext;
-}
-
-// Shallow equality check to see if a list of paths contains the given path.
-function shallowEqual(arr, path) {
-  for (const i of arr) {
-    if (JSON.stringify(i) === JSON.stringify(path)) {
-      return true;
-    }
-  }
-  return false;
 }
