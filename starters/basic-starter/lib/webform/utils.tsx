@@ -1,3 +1,5 @@
+import { CustomComponentLibrary, WebformElement } from './types';
+
 const styles = {
   btn: {
     backgroundColor: 'rgb(14 165 233)',
@@ -19,8 +21,16 @@ const styles = {
   },
 };
 
-export function renderWebformElement(el, customComponents) {
-  switch (el['#type']) {
+export function renderWebformElement(
+  element: WebformElement,
+  customComponents: CustomComponentLibrary,
+) {
+  // Render using custom component if provided:
+  if (customComponents && customComponents[element['#type']]) {
+    const CustomComponent = customComponents[element['#type']];
+    return <CustomComponent element={element} />;
+  }
+  switch (element['#type']) {
     case 'textfield':
     case 'tel':
     case 'number':
@@ -28,18 +38,18 @@ export function renderWebformElement(el, customComponents) {
     case 'hidden':
       return (
         <input
-          placeholder={el['#title']}
-          id={el['#webform_key']}
-          name={el['#webform_key']}
+          placeholder={element['#title']}
+          id={element['#webform_key']}
+          name={element['#webform_key']}
           style={styles.textArea}
         />
       );
     case 'textarea':
       return (
         <textarea
-          placeholder={el['#title']}
-          id={el['#webform_key']}
-          name={el['#webform_key']}
+          placeholder={element['#title']}
+          id={element['#webform_key']}
+          name={element['#webform_key']}
           style={styles.textArea}
         />
       );
@@ -48,30 +58,30 @@ export function renderWebformElement(el, customComponents) {
         <div>
           <input
             type="checkbox"
-            id={el['#webform_key']}
-            name={el['#webform_key']}
+            id={element['#webform_key']}
+            name={element['#webform_key']}
             style={styles.checkbox}
           />
-          <label className="form-check-label">{el['#description']}</label>
+          <label className="form-check-label">{element['#description']}</label>
         </div>
       );
     case 'radio':
       return (
         <input
           type="radio"
-          id={el['#webform_key']}
-          name={el['#webform_key']}
+          id={element['#webform_key']}
+          name={element['#webform_key']}
           style={styles.checkbox}
         />
       );
     case 'checkboxes':
       return (
-        el['#options'] &&
-        Object.keys(el['#options']).map((option) => (
-          <div id={el['#webform_key']} key={option}>
+        element['#options'] &&
+        Object.keys(element['#options']).map((option) => (
+          <div id={element['#webform_key']} key={option}>
             <input
               type="checkbox"
-              name={el['#webform_key']}
+              name={element['#webform_key']}
               id={option}
               value={option}
               style={styles.checkbox}
@@ -82,12 +92,12 @@ export function renderWebformElement(el, customComponents) {
       );
     case 'radios':
       return (
-        el['#options'] &&
-        Object.keys(el['#options']).map((option) => (
+        element['#options'] &&
+        Object.keys(element['#options']).map((option) => (
           <div className="form-check" key={option}>
             <input
               type="radio"
-              name={el['#webform_key']}
+              name={element['#webform_key']}
               id={option}
               value={option}
               style={styles.checkbox}
@@ -104,7 +114,7 @@ export function renderWebformElement(el, customComponents) {
     case 'webform_actions':
       return (
         <button type="submit" style={styles.btn}>
-          {el['#submit__label']}
+          {element['#submit__label']}
         </button>
       );
     default:
@@ -162,7 +172,7 @@ export async function handleSubmit(event, webform_id, webform) {
   const data = formToJSON(event.target.elements);
   // Post process serialized data:
   // Some webform elements require specialized data formatting.
-  for (const element in Object.keys(webform)) {
+  for (const element in Object.keys(webform.elements)) {
     if (data[element] && data[element].name) {
       switch (webform.element.type) {
         case 'checkbox':

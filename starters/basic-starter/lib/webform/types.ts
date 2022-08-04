@@ -1,5 +1,7 @@
 import React from 'react';
 
+export const DEFAULT_SUBMIT_LABEL = 'Submit';
+
 export type WebformCustomComponentProps = {
   element: WebformElement;
   error?: string;
@@ -10,15 +12,14 @@ export type WebformCustomComponentProps = {
  */
 export type WebformCustomComponent = React.FC<WebformCustomComponentProps>;
 
-type CustomComponentLibrary = {
+export type CustomComponentLibrary = {
   [name: string]: WebformCustomComponent;
 };
 
-// @todo: Remove ID
 export type WebformProps = {
+  id?: string;
   webformObject: WebformObject;
-  id: string;
-  customComponents: CustomComponentLibrary;
+  customComponents?: CustomComponentLibrary;
 };
 
 export type WebformObject = {
@@ -30,9 +31,10 @@ export type WebformObject = {
 
 export type WebformElement = {
   // might need more later
-  title: string;
-  type: string;
-  webform_key: string;
-  submit_label?: string;
-  options?: object;
+  '#title': string;
+  '#type': string;
+  '#webform_key': string;
+  '#submit__label'?: string;
+  '#options'?: object;
+  '#description': string;
 };

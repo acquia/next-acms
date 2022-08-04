@@ -18,8 +18,7 @@ import { TaxonomyPerson } from '../components/taxonomy/taxonomy--person_type';
 import { TaxonomyEvent } from '../components/taxonomy/taxonomy--event_type';
 import { TaxonomyPlace } from '../components/taxonomy/taxonomy--place_type';
 import { getWebformFields } from '../lib/webform/utils';
-import {Webform} from "../lib/webform/Webform";
-import {WebformObject} from "../lib/webform/types";
+import { WebformObject } from '../lib/webform/types';
 
 // List of all the entity types handled by this route.
 const ENTITY_TYPES = [
@@ -38,7 +37,7 @@ interface EntityPageProps extends LayoutProps {
   entity: DrupalNode | DrupalTaxonomyTerm;
   additionalContent?: {
     nodes?: DrupalNode[];
-    webform?: object;
+    webform?: WebformObject;
   };
 }
 
@@ -55,25 +54,25 @@ export default function EntityPage({
       {entity.type === 'node--article' && (
         <NodeArticle
           node={entity as DrupalNode}
-          additionalContent={additionalContent as { webform: object }}
+          additionalContent={additionalContent as { webform: WebformObject }}
         />
       )}
       {entity.type === 'node--event' && (
         <NodeEvent
           node={entity as DrupalNode}
-          additionalContent={additionalContent as { webform: object }}
+          additionalContent={additionalContent as { webform: WebformObject }}
         />
       )}
       {entity.type === 'node--person' && (
         <NodePerson
           node={entity as DrupalNode}
-          additionalContent={additionalContent as { webform: object }}
+          additionalContent={additionalContent as { webform: WebformObject }}
         />
       )}
       {entity.type === 'node--place' && (
         <NodePlace
           node={entity as DrupalNode}
-          additionalContent={additionalContent as { webform: object }}
+          additionalContent={additionalContent as { webform: WebformObject }}
         />
       )}
       {entity.type === 'taxonomy_term--article_type' && (
@@ -164,10 +163,7 @@ export async function getStaticProps(
 
   if (type === 'node--event') {
     params
-      .addInclude([
-        'field_event_image.image',
-        'field_event_place',
-      ])
+      .addInclude(['field_event_image.image', 'field_event_place'])
       .addFields('node--place', ['title', 'path']);
   }
 
@@ -212,7 +208,6 @@ export async function getStaticProps(
         entity.field_webform.drupal_internal__id,
       ),
     };
-    console.log(entity.field_webform);
     additionalContent['webform'] = webformObject;
   }
 
