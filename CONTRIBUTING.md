@@ -15,7 +15,7 @@ $ git remote add upstream https://github.com/acquia/next-acms
 3. Create an `.env.local` file in the `/starters/basic-starter` directory in your forked repo and paste in your environment variables from step 1.
 4. From the root directory, run `yarn install` then `yarn dev` to start the development server on `http://localhost:3000`.
 
-   > **_NOTE:_** Next.js preview mode only works in production mode. To run in production mode, run `yarn build` then `yarn start` inside the `starters/basic-starter` directory.
+   > To run in production mode, run `yarn preview` inside the `starters/basic-starter` directory.
 
 5. Now you can make changes to your repo, commit them, push them up to your remote, then create a pull request for `acquia/next-acms` to contribute.
 
