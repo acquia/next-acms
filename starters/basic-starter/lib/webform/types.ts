@@ -37,4 +37,5 @@ export type WebformElement = {
   '#submit__label'?: string;
   '#options'?: object;
   '#description': string;
+  '#required'?: boolean;
 };

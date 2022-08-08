@@ -1,6 +1,7 @@
 import { CustomComponentLibrary, WebformElement } from './types';
+import WebformCheckboxGroup from './components/WebformCheckboxGroup';
 
-const styles = {
+export const styles = {
   btn: {
     backgroundColor: 'rgb(14 165 233)',
     color: 'white',
@@ -18,6 +19,10 @@ const styles = {
     border: '2px solid #e5e7eb',
     margin: '4px',
     borderRadius: '4px',
+  },
+  elementLabel: {
+    fontSize: '16px',
+    color: 'darkViolet',
   },
 };
 
@@ -91,21 +96,7 @@ export function renderWebformElement(
         ))
       );
     case 'radios':
-      return (
-        element['#options'] &&
-        Object.keys(element['#options']).map((option) => (
-          <div className="form-check" key={option}>
-            <input
-              type="radio"
-              name={element['#webform_key']}
-              id={option}
-              value={option}
-              style={styles.checkbox}
-            />
-            <label className="form-check-label">{option}</label>
-          </div>
-        ))
-      );
+      return <WebformCheckboxGroup element={element} error={null} />;
     case 'select':
       return null;
     case 'webform_markup':
@@ -189,9 +180,11 @@ export async function handleSubmit(event, webform_id, webform) {
       'Content-Type': 'application/json',
     },
   });
-  if (response.ok) {
+  if (!response.ok) {
     // Show success.
   }
+  const message = await response.json();
+  console.log('API response', message);
   // Handle error.
 }
 

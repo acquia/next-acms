@@ -5,26 +5,21 @@ export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse,
 ) {
-  try {
-    if (request.method === 'POST') {
-      const url = drupal.buildUrl('/webform_rest/submit?_format=json');
-      // Submit to Drupal.
-      const result = await fetch(url.toString(), {
-        method: 'POST',
-        body: JSON.stringify(request.body),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!result.ok) {
-        console.log(result.json());
-        throw new Error();
-      }
-
-      response.status(200).end();
+  if (request.method === 'POST') {
+    const url = drupal.buildUrl('/webform_rest/submit?_format=json');
+    // Submit to Drupal.
+    const result = await fetch(url.toString(), {
+      method: 'POST',
+      body: JSON.stringify(request.body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!result.ok) {
+      const message = await result.json();
+      // Send error to client.
+      return response.status(result.status).json({ message });
     }
-  } catch (error) {
-    return response.status(400).json(error.message);
+    return response.status(200);
   }
 }
