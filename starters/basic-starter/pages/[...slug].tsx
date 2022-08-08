@@ -5,18 +5,20 @@ import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import { DrupalNode, DrupalTaxonomyTerm } from 'next-drupal';
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 
-import { getMenus } from 'lib/get-menus';
-import { Layout, LayoutProps } from 'components/layout';
-import { NodeArticle } from 'components/node--article';
-import { NodeEvent } from 'components/node--event';
-import { NodePerson } from 'components/node--person';
-import { NodePlace } from 'components/node--place';
-import { NodeBasicPage } from 'components/node--page';
+import { getMenus } from '../lib/get-menus';
+import { Layout, LayoutProps } from '../components/layout';
+import { NodeArticle } from '../components/node--article';
+import { NodeEvent } from '../components/node--event';
+import { NodePerson } from '../components/node--person';
+import { NodePlace } from '../components/node--place';
+import { NodeBasicPage } from '../components/node--page';
 import { drupal } from '../lib/drupal';
 import { TaxonomyArticle } from '../components/taxonomy/taxonomy--article_type';
 import { TaxonomyPerson } from '../components/taxonomy/taxonomy--person_type';
 import { TaxonomyEvent } from '../components/taxonomy/taxonomy--event_type';
 import { TaxonomyPlace } from '../components/taxonomy/taxonomy--place_type';
+import { getPrioritizedStaticPathsFromContext } from '../lib/get-prioritized-static-paths';
+import { GetStaticPathsContext } from 'next/types';
 import { getWebformFields } from '../lib/webform/utils';
 import { WebformObject } from '../lib/webform/types';
 
@@ -103,13 +105,24 @@ export default function EntityPage({
   );
 }
 
-// Use the 'paths' key to specify wanted paths to be pre-rendered at build time.
+// Generates static paths for the first 200 pages to pre-render.
+// The default implementation prioritizes menu links. This can be customized
+// depending on requirements. For example, for a blog, it could make sense
+// to prioritize based on creation time.
 // See https://nextjs.org/docs/basic-features/data-fetching/get-static-paths.
-export async function getStaticPaths(): Promise<GetStaticPathsResult> {
+export async function getStaticPaths(
+  context: GetStaticPathsContext,
+): Promise<GetStaticPathsResult> {
+  // By limiting the number of static paths, larger sites can keep build times
+  // within a reasonable timeframe.
+  const limit = 200;
+  const paths = await getPrioritizedStaticPathsFromContext(
+    context,
+    ENTITY_TYPES,
+  );
+
   return {
-    // By default, individual entity pages are not pre-rendered at build time to
-    // optimize for faster build time.
-    paths: [],
+    paths: paths.slice(0, limit),
     fallback: 'blocking',
   };
 }
