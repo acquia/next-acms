@@ -4,12 +4,16 @@ export const WebformElementWrapper = ({
   children,
   labelFor,
   labelClassName,
+  error,
   ...props
 }) => {
   const css = `
 .required-field:after {
     content: ' *';
     color: red;
+}
+.invalid-feedback {
+  color: red;
 }
         `;
   return (
@@ -23,6 +27,11 @@ export const WebformElementWrapper = ({
         {labelFor}
       </label>
       {children}
+      {error && (
+        <div className="form-text invalid-feedback" {...props}>
+          {error}
+        </div>
+      )}
     </div>
   );
 };

@@ -7,7 +7,7 @@ export const WebformCheckboxGroup = ({ element, error }) => {
       labelFor={element['#title']}
       labelClassName={element['#required'] ? 'required-field' : ''}
       settings={null}
-      error={null}
+      error={error}
     >
       {element['#options'] &&
         Object.keys(element['#options']).map((option) => (

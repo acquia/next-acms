@@ -29,7 +29,11 @@ export const styles = {
 export function renderWebformElement(
   element: WebformElement,
   customComponents: CustomComponentLibrary,
+  error?: string,
 ) {
+  const customComponentAPI = {
+    error,
+  };
   // Render using custom component if provided:
   if (customComponents && customComponents[element['#type']]) {
     const CustomComponent = customComponents[element['#type']];
@@ -96,7 +100,7 @@ export function renderWebformElement(
         ))
       );
     case 'radios':
-      return <WebformCheckboxGroup element={element} error={null} />;
+      return <WebformCheckboxGroup element={element} {...customComponentAPI} />;
     case 'select':
       return null;
     case 'webform_markup':
@@ -139,7 +143,7 @@ const getSelectValues = (options: HTMLOptionsCollection) =>
     [],
   );
 
-const formToJSON = (elements: HTMLFormControlsCollection) =>
+export const formToJSON = (elements: HTMLFormControlsCollection) =>
   [].reduce.call(
     elements,
     (data, element) => {
@@ -158,35 +162,34 @@ const formToJSON = (elements: HTMLFormControlsCollection) =>
     {},
   );
 
-export async function handleSubmit(event, webform_id, webform) {
-  event.preventDefault();
-  const data = formToJSON(event.target.elements);
-  // Post process serialized data:
-  // Some webform elements require specialized data formatting.
-  for (const element in Object.keys(webform.elements)) {
-    if (data[element] && data[element].name) {
-      switch (webform.element.type) {
-        case 'checkbox':
-          data[webform.element] = 1;
-          break;
-      }
-    }
-  }
-  const body = { ...(data as object), ...{ webform_id: webform_id } };
-  const response = await fetch('/api/webform/submit', {
-    method: 'POST',
-    body: JSON.stringify(body),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  if (!response.ok) {
-    // Show success.
-  }
-  const message = await response.json();
-  console.log('API response', message);
-  // Handle error.
-}
+// export async function handleSubmit(event, webform_id, webform) {
+//   event.preventDefault();
+//   const data = formToJSON(event.target.elements);
+//   // Post process serialized data:
+//   // Some webform elements require specialized data formatting.
+//   for (const element in Object.keys(webform.elements)) {
+//     if (data[element] && data[element].name) {
+//       switch (webform.element.type) {
+//         case 'checkbox':
+//           data[webform.element] = 1;
+//           break;
+//       }
+//     }
+//   }
+//   const body = { ...(data as object), ...{ webform_id: webform_id } };
+//   const response = await fetch('/api/webform/submit', {
+//     method: 'POST',
+//     body: JSON.stringify(body),
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   });
+//   if (!response.ok) {
+//     // Show success
+//   }
+//   const message = await response.json();
+//   console.log('API response', message);
+// }
 
 export async function getWebformFields(id) {
   const response = await fetch(`http://localhost:3000/api/webform/${id}`);
