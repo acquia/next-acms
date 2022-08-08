@@ -20,4 +20,4 @@ RUN drush pm:enable --yes acquia_cms_starter
 
 RUN chmod +w ./web/sites/default
 RUN chmod +w ./web/sites/default/settings.php
-RUN echo '@include __DIR__ . "/settings.local.php";' > ./web/sites/default/settings.php
+RUN echo '@include __DIR__ . "/settings.local.php";' >> ./web/sites/default/settings.php
