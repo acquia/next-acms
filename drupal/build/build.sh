@@ -11,7 +11,7 @@ docker run --publish 3306:3306 --detach --name build_database --env MYSQL_ROOT_P
 
 # Build the image, which will install Acquia CMS Headless. Allow access to the
 # host networking stack so that the MySQL container can be contacted.
-docker build --no-cache --tag phenaproxima/acquia_cms:headless --network host .
+docker build --tag phenaproxima/acquia_cms:headless --network host --build-arg CACHE_DATE=$(date +%Y-%m-%d:%H:%M:%S) .
 
 # Run the built image in an ephemeral container to extract the .env file and
 # database dump.
