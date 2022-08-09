@@ -10,7 +10,7 @@ export class WebformError extends Error {
 
     this.response = response;
   }
-};
+}
 
 /**
  * Errors returned by Drupal.
