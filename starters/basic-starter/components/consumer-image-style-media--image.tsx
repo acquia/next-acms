@@ -1,22 +1,14 @@
-import Image, { ImageProps } from 'next/image';
-import { DrupalMedia } from 'next-drupal';
+import Image from 'next/image';
 
-import { absoluteURL } from 'lib/absolute-url';
+import { MediaImageProps } from './media--image';
 
-export interface MediaImageProps extends Partial<ImageProps> {
-  media: DrupalMedia;
-}
-
-MediaImage.type = 'media--image';
-
-export function MediaImage({
+export function ConsumerImageStyleMediaImage({
   media,
   layout = 'responsive',
   objectFit,
+  priority,
   width,
   height,
-  priority,
-  sizes,
   ...props
 }: MediaImageProps) {
   const image = media?.image;
@@ -25,24 +17,24 @@ export function MediaImage({
     return null;
   }
 
+  const consumerImageStyle = image.links['coh_medium'];
   const sizeProps =
     layout === 'fill'
       ? null
       : {
-          width: width || image.resourceIdObjMeta.width,
-          height: height || image.resourceIdObjMeta.height,
+          width: width || consumerImageStyle.meta.width,
+          height: height || consumerImageStyle.meta.height,
         };
 
   return (
     <div className="media__content image__wrapper" {...props}>
       <Image
-        src={absoluteURL(image.uri.url)}
+        src={consumerImageStyle.href}
         layout={layout}
         objectFit={objectFit}
         alt={image.resourceIdObjMeta.alt || 'Image'}
         title={image.resourceIdObjMeta.title}
         priority={priority}
-        sizes={sizes}
         {...sizeProps}
       />
     </div>
