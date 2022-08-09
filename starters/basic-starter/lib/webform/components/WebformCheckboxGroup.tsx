@@ -5,7 +5,7 @@ export const WebformCheckboxGroup = ({ element, error }) => {
   return (
     <WebformElementWrapper
       labelFor={element['#title']}
-      labelClassName={element['#required'] ? 'required-field' : ''}
+      labelClassName={element['#required']}
       settings={null}
       error={error}
     >
@@ -13,7 +13,7 @@ export const WebformCheckboxGroup = ({ element, error }) => {
         Object.keys(element['#options']).map((option) => (
           <div className="form-check" key={option}>
             <input
-              type="radio"
+              type={element.type}
               name={element['#webform_key']}
               id={option}
               value={option}

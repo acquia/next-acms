@@ -1,5 +1,7 @@
 import { CustomComponentLibrary, WebformElement } from './types';
 import WebformCheckboxGroup from './components/WebformCheckboxGroup';
+import WebformText from './components/WebformText';
+import WebformTextArea from "./components/WebformTextArea";
 
 export const styles = {
   btn: {
@@ -45,23 +47,9 @@ export function renderWebformElement(
     case 'number':
     case 'email':
     case 'hidden':
-      return (
-        <input
-          placeholder={element['#title']}
-          id={element['#webform_key']}
-          name={element['#webform_key']}
-          style={styles.textArea}
-        />
-      );
+      return <WebformText element={element} error={error} />;
     case 'textarea':
-      return (
-        <textarea
-          placeholder={element['#title']}
-          id={element['#webform_key']}
-          name={element['#webform_key']}
-          style={styles.textArea}
-        />
-      );
+      return <WebformTextArea element={element} error={error} />;
     case 'checkbox':
       return (
         <div>
@@ -85,22 +73,18 @@ export function renderWebformElement(
       );
     case 'checkboxes':
       return (
-        element['#options'] &&
-        Object.keys(element['#options']).map((option) => (
-          <div id={element['#webform_key']} key={option}>
-            <input
-              type="checkbox"
-              name={element['#webform_key']}
-              id={option}
-              value={option}
-              style={styles.checkbox}
-            />
-            <label className="form-check-label">{option}</label>
-          </div>
-        ))
+        <WebformCheckboxGroup
+          element={{ ...element, type: 'checkbox' }}
+          {...customComponentAPI}
+        />
       );
     case 'radios':
-      return <WebformCheckboxGroup element={element} {...customComponentAPI} />;
+      return (
+        <WebformCheckboxGroup
+          element={{ ...element, type: 'radio' }}
+          {...customComponentAPI}
+        />
+      );
     case 'select':
       return null;
     case 'webform_markup':

@@ -22,7 +22,7 @@ export const WebformElementWrapper = ({
       <label
         style={styles.elementLabel}
         htmlFor={labelFor}
-        className={labelClassName}
+        className={labelClassName ? 'required-field' : ''}
       >
         {labelFor}
       </label>
