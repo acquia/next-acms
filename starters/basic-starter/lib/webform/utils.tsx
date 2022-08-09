@@ -1,7 +1,8 @@
 import { CustomComponentLibrary, WebformElement } from './types';
 import WebformCheckboxGroup from './components/WebformCheckboxGroup';
 import WebformText from './components/WebformText';
-import WebformTextArea from "./components/WebformTextArea";
+import WebformTextArea from './components/WebformTextArea';
+import WebformCheckbox from './components/WebformCheckbox';
 
 export const styles = {
   btn: {
@@ -52,23 +53,16 @@ export function renderWebformElement(
       return <WebformTextArea element={element} error={error} />;
     case 'checkbox':
       return (
-        <div>
-          <input
-            type="checkbox"
-            id={element['#webform_key']}
-            name={element['#webform_key']}
-            style={styles.checkbox}
-          />
-          <label className="form-check-label">{element['#description']}</label>
-        </div>
+        <WebformCheckbox
+          element={{ ...element, type: 'checkbox' }}
+          error={error}
+        />
       );
     case 'radio':
       return (
-        <input
-          type="radio"
-          id={element['#webform_key']}
-          name={element['#webform_key']}
-          style={styles.checkbox}
+        <WebformCheckbox
+          element={{ ...element, type: 'radio' }}
+          error={error}
         />
       );
     case 'checkboxes':
@@ -145,35 +139,6 @@ export const formToJSON = (elements: HTMLFormControlsCollection) =>
     },
     {},
   );
-
-// export async function handleSubmit(event, webform_id, webform) {
-//   event.preventDefault();
-//   const data = formToJSON(event.target.elements);
-//   // Post process serialized data:
-//   // Some webform elements require specialized data formatting.
-//   for (const element in Object.keys(webform.elements)) {
-//     if (data[element] && data[element].name) {
-//       switch (webform.element.type) {
-//         case 'checkbox':
-//           data[webform.element] = 1;
-//           break;
-//       }
-//     }
-//   }
-//   const body = { ...(data as object), ...{ webform_id: webform_id } };
-//   const response = await fetch('/api/webform/submit', {
-//     method: 'POST',
-//     body: JSON.stringify(body),
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//   });
-//   if (!response.ok) {
-//     // Show success
-//   }
-//   const message = await response.json();
-//   console.log('API response', message);
-// }
 
 export async function getWebformFields(id) {
   const response = await fetch(`http://localhost:3000/api/webform/${id}`);
