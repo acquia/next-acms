@@ -26,16 +26,28 @@ export const styles = {
   textArea: {
     border: '2px solid #e5e7eb',
     margin: '4px',
-    borderRadius: '4px',
+    borderRadius: '0.375rem',
   },
   elementLabel: {
     fontSize: '16px',
     color: 'darkViolet',
   },
   form: {
-    border: '1px solid darkViolet',
     padding: '20px',
     backgroundColor: 'lavender',
+    borderRadius: '0.375rem',
+  },
+  formError: {
+    backgroundColor: '#FEE2E2',
+    color: 'red',
+    padding: '10px',
+    borderRadius: '0.375rem',
+  },
+  formSuccess: {
+    backgroundColor: '#DCFCE7',
+    color: 'green',
+    padding: '10px',
+    borderRadius: '0.375rem',
   },
 };
 
@@ -100,9 +112,9 @@ export function renderWebformElement(
           {element['#submit__label'] || DEFAULT_SUBMIT_LABEL}
         </button>
       );
-    // Render as JSON string if unknown
+    // Render as JSON string if unknown.
     default:
-      return <WebformDebug element={element} error={error}></WebformDebug>;
+      return <WebformDebug element={element} error={error} />;
   }
 }
 

@@ -20,6 +20,7 @@ export default async function handler(
       // Send error to client.
       return response.status(result.status).json({ message });
     }
-    return response.status(200);
+    response.end(JSON.stringify(result));
+    response.status(200);
   }
 }
