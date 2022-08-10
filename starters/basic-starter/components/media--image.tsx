@@ -3,7 +3,7 @@ import { DrupalMedia } from 'next-drupal';
 
 import { absoluteURL } from 'lib/absolute-url';
 
-export interface MediaImageProps extends Partial<ImageProps> {
+interface MediaImageProps extends Partial<ImageProps> {
   media: DrupalMedia;
   imageStyle?: string;
 }
