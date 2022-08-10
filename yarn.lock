@@ -5571,6 +5571,11 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
+next-acms@^1.0.0-beta2:
+  version "1.0.0-beta2"
+  resolved "https://registry.yarnpkg.com/next-acms/-/next-acms-1.0.0-beta2.tgz#2cced7ff9e8d557c0f7ea620d72c98878533029b"
+  integrity sha512-WV1boHjcidhUtXNZa4lTFDPnU7ngkfe5B+pWk6v7waarVWSgNrfR/jFvpgaaoznP8YCJTgwVQksdhSAYGBG4cQ==
+
 next-drupal@^1.1.1, next-drupal@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/next-drupal/-/next-drupal-1.4.0.tgz#6f7ccb2125f4db6b3285e759d4d6b6c0223bbca7"
