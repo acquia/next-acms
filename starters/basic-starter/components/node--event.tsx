@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { formatDate } from 'lib/format-date';
 import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
-import { ConsumerImageStyleMediaImage } from './consumer-image-style-media--image';
 
 export function NodeEvent({ node, ...props }) {
   return (
@@ -12,9 +11,9 @@ export function NodeEvent({ node, ...props }) {
         {node.field_event_image && (
           <Link href={node.path.alias} passHref>
             <a className="block overflow-hidden no-underline rounded-md">
-              <ConsumerImageStyleMediaImage
+              <MediaImage
                 media={node.field_event_image}
-                priority
+                imageStyle="coh_medium"
               />
             </a>
           </Link>
