@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { WebformProps } from './types';
-import { formToJSON, renderWebformElement } from './utils';
+import {formToJSON, renderWebformElement, styles} from './utils';
 
 export class WebformError extends Error {
   response: any;
@@ -58,7 +58,7 @@ export const Webform = ({
   };
 
   return (
-    <form onSubmit={(e) => submitHandler(e)}>
+    <form style={styles.form} onSubmit={(e) => submitHandler(e)}>
       {Object.values(webformObject.elements).map((el) =>
         renderWebformElement(el, customComponents, errors[el['#webform_key']]),
       )}

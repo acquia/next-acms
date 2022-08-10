@@ -1,8 +1,13 @@
-import { CustomComponentLibrary, WebformElement } from './types';
+import {
+  CustomComponentLibrary,
+  DEFAULT_SUBMIT_LABEL,
+  WebformElement,
+} from './types';
 import WebformCheckboxGroup from './components/WebformCheckboxGroup';
 import WebformText from './components/WebformText';
 import WebformTextArea from './components/WebformTextArea';
 import WebformCheckbox from './components/WebformCheckbox';
+import WebformDebug from './components/WebformDebug';
 
 export const styles = {
   btn: {
@@ -27,6 +32,11 @@ export const styles = {
     fontSize: '16px',
     color: 'darkViolet',
   },
+  form: {
+    border: '1px solid darkViolet',
+    padding: '20px',
+    backgroundColor: 'lavender',
+  },
 };
 
 export function renderWebformElement(
@@ -40,7 +50,7 @@ export function renderWebformElement(
   // Render using custom component if provided:
   if (customComponents && customComponents[element['#type']]) {
     const CustomComponent = customComponents[element['#type']];
-    return <CustomComponent element={element} />;
+    return <CustomComponent element={element} {...customComponentAPI} />;
   }
   switch (element['#type']) {
     case 'textfield':
@@ -87,12 +97,12 @@ export function renderWebformElement(
     case 'webform_actions':
       return (
         <button type="submit" style={styles.btn}>
-          {element['#submit__label']}
+          {element['#submit__label'] || DEFAULT_SUBMIT_LABEL}
         </button>
       );
+    // Render as JSON string if unknown
     default:
-      // @todo: add better default
-      return 'Element not supported';
+      return <WebformDebug element={element} error={error}></WebformDebug>;
   }
 }
 
