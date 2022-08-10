@@ -38,6 +38,10 @@ jobs:
         run: |
           docker cp ./drupal/database.php.gz drupal:/opt/drupal/web
           docker exec --workdir /opt/drupal/web drupal php ./core/scripts/db-tools.php import database.php.gz
+      - name: Install Consumer Image Styles
+        run: |
+          docker exec drupal composer require drupal/consumer_image_styles
+          drush pm:enable --yes consumer_image_styles
       - name: Ensure Drupal is installed
         run: curl --fail http://localhost/jsonapi
 
