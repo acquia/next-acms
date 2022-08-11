@@ -1,5 +1,5 @@
 import React from 'react';
-import WebformElementWrapper from './WebformElementWrapper';
+import WebformElementWrapper from '../src/components/WebformElementWrapper';
 
 // Example custom component
 export const WebformDate = ({ element, error }) => {

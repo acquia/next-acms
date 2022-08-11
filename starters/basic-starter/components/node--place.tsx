@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
 
-export function NodePlace({ node, additionalContent, ...props }) {
+export function NodePlace({ node, ...props }) {
   return (
     <article {...props}>
       <div className="grid items-start w-full max-w-4xl gap-10 px-6 pt-12 mx-auto md:grid-cols-2">

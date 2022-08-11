@@ -3,9 +3,9 @@ import { WebformProps } from './types';
 import { formToJSON, renderWebformElement, styles } from './utils';
 
 export class WebformError extends Error {
-  response: any;
+  response: string;
 
-  constructor(response: any) {
+  constructor(response: string) {
     super();
 
     this.response = response;

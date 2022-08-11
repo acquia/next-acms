@@ -19,8 +19,8 @@ import { TaxonomyEvent } from '../components/taxonomy/taxonomy--event_type';
 import { TaxonomyPlace } from '../components/taxonomy/taxonomy--place_type';
 import { getPrioritizedStaticPathsFromContext } from '../lib/get-prioritized-static-paths';
 import { GetStaticPathsContext } from 'next/types';
-import { getWebformFields } from '../lib/webform/utils';
-import { WebformObject } from '../lib/webform/types';
+import { getWebformFields } from 'nextjs-drupal-webform/src/utils';
+import { WebformObject } from 'nextjs-drupal-webform/src/types';
 
 // List of all the entity types handled by this route.
 const ENTITY_TYPES = [

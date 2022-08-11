@@ -4,7 +4,7 @@ import { formatDate } from 'lib/format-date';
 import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
 
-export function NodeEvent({ node, additionalContent, ...props }) {
+export function NodeEvent({ node, ...props }) {
   return (
     <article className="container px-6 py-10 mx-auto" {...props}>
       <div className="grid-cols-2 gap-10 p-4 mx-auto border rounded-md md:grid">

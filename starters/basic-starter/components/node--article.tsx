@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { formatDate } from 'lib/format-date';
 import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
-import { Webform } from '../lib/webform/Webform';
-import { WebformDate } from '../lib/webform/components/WebformDate';
+import { Webform } from 'nextjs-drupal-webform/src/Webform';
+import { WebformDate } from 'nextjs-drupal-webform/examples/WebformDate';
 
 export function NodeArticle({ node, additionalContent, ...props }) {
   return (

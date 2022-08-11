@@ -1,7 +1,8 @@
 import WebformElementWrapper from './WebformElementWrapper';
 import { styles } from '../utils';
+import { WebformCustomComponent } from '../types';
 
-export const WebformCheckbox = ({ element, error }) => {
+export const WebformCheckbox: WebformCustomComponent = ({ element, error }) => {
   return (
     <WebformElementWrapper
       labelFor={element['#title']}

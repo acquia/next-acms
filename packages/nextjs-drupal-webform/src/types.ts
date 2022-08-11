@@ -38,4 +38,6 @@ export type WebformElement = {
   '#options'?: object;
   '#description': string;
   '#required'?: boolean;
+  // checkbox or radio
+  type: string;
 };
