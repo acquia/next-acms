@@ -32,6 +32,7 @@ export function NodePlace({ node, ...props }) {
           {node.field_place_telephone && <p>{node.field_place_telephone}</p>}
         </div>
       </div>
+
       <div className="max-w-2xl px-6 py-10 mx-auto">
         {node.body?.processed && (
           <div className="prose">
