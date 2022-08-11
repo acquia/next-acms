@@ -8,6 +8,7 @@ import WebformText from './components/WebformText';
 import WebformTextArea from './components/WebformTextArea';
 import WebformCheckbox from './components/WebformCheckbox';
 import WebformDebug from './components/WebformDebug';
+import WebformAddress from "./components/WebformAddress";
 
 export const styles = {
   btn: {
@@ -106,6 +107,8 @@ export function renderWebformElement(
     case 'webform_markup':
     case 'processed_text':
       return null;
+    case 'webform_address':
+      return <WebformAddress element={element} error={error} />;
     case 'webform_actions':
       return (
         <button type="submit" style={styles.btn}>
@@ -135,6 +138,9 @@ const isCheckbox = (element): element is HTMLInputElement =>
 const isMultiSelect = (element: any): element is HTMLSelectElement =>
   element.options && (element as HTMLSelectElement).multiple;
 
+const isCompositeElement = (element: any): element is any =>
+  element['#webform_composite_elements'];
+
 const getSelectValues = (options: HTMLOptionsCollection) =>
   [].reduce.call(
     options,
@@ -153,6 +159,8 @@ export const formToJSON = (elements: HTMLFormControlsCollection) =>
           data[element.name] = (data[element.name] || []).concat(element.value);
         } else if (isMultiSelect(element)) {
           data[element.name] = getSelectValues(element.options);
+        } else if (isCompositeElement(element)) {
+          data[element.name] =
         } else {
           data[element.name] = element.value;
         }

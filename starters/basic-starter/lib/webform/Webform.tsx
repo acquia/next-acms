@@ -64,14 +64,14 @@ export const Webform = ({
 
   return (
     <form style={styles.form} onSubmit={(e) => submitHandler(e)}>
-      {status === 'error' ? (
-        <div style={styles.formError}>An error occurred. Please try again.</div>
-      ) : null}
-      {status === 'success' ? (
-        <div style={styles.formSuccess}>
-          Your submission has been sent. Thank you.
-        </div>
-      ) : null}
+      {/*{status === 'error' ? (*/}
+      {/*  <div style={styles.formError}>An error occurred. Please try again.</div>*/}
+      {/*) : null}*/}
+      {/*{status === 'success' ? (*/}
+      {/*  <div style={styles.formSuccess}>*/}
+      {/*    Your submission has been sent. Thank you.*/}
+      {/*  </div>*/}
+      {/*) : null}*/}
       {Object.values(webformObject.elements).map((el) =>
         renderWebformElement(el, customComponents, errors[el['#webform_key']]),
       )}

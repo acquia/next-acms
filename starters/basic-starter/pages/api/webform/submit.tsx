@@ -6,7 +6,8 @@ export default async function handler(
   response: NextApiResponse,
 ) {
   if (request.method === 'POST') {
-    const url = drupal.buildUrl('/webform_rest/submit?_format=json');
+    console.log('request body', request.body);
+    const url = drupal.buildUrl('/webform_rest/submt?_format=json');
     // Submit to Drupal.
     const result = await fetch(url.toString(), {
       method: 'POST',
