@@ -30,14 +30,27 @@ export function MediaImage({
   let srcURL;
 
   // Use the image style to render an image if specified.
-  if (imageStyle && image.links[imageStyle]) {
-    const imageStyleSource = image.links[imageStyle];
-    sizeProps = {
-      width: width || imageStyleSource.meta.width,
-      height: height || imageStyleSource.meta.height,
-    };
-    srcURL = imageStyleSource.href;
+  if (imageStyle) {
+    if (image.links) {
+      if (image.links[imageStyle]) {
+        const imageStyleSource = image.links[imageStyle];
+        sizeProps = {
+          width: width || imageStyleSource.meta.width,
+          height: height || imageStyleSource.meta.height,
+        };
+        srcURL = imageStyleSource.href;
+      } else {
+        console.warn(
+          `${imageStyle} image style does not exist. You must configure the consumer to include the image style to be used by this application.`,
+        );
+      }
+    } else {
+      console.warn(
+        'Image styles not found. The consumer_image_styles module must be installed and enabled for the consumer of this application.',
+      );
+    }
   } else {
+    // Otherwise use the image properties.
     sizeProps =
       layout === 'fill'
         ? null
