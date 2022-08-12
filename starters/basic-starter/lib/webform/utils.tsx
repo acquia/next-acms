@@ -8,7 +8,7 @@ import WebformText from './components/WebformText';
 import WebformTextArea from './components/WebformTextArea';
 import WebformCheckbox from './components/WebformCheckbox';
 import WebformDebug from './components/WebformDebug';
-import WebformAddress from "./components/WebformAddress";
+import WebformAddress from './components/WebformAddress';
 
 export const styles = {
   btn: {
@@ -159,8 +159,8 @@ export const formToJSON = (elements: HTMLFormControlsCollection) =>
           data[element.name] = (data[element.name] || []).concat(element.value);
         } else if (isMultiSelect(element)) {
           data[element.name] = getSelectValues(element.options);
-        } else if (isCompositeElement(element)) {
-          data[element.name] =
+          // } else if (isCompositeElement(element)) {
+          //   data[element.name] = '';
         } else {
           data[element.name] = element.value;
         }
