@@ -28,6 +28,7 @@ export function MediaImage({
   }
   let sizeProps;
   let srcURL;
+  let useImageStyle = false;
 
   // Use the image style to render an image if specified.
   if (imageStyle) {
@@ -39,6 +40,7 @@ export function MediaImage({
           height: height || imageStyleSource.meta.height,
         };
         srcURL = imageStyleSource.href;
+        useImageStyle = true;
       } else {
         console.warn(
           `${imageStyle} image style does not exist. You must configure the consumer to include the image style to be used by this application.`,
@@ -49,7 +51,8 @@ export function MediaImage({
         'Image styles not found. The consumer_image_styles module must be installed and enabled for the consumer of this application.',
       );
     }
-  } else {
+  }
+  if (!useImageStyle) {
     // Otherwise use the image properties.
     sizeProps =
       layout === 'fill'
