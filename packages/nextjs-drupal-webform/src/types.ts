@@ -13,6 +13,7 @@ export type WebformCustomComponentProps = {
 export type WebformCustomComponent = React.FC<WebformCustomComponentProps>;
 
 export type CustomComponentLibrary = {
+  // name should be the webform element type.
   [name: string]: WebformCustomComponent;
 };
 
