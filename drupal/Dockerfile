@@ -1,5 +1,20 @@
 FROM drupal:9-apache
 
+###
+#
+# This will build an Acquia CMS Headless image, including a dump of the
+# Next.js environment variables and the database (which are tightly
+# coupled together.)
+#
+# The build requires that a MySQL server be running on the host machine
+# and listening on port 3306. Right now, it expects to be able to connect
+# as 'root' (without a password), to an empty database called 'drupal'.
+#
+# An example command to build the image:
+# docker build --network host --build-arg CACHE_DATE=$(date +%Y-%m-%d:%H:%M:%S) .
+#
+###
+
 # Install additional system dependencies needed to install Composer
 # dependencies and compile the intl PHP extension, which is required
 # by one of Acquia CMS's indirect dependencies.
@@ -39,10 +54,18 @@ RUN composer require drupal/acquia_cms_common:^1.4 drupal/acquia_cms_starter dru
 # out. Since we need to regenerate the database dump, we always want to 
 # reinstall Acquia CMS and its demo content.
 ARG CACHE_DATE=not_a_date
-RUN DRUSH_COMMAND_SITE_INSTALL_OPTIONS_DB_URL=mysql://drupal:drupal@host.docker.internal:3306/drupal DRUSH_COMMAND_SITE_INSTALL_OPTIONS_ACCOUNT_PASS=admin ./vendor/bin/acms acms:install --no-interaction acquia_cms_headless
+RUN DRUSH_COMMAND_SITE_INSTALL_OPTIONS_DB_URL=mysql://root@host.docker.internal:3306/drupal DRUSH_COMMAND_SITE_INSTALL_OPTIONS_ACCOUNT_PASS=admin acms acms:install --no-interaction acquia_cms_headless
 RUN drush pm:enable --yes acquia_cms_starter
 
 # Ensure that consumers can override Drupal settings to suit their needs.
 RUN chmod +w ./web/sites/default
 RUN chmod +w ./web/sites/default/settings.php
 RUN echo '@include __DIR__ . "/settings.local.php";' >> ./web/sites/default/settings.php
+
+# Initialize the Next.js site and dump the generated credentials into a .env file.
+COPY init-env.php /opt/drupal
+RUN drush php:script init-env.php > .env
+
+# Dump the database.
+RUN php ./web/core/scripts/db-tools.php dump-database-d8-mysql > database.php
+RUN gzip database.php
