@@ -33,7 +33,7 @@ RUN sed -i -e 's!docroot!web!g' composer.json
 
 # Require specific constraints for certain dependencies to prevent
 # Composer from installing known broken versions.
-RUN composer require drupal/acquia_cms_common:^1.4 drupal/acquia_cms_starter drupal/acquia_cms_article:^1.3.5 drupal/acquia_cms_event:^1.3.5 drupal/acquia_cms_place:^1.3.5 drupal/acquia_cms_person:^1.3.5 drupal/acquia_cms_page:^1.3.5
+RUN composer require drupal/acquia_cms_common:^1.4 drupal/acquia_cms_starter drupal/acquia_cms_article:^1.3.5 drupal/acquia_cms_event:^1.3.5 drupal/acquia_cms_place:^1.3.5 drupal/acquia_cms_person:^1.3.5 drupal/acquia_cms_page:^1.3.5 drupal/address:^1.11
 
 # This CACHE_DATE argument disables the Docker build cache from here on
 # out. Since we need to regenerate the database dump, we always want to 
