@@ -12,15 +12,17 @@ export const WebformAddress = ({ element, error }) => {
     >
       {Object.keys(compositeElements).map((name) => {
         {
-          console.log('comp elements.name', compositeElements[name]);
-          console.log('key', name);
+          // console.log('comp elements.name', compositeElements[name]);
+          // console.log('key', name);
         }
         // return null;
         return (
           <input
             key={compositeElements[name]['#title']}
+            id={name}
+            className="composite"
             placeholder={compositeElements[name]['#title']}
-            name={name}
+            name={compositeElements[name]['#webform_composite_parent_key']}
             style={styles.textArea}
           />
         );

@@ -138,8 +138,10 @@ const isCheckbox = (element): element is HTMLInputElement =>
 const isMultiSelect = (element: any): element is HTMLSelectElement =>
   element.options && (element as HTMLSelectElement).multiple;
 
-const isCompositeElement = (element: any): element is any =>
-  element['#webform_composite_elements'];
+const isCompositeElement = (element: any): boolean => {
+  console.log('element', element);
+  return element.className == 'composite';
+};
 
 const getSelectValues = (options: HTMLOptionsCollection) =>
   [].reduce.call(
@@ -159,8 +161,11 @@ export const formToJSON = (elements: HTMLFormControlsCollection) =>
           data[element.name] = (data[element.name] || []).concat(element.value);
         } else if (isMultiSelect(element)) {
           data[element.name] = getSelectValues(element.options);
-          // } else if (isCompositeElement(element)) {
-          //   data[element.name] = '';
+        } else if (isCompositeElement(element)) {
+          data[element.name] = {
+            ...data[element.name],
+            [element.id]: element.value,
+          };
         } else {
           data[element.name] = element.value;
         }

@@ -73,7 +73,11 @@ export const Webform = ({
       {/*  </div>*/}
       {/*) : null}*/}
       {Object.values(webformObject.elements).map((el) =>
-        renderWebformElement(el, customComponents, errors[el['#webform_key']]),
+        renderWebformElement(
+          el,
+          customComponents,
+          errors ? errors[el['#webform_key']] : null,
+        ),
       )}
     </form>
   );
