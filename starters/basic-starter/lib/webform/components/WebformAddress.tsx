@@ -1,6 +1,7 @@
 import WebformElementWrapper from './WebformElementWrapper';
 import { styles } from '../utils';
 
+// @todo: add functionality for options dropdown
 export const WebformAddress = ({ element, error }) => {
   const compositeElements = element['#webform_composite_elements'];
   return (
