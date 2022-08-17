@@ -11,10 +11,46 @@ FROM drupal:9-apache
 # and access an empty database called `drupal`. You can pass the MYSQL_HOST,
 # MYSQL_USER, MYSQL_PASSWORD, and MYSQL_DATABASE arguments to override this.
 #
-# An example command to build the image:
+# An example command to build the image without tagging it:
 #
 # docker build --network host --build-arg CACHE_DATE=$(date +%Y-%m-%d:%H:%M:%S) .
 #
+# You can see the built image listed by `docker image ls`.
+#
+# To build it and tag it as `phenaproxima/acquia_cms:headless` so you can push
+# it to Docker Hub:
+#
+# docker build --network host --build-arg CACHE_DATE=$(date +%Y-%m-%d:%H:%M:%S) --tag phenaproxima/acquia_cms:headless .
+#
+# To start the container and make it listen on port 8080:
+#
+# docker run --detach --publish 8080:80 --name drupal IMAGE_TAG_OR_ID
+#
+# You can replace the name `drupal` with any name you want, or let Docker
+# automatically generate one (use `docker ps` to get the generated name). If
+# you want the container to automatically remove itself when you stop it
+# (useful for testing), add the `--rm` flag before the image tag or ID.
+# `docker stop CONTAINER_NAME_OR_ID` will stop the container.
+
+# To run the container, you'll need to have a database backend running. You can
+# either use the MySQL server that you used to build the image, or you can use
+# a different one (it does NOT need to be MySQL). If you use a different one,
+# you'll want to define its credentials in a `settings.local.php` file which
+# you copy into the running container like so:
+#
+# docker cp settings.local.php CONTAINER_NAME_OR_ID:/opt/drupal/web/sites/default
+#
+# Then, you'll want to import the database dump:
+#
+# docker exec --interactive --tty --workdir /opt/drupal/web CONTAINER_NAME_OR_ID php ./core/scripts/db-tools.php import ../database.php.gz
+#
+# Once this is done, you should be able to visit http://127.0.0.1:8080 and see
+# the running Drupal site!
+#
+# To retrieve the .env file containing the Next.js environment variables, use
+# this command:
+#
+# docker cp CONTAINER_NAME_OR_ID:/opt/drupal/.env .
 ###
 
 # Install additional system dependencies needed to install Composer
@@ -61,7 +97,7 @@ ARG MYSQL_USER=root
 ARG MYSQL_PASSWORD
 ARG MYSQL_DATABASE=drupal
 # This CACHE_DATE argument disables the Docker build cache from here on
-# out. Since we need to regenerate the database dump, we always want to 
+# out. Since we need to regenerate the database dump, we always want to
 # reinstall Acquia CMS and its demo content.
 RUN DRUSH_COMMAND_SITE_INSTALL_OPTIONS_DB_URL=mysql://$MYSQL_USER:$MYSQL_PASSWORD@$MYSQL_HOST/$MYSQL_DATABASE DRUSH_COMMAND_SITE_INSTALL_OPTIONS_ACCOUNT_PASS=admin acms acms:install --no-interaction acquia_cms_headless
 RUN drush pm:enable --yes acquia_cms_starter
