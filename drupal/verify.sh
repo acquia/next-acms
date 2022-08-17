@@ -12,9 +12,5 @@ if [ $? != 0 ]; then
   docker exec --interactive --tty --workdir /opt/drupal/web drupal php ./core/scripts/db-tools.php import ../database.php.gz
 fi
 
-if [ ! -f .env ]; then
-  docker cp drupal:/opt/drupal/.env .
-fi
-
 curl --fail --silent http://127.0.0.1:8080/jsonapi
 docker stop drupal
