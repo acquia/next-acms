@@ -36,8 +36,8 @@ jobs:
       - uses: actions/checkout@v3
       - name: Import database
         run: |
-          docker cp ./drupal/settings.ci.php drupal:/opt/drupal/web/sites/default/settings.local.php
-          docker exec --workdir /opt/drupal/web drupal php ./core/scripts/db-tools.php import ../database.php.gz
+          docker cp ./drupal/database.php.gz drupal:/opt/drupal/web
+          docker exec --workdir /opt/drupal/web drupal php ./core/scripts/db-tools.php import database.php.gz
       - name: Ensure Drupal is installed
         run: curl --fail http://localhost/jsonapi
 
@@ -72,7 +72,7 @@ jobs:
 
       - name: Build and start application
         run: |
-          docker cp drupal:/opt/drupal/.env ./starters/basic-starter/.env.local
+          cp ./drupal/.env ./starters/basic-starter/.env.local
           yarn build
           yarn dev &
           sleep 8
