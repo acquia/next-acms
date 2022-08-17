@@ -4,6 +4,7 @@
 # serving JSON:API data.
 #
 docker run --detach --publish 8080:80 --name drupal --rm phenaproxima/acquia_cms:headless
+# Give the container time to start Apache.
 sleep 2
 curl --fail --silent http://127.0.0.1:8080/jsonapi
 docker stop drupal
