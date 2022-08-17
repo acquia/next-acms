@@ -1,0 +1,8 @@
+// Default settings for the container image that allow it to run without
+// any external dependencies, and for consumers to override settings as
+// necessary.
+$databases['default']['default'] = [
+  'driver' => 'sqlite',
+  'database' => 'db.sqlite',
+];
+@include __DIR__ . '/settings.local.php';
