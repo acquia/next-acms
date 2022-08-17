@@ -39,7 +39,9 @@ jobs:
           docker cp ./drupal/settings.ci.php drupal:/opt/drupal/web/sites/default/settings.local.php
           docker exec drupal ./import-db
       - name: Ensure Drupal is installed
-        run: curl --fail http://localhost/jsonapi
+        run: |
+          curl --fail http://localhost/jsonapi
+          docker exec drupal drush status
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
