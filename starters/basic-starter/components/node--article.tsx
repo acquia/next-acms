@@ -23,12 +23,14 @@ export function NodeArticle({ node, additionalContent, ...props }) {
         ) : null}
         {node.created && <span> on {formatDate(node.created)}</span>}
       </p>
-      <Webform
-        webformObject={additionalContent.webform}
-        id={additionalContent.webform.drupal_internal__id}
-        key={additionalContent.webform.drupal_internal__id}
-        // customComponents={{ date: WebformDate }}
-      />
+      {additionalContent.webform ? (
+        <Webform
+          webformObject={additionalContent.webform}
+          id={additionalContent.webform.drupal_internal__id}
+          key={additionalContent.webform.drupal_internal__id}
+          // customComponents={{ date: WebformDate }}
+        />
+      ) : null}
       {node.field_article_image && (
         <div className="my-6 overflow-hidden rounded-md">
           <MediaImage

@@ -218,6 +218,7 @@ export async function getStaticProps(
       status: entity.field_webform.status,
       elements: await getWebformFields(
         entity.field_webform.drupal_internal__id,
+        drupal,
       ),
     };
     additionalContent['webform'] = webformObject;
