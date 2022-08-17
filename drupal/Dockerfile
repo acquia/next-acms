@@ -31,18 +31,14 @@ FROM drupal:9-apache
 # you want the container to automatically remove itself when you stop it
 # (useful for testing), add the `--rm` flag before the image tag or ID.
 # `docker stop CONTAINER_NAME_OR_ID` will stop the container.
-
-# To run the container, you'll need to have a database backend running. You can
-# either use the MySQL server that you used to build the image, or you can use
-# a different one (it does NOT need to be MySQL). If you use a different one,
-# you'll want to define its credentials in a `settings.local.php` file which
-# you copy into the running container like so:
+#
+# By default, the container will use SQLite as its database backend. You can
+# override that by defining its credentials in a `settings.local.php` file,
+# copying it into the running container, and re-importing the database dump
+# like so:
 #
 # docker cp settings.local.php CONTAINER_NAME_OR_ID:/opt/drupal/web/sites/default
-#
-# Then, you'll want to import the database dump:
-#
-# docker exec --interactive --tty --workdir /opt/drupal/web CONTAINER_NAME_OR_ID php ./core/scripts/db-tools.php import ../database.php.gz
+# docker exec --interactive --tty CONTAINER_NAME_OR_ID ./import-db
 #
 # Once this is done, you should be able to visit http://127.0.0.1:8080 and see
 # the running Drupal site!
@@ -80,6 +76,7 @@ ENV COMPOSER_HOME=/tmp/.composer
 RUN composer create-project --no-install acquia/drupal-recommended-project /opt/drupal
 
 WORKDIR /opt/drupal
+COPY import-db settings.php.cat /opt/drupal
 
 # The drupal:9-apache base container uses `web` as its document root.
 RUN sed -i -e 's!docroot!web!g' composer.json
@@ -105,7 +102,6 @@ RUN drush pm:enable --yes acquia_cms_starter
 # Ensure that consumers can override Drupal settings to suit their needs.
 RUN chmod +w ./web/sites/default
 RUN chmod +w ./web/sites/default/settings.php
-RUN echo '@include __DIR__ . "/settings.local.php";' >> ./web/sites/default/settings.php
 
 # Initialize the Next.js site and dump the generated credentials into a .env file.
 COPY init-env.php /opt/drupal
@@ -114,3 +110,7 @@ RUN drush php:script init-env.php > .env
 # Dump the database.
 RUN php ./web/core/scripts/db-tools.php dump-database-d8-mysql > database.php
 RUN gzip database.php
+
+# Switch the database backend to SQLite and re-import the database.
+RUN cat settings.php.cat >> ./web/sites/default/settings.php
+RUN ./import-db

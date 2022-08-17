@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# A shortcut script to re-import the database dump into the database
+# backend defined in settings.php.
+#
+set -e
+cd ./web
+php ./core/scripts/db-tools.php import ../database.php.gz

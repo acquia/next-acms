@@ -1,0 +1,7 @@
+// This file is appended to settings.php while building the container image,
+// allowing the container to run without any external dependencies.
+$databases['default']['default'] = [
+  'driver' => 'sqlite',
+  'database' => 'db.sqlite',
+];
+@include __DIR__ . '/settings.local.php';
