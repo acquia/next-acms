@@ -160,7 +160,7 @@ describe('Node page', () => {
 
   it('should render an event node', () => {
     cy.visit(
-      '/event/webinar/2022/08/event-two-medium-length-placeholder-heading',
+      '/event/webinar/2022/09/event-two-medium-length-placeholder-heading',
     );
     cy.get('h1').should(
       'contain.text',
