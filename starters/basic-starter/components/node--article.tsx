@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { formatDate } from 'lib/format-date';
 import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
-import { Webform } from 'nextjs-drupal-webform/src/Webform';
-import { WebformDate } from 'nextjs-drupal-webform/examples/WebformDate';
+import { Webform } from 'nextjs-drupal-webform';
+// import { WebformDate } from 'nextjs-drupal-webform/examples/WebformDate';
 
 export function NodeArticle({ node, additionalContent, ...props }) {
   return (
@@ -27,7 +27,7 @@ export function NodeArticle({ node, additionalContent, ...props }) {
         webformObject={additionalContent.webform}
         id={additionalContent.webform.drupal_internal__id}
         key={additionalContent.webform.drupal_internal__id}
-        customComponents={{ date: WebformDate }}
+        // customComponents={{ date: WebformDate }}
       />
       {node.field_article_image && (
         <div className="my-6 overflow-hidden rounded-md">
