@@ -37,7 +37,7 @@ jobs:
       - name: Import database
         run: |
           docker cp ./drupal/settings.ci.php drupal:/opt/drupal/web/sites/default/settings.local.php
-          docker exec --interactive --tty drupal ./import-db
+          docker exec drupal ./import-db
       - name: Ensure Drupal is installed
         run: curl --fail http://localhost/jsonapi
 
