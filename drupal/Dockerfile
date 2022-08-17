@@ -24,7 +24,7 @@ FROM drupal:9-apache
 #
 # To start the container and make it listen on port 8080:
 #
-# docker run --detach --publish 8080:80 --name drupal IMAGE_TAG_OR_ID
+# docker run -d -p 8080:80 --name drupal IMAGE_TAG_OR_ID
 #
 # You can replace the name `drupal` with any name you want, or let Docker
 # automatically generate one (use `docker ps` to get the generated name). If
@@ -38,7 +38,7 @@ FROM drupal:9-apache
 # like so:
 #
 # docker cp settings.local.php CONTAINER_NAME_OR_ID:/opt/drupal/web/sites/default
-# docker exec --interactive --tty CONTAINER_NAME_OR_ID ./import-db
+# docker exec -it CONTAINER_NAME_OR_ID ./import-db
 #
 # Once this is done, you should be able to visit http://127.0.0.1:8080 and see
 # the running Drupal site!
