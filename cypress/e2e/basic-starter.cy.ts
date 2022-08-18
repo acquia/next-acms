@@ -98,7 +98,7 @@ describe('Basic Starter', () => {
 
 describe('Taxonomy term page', () => {
   it('should render articles for Blog (article type)', () => {
-    cy.visit('/taxonomy/term/1');
+    cy.visit('/blog');
     cy.get('h1').should('contain.text', 'Blog');
     cy.get('article')
       .should('have.length.greaterThan', 1)
@@ -109,7 +109,7 @@ describe('Taxonomy term page', () => {
   });
 
   it('should render people for Management (person type)', () => {
-    cy.visit('/taxonomy/term/3');
+    cy.visit('/person_type/management');
     cy.get('h1').should('contain.text', 'Management');
     cy.get('article')
       .should('have.length.greaterThan', 1)
@@ -119,7 +119,7 @@ describe('Taxonomy term page', () => {
   });
 
   it('should render events for Webinar (event type)', () => {
-    cy.visit('/taxonomy/term/7');
+    cy.visit('/event_type/webinar');
     cy.get('h1').should('contain.text', 'Webinar');
     cy.get('article')
       .should('have.length.greaterThan', 1)
@@ -130,7 +130,7 @@ describe('Taxonomy term page', () => {
   });
 
   it('should render places for Office (place type)', () => {
-    cy.visit('/taxonomy/term/13');
+    cy.visit('/place_type/office');
     cy.get('h1').should('contain.text', 'Office');
     cy.get('h2', { timeout: 5000 }).should('be.visible');
     cy.get('article')
@@ -160,7 +160,7 @@ describe('Node page', () => {
 
   it('should render an event node', () => {
     cy.visit(
-      '/event/webinar/2022/08/event-two-medium-length-placeholder-heading',
+      '/event/webinar/2022/09/event-two-medium-length-placeholder-heading',
     );
     cy.get('h1').should(
       'contain.text',

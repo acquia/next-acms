@@ -11,6 +11,40 @@
  */
 
 use Drupal\consumers\Entity\Consumer;
+use Drupal\pathauto\Entity\PathautoPattern;
+use Drupal\pathauto\PathautoState;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\taxonomy\Entity\Vocabulary;
+
+// Ensure every taxonomy vocabulary has a Pathauto pattern, so that tests can
+// have reliable URLs to visit.
+$vocabularies = Vocabulary::loadMultiple();
+// Article types already have a pattern.
+unset($vocabularies['article_type']);
+/** @var \Drupal\taxonomy\VocabularyInterface[] $vocabulary */
+foreach ($vocabularies as $id => $vocabulary) {
+  /** @var \Drupal\pathauto\PathautoPatternInterface $pattern */
+  $pattern = PathautoPattern::create([
+    'id' => $id,
+    'label' => $vocabulary->label(),
+    'type' => 'canonical_entities:taxonomy_term',
+  ]);
+  $pattern->addSelectionCondition([
+    'id' => 'entity_bundle:taxonomy_term',
+    'context_mapping' => [
+      'taxonomy_term' => 'taxonomy_term',
+    ],
+    'bundles' => [
+      $id => $id,
+    ],
+  ]);
+  $pattern->setPattern("/$id/[term:name]")->save();
+}
+// Regenerate the URL aliases for all taxonomy terms.
+foreach (Term::loadMultiple() as $term) {
+  $term->path->pathauto = PathautoState::CREATE;
+  $term->save();
+}
 
 /** @var \Drupal\acquia_cms_headless\Service\StarterkitNextjsService $starter_kit */
 $starter_kit = Drupal::service('acquia_cms_headless.starterkit_nextjs');
