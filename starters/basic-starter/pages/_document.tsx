@@ -8,7 +8,9 @@ class MyDocument extends Document {
     ctx: DocumentContext,
   ): Promise<DocumentInitialProps> {
     const initialProps = await Document.getInitialProps(ctx);
-    await testApiCompatibility(ENTITY_TYPES, drupal);
+    if (process.env.NODE_ENV == 'development') {
+      await testApiCompatibility(ENTITY_TYPES, drupal);
+    }
     return initialProps;
   }
 }
