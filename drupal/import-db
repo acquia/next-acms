@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# A shortcut script to re-import the database dump into the database
+# backend defined in settings.php.
+#
+# This is meant to be executed inside the running container. From
+# outside it, run it like this:
+#
+# docker exec -it CONTAINER_NAME_OR_ID ./import-db
+#
+set -e
+cd ./web
+php ./core/scripts/db-tools.php import ../database.php.gz

@@ -36,10 +36,12 @@ jobs:
       - uses: actions/checkout@v3
       - name: Import database
         run: |
-          docker cp ./drupal/database.php.gz drupal:/opt/drupal/web
-          docker exec --workdir /opt/drupal/web drupal php ./core/scripts/db-tools.php import database.php.gz
+          docker cp ./drupal/settings.ci.php drupal:/opt/drupal/web/sites/default/settings.local.php
+          docker exec drupal ./import-db
       - name: Ensure Drupal is installed
-        run: curl --fail http://localhost/jsonapi
+        run: |
+          curl --fail http://localhost/jsonapi
+          docker exec drupal drush status
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -72,7 +74,7 @@ jobs:
 
       - name: Build and start application
         run: |
-          cp ./drupal/.env ./starters/basic-starter/.env.local
+          docker cp drupal:/opt/drupal/.env ./starters/basic-starter/.env.local
           yarn build
           yarn dev &
           sleep 8
