@@ -28,7 +28,6 @@ export function NodeArticle({ node, additionalContent, ...props }) {
           id={additionalContent.webform.drupal_internal__id}
           key={additionalContent.webform.drupal_internal__id}
           customComponents={{ date: WebformDate }}
-          client={additionalContent.client}
         />
       ) : null}
       {node.field_article_image && (

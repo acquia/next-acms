@@ -222,18 +222,6 @@ export async function getStaticProps(
       ),
     };
     additionalContent['webform'] = webformObject;
-    additionalContent['client'] = {
-      baseURL: process.env.NEXT_PUBLIC_DRUPAL_BASE_URL,
-      options: {
-        previewSecret: process.env.DRUPAL_PREVIEW_SECRET,
-        auth: {
-          clientId: process.env.DRUPAL_CLIENT_ID,
-          clientSecret: process.env.DRUPAL_CLIENT_SECRET,
-        },
-        withAuth: true,
-        forceIframeSameSiteCookie: process.env.NODE_ENV === 'development',
-      },
-    };
   }
 
   // Fetch additional content for rendering taxonomy term pages.
