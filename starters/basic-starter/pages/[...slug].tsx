@@ -21,7 +21,7 @@ import { getPrioritizedStaticPathsFromContext } from '../lib/get-prioritized-sta
 import { GetStaticPathsContext } from 'next/types';
 
 // List of all the entity types handled by this route.
-const ENTITY_TYPES = [
+export const ENTITY_TYPES = [
   'node--page',
   'node--article',
   'node--event',
