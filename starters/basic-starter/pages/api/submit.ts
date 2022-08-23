@@ -1,10 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { drupal } from '../../lib/drupal';
 import { submit } from 'next-acms';
+import { drupal } from '../../lib/drupal';
 
 export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse,
 ) {
-  return submit(request, response, drupal);
+  const url = drupal.buildUrl(request.query.endpoint.toString());
+  return submit(request, response, url);
 }

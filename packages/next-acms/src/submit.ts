@@ -1,13 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { DrupalClient } from 'next-drupal';
 
 export async function submit(
   request: NextApiRequest,
   response: NextApiResponse,
-  drupal: DrupalClient,
+  url: URL,
 ) {
   if (request.method === 'POST') {
-    const url = drupal.buildUrl(request.query.endpoint.toString());
     // Submit to Drupal.
     const result = await fetch(url.toString(), {
       method: 'POST',
