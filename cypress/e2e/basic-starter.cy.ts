@@ -198,3 +198,19 @@ describe('Node page', () => {
       });
   });
 });
+
+describe('An image using a consumer image style', () => {
+  it('has the image style source', () => {
+    const imageStyle = 'coh_medium';
+    cy.visit(
+      '/event/webinar/2022/09/event-two-medium-length-placeholder-heading',
+    );
+    cy.get('.media__content')
+      .find('img')
+      .should(
+        'have.attr',
+        'src',
+        `/_next/image?url=http%3A%2F%2Facms-demo.test%2Fsites%2Fdefault%2Ffiles%2Fstyles%2F${imageStyle}%2Fpublic%2F2021-02%2FImage-placeholder.png%3Fitok%3D3q0weVaQ&w=3840&q=75`,
+      );
+  });
+});
