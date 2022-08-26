@@ -36,8 +36,8 @@ export function MediaImage({
       if (image.links[imageStyle]) {
         const imageStyleSource = image.links[imageStyle];
         sizeProps = {
-          width: width || imageStyleSource.meta.width,
-          height: height || imageStyleSource.meta.height,
+          width: width || imageStyleSource.meta.linkParams.width,
+          height: height || imageStyleSource.meta.linkParams.height,
         };
         srcURL = imageStyleSource.href;
         useImageStyle = true;
