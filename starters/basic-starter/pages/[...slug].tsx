@@ -169,7 +169,6 @@ export async function getStaticProps(
       'field_article_media.image',
       'field_article_image.image',
       'field_display_author',
-      'field_webform',
     ]);
   }
 
@@ -213,12 +212,13 @@ export async function getStaticProps(
   if (entity.field_webform) {
     additionalContent['webform'] = [];
     const webformObject: WebformObject = {
-      drupal_internal__id: entity.field_webform.drupal_internal__id,
-      description: entity.field_webform.description,
-      status: entity.field_webform.status,
+      drupal_internal__id:
+        entity.field_webform.resourceIdObjMeta.drupal_internal__target_id,
+      description: 'entity.field_webform.description',
+      status: 'entity.field_webform.status',
       elements: await getWebformFields(
-        entity.field_webform.drupal_internal__id,
-        drupal,
+        entity.field_webform.resourceIdObjMeta.drupal_internal__target_id,
+        drupal.baseUrl,
       ),
     };
     additionalContent['webform'] = webformObject;
