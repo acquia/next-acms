@@ -10,7 +10,7 @@ export async function getPrioritizedStaticPathsFromContext(
     await drupal.getStaticPathsFromContext(types, context)
   ).filter((item) => {
     // Remove the front page path from [...slug] because it conflicts with '/'.
-    return item['params']['slug'] != '';
+    return JSON.stringify(item['params']['slug']) !== JSON.stringify(['']);
   });
 
   const menu = await drupal.getMenu('main');
