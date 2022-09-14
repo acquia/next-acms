@@ -6,10 +6,13 @@ export async function getPrioritizedStaticPathsFromContext(
   context: GetStaticPathsContext,
   types: Array<string>,
 ): Promise<GetStaticPathsResult<{ slug: string[] }>['paths']> {
-  const pathsFromContext = await drupal.getStaticPathsFromContext(
-    types,
-    context,
-  );
+  const pathsFromContext = (
+    await drupal.getStaticPathsFromContext(types, context)
+  ).filter((item) => {
+    // Remove the front page path from [...slug] because it conflicts with '/'.
+    return JSON.stringify(item['params']['slug']) !== JSON.stringify(['']);
+  });
+
   const menu = await drupal.getMenu('main');
 
   // Generate paths from the menu links.
