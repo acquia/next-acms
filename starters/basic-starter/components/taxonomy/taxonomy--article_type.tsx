@@ -11,6 +11,7 @@ export function TaxonomyArticle({
 }) {
   return (
     <div>
+      {console.log(taxonomy_term, additionalContent)}
       <PageHeader heading={taxonomy_term.name} text="" />
       <div className="container px-6 pb-10 mx-auto">
         {additionalContent.nodes.length ? (

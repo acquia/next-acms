@@ -159,9 +159,11 @@ describe('Node page', () => {
   });
 
   it('should render an event node', () => {
-    cy.visit(
-      '/event/webinar/2022/09/event-two-medium-length-placeholder-heading',
-    );
+    cy.visit('/events');
+    cy.contains('Event two medium length placeholder heading.')
+      .should('contain.text', 'Event two medium length placeholder heading.')
+      .click();
+    cy.get('h1').should('be.visible');
     cy.get('h1').should(
       'contain.text',
       'Event two medium length placeholder heading.',
