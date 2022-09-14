@@ -132,7 +132,7 @@ describe('Taxonomy term page', () => {
   it('should render places for Office (place type)', () => {
     cy.visit('/place_type/office');
     cy.get('h1').should('contain.text', 'Office');
-    cy.get('h2', { timeout: 5000 }).should('be.visible');
+    cy.get('h2', { timeout: 8000 }).should('be.visible');
     cy.get('article')
       .should('have.length.greaterThan', 1)
       .find('h2')
@@ -159,9 +159,11 @@ describe('Node page', () => {
   });
 
   it('should render an event node', () => {
-    cy.visit(
-      '/event/webinar/2022/09/event-two-medium-length-placeholder-heading',
-    );
+    cy.visit('/events');
+    cy.contains('Event two medium length placeholder heading.')
+      .should('contain.text', 'Event two medium length placeholder heading.')
+      .click();
+    cy.get('h1').should('be.visible');
     cy.get('h1').should(
       'contain.text',
       'Event two medium length placeholder heading.',
