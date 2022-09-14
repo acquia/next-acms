@@ -75,6 +75,7 @@ $consumer->set('is_default', TRUE);
 $consumer->set('redirect', 'http://localhost:3000');
 $consumer->set('roles', 'headless');
 $consumer->set('user_id', $account->id());
+$consumer->image_styles->target_id = 'coh_medium';
 $consumer->save();
 
 $site = $starter_kit->createHeadlessSite('headless', [
