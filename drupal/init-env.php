@@ -77,7 +77,10 @@ $consumer->set('roles', 'headless');
 $consumer->set('user_id', $account->id());
 $consumer->save();
 
-$site = $starter_kit->createHeadlessSite();
+$site = $starter_kit->createHeadlessSite('headless', [
+  'site-name' => 'Headless Site 1',
+  'site-url' => 'http://localhost:3000/',
+]);
 $starter_kit->createHeadlessSiteEntities();
 
 // The starter kit service sets these values, but doesn't save them. SMH.
