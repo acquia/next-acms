@@ -6,10 +6,10 @@ export async function getPrioritizedStaticPathsFromContext(
   context: GetStaticPathsContext,
   types: Array<string>,
 ): Promise<GetStaticPathsResult<{ slug: string[] }>['paths']> {
-  let pathsFromContext = await drupal.getStaticPathsFromContext(types, context);
-
-  // Remove the path from page [...slug] because it conflicts with '/'.
-  pathsFromContext = pathsFromContext.filter((item) => {
+  const pathsFromContext = (
+    await drupal.getStaticPathsFromContext(types, context)
+  ).filter((item) => {
+    // Remove the front page path from [...slug] because it conflicts with '/'.
     return item['params']['slug'] != '';
   });
 
