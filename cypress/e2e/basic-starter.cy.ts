@@ -211,6 +211,7 @@ describe('An image using a consumer image style', () => {
     cy.get('.media__content')
       .find('img')
       .should('have.attr', 'src')
-      .and('contain', `sites%2Fdefault%2Ffiles%2Fstyles%2F${imageStyle}`);
+      .and('match', /^\/_next\/image/)
+      .and('contain', `styles%2F${imageStyle}`);
   });
 });
