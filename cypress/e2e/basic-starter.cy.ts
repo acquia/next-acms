@@ -210,10 +210,7 @@ describe('An image using a consumer image style', () => {
       .should('contain.text', 'Event two medium length placeholder heading.');
     cy.get('.media__content')
       .find('img')
-      .should(
-        'have.attr',
-        'src',
-        `/_next/image?url=http%3A%2F%2Facms-demo.test%2Fsites%2Fdefault%2Ffiles%2Fstyles%2F${imageStyle}%2Fpublic%2F2021-02%2FImage-placeholder.png%3Fitok%3Dx6VCWB9W&w=3840&q=75`,
-      );
+      .should('have.attr', 'src')
+      .and('contain', `sites%2Fdefault%2Ffiles%2Fstyles%2F${imageStyle}`);
   });
 });
