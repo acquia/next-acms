@@ -22,7 +22,7 @@ import { GetStaticPathsContext } from 'next/types';
 import { getWebformFields, WebformObject } from 'nextjs-drupal-webform';
 
 // List of all the entity types handled by this route.
-const ENTITY_TYPES = [
+export const ENTITY_TYPES = [
   'node--page',
   'node--article',
   'node--event',
