@@ -28,7 +28,15 @@ export function MediaImage({
   }
   let sizeProps;
   let srcURL;
-  let useImageStyle = false;
+
+  sizeProps =
+    layout === 'fill'
+      ? null
+      : {
+          width: width || image.resourceIdObjMeta.width,
+          height: height || image.resourceIdObjMeta.height,
+        };
+  srcURL = absoluteURL(image.uri.url);
 
   // Use the image style to render an image if specified.
   if (imageStyle) {
@@ -40,7 +48,6 @@ export function MediaImage({
           height: height || imageStyleSource.meta.linkParams.height,
         };
         srcURL = imageStyleSource.href;
-        useImageStyle = true;
       } else {
         console.warn(
           `${imageStyle} image style does not exist. You must configure the consumer to include the image style to be used by this application.`,
@@ -51,17 +58,6 @@ export function MediaImage({
         'Image styles not found. The consumer_image_styles module must be installed and enabled for the consumer of this application.',
       );
     }
-  }
-  if (!useImageStyle) {
-    // Otherwise use the image properties.
-    sizeProps =
-      layout === 'fill'
-        ? null
-        : {
-            width: width || image.resourceIdObjMeta.width,
-            height: height || image.resourceIdObjMeta.height,
-          };
-    srcURL = absoluteURL(image.uri.url);
   }
 
   return (
