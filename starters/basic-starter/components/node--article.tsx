@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { formatDate } from 'lib/format-date';
 import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
-import { Webform, WebformDate } from 'nextjs-drupal-webform';
+import { Webform, WebformHeight } from 'nextjs-drupal-webform';
 
 export function NodeArticle({ node, additionalContent, ...props }) {
   return (
@@ -27,7 +27,7 @@ export function NodeArticle({ node, additionalContent, ...props }) {
           webformObject={additionalContent.webform}
           id={additionalContent.webform.drupal_internal__id}
           key={additionalContent.webform.drupal_internal__id}
-          customComponents={{ date: WebformDate }}
+          customComponents={{ webform_height: WebformHeight }}
         />
       ) : null}
       {node.field_article_image && (
