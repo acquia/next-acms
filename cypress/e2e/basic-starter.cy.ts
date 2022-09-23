@@ -163,11 +163,9 @@ describe('Node page', () => {
     cy.contains('Event two medium length placeholder heading.')
       .should('contain.text', 'Event two medium length placeholder heading.')
       .click();
-    cy.get('h1').should('be.visible');
-    cy.get('h1').should(
-      'contain.text',
-      'Event two medium length placeholder heading.',
-    );
+    cy.get('h1')
+      .should('be.visible')
+      .should('contain.text', 'Event two medium length placeholder heading.');
     cy.get('article')
       .should('have.length', 1)
       .find('.prose')
@@ -196,5 +194,24 @@ describe('Node page', () => {
       .should(($p) => {
         expect($p.first()).to.contain.text('This is placeholder text.');
       });
+  });
+});
+
+describe('An image using a consumer image style', () => {
+  it('has the image style source', () => {
+    const imageStyle = 'coh_medium';
+    cy.visit('/events');
+    cy.contains('Event two medium length placeholder heading.')
+      .should('contain.text', 'Event two medium length placeholder heading.')
+      .should('be.visible')
+      .click();
+    cy.get('h1')
+      .should('be.visible')
+      .should('contain.text', 'Event two medium length placeholder heading.');
+    cy.get('.media__content')
+      .find('img')
+      .should('have.attr', 'src')
+      .and('match', /^\/_next\/image\?/)
+      .and('contain', `styles%2F${imageStyle}`);
   });
 });
