@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # This workflow rebuilds the container image used for running tests (see ci.yml) and pushes it
 # to Docker Hub.
 
