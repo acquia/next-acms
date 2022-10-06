@@ -37,7 +37,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           add-hosts: |
-            host.docker.internal:host-gateway
+            host.docker.internal:172.17.0.1
           build-args: |
             CACHE_DATE=${{ env.CURRENT_TIME }}
             MYSQL_USER=drupal
