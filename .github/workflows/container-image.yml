@@ -42,7 +42,8 @@ jobs:
             MYSQL_USER=drupal
             MYSQL_PASSWORD=drupal
           context: "{{defaultContext}}:drupal"
-          tags: phenaproxima/acquia_cms:headless
+          tags: |
+            phenaproxima/acquia_cms:headless
 
       - uses: actions/checkout@v3
 
