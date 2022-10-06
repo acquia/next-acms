@@ -1,0 +1,17 @@
+# This workflow rebuilds the container image used for running tests (see ci.yml) and pushes it
+# to Docker Hub.
+
+name: Container Image
+
+on:
+  schedule:
+    # Run at 6 PM GMT on Wednesdays.
+    - cron: '0 18 * * 3'
+
+jobs:
+  build:
+    name: Build container image and push it to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Docker BuildX
+        uses: docker/setup-buildx-action@v2
