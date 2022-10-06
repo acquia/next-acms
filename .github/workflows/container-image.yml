@@ -4,9 +4,9 @@
 name: Container Image
 
 on:
-  schedule:
-    # Run at 6 PM GMT on Wednesdays.
-    - cron: '0 18 * * 3'
+#  schedule:
+#    # Run at 6 PM GMT on Wednesdays.
+#    - cron: '0 18 * * 3'
   workflow_dispatch:
 
 jobs:
