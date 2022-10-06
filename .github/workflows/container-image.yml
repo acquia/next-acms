@@ -27,11 +27,16 @@ jobs:
       - name: Set up Docker BuildX
         uses: docker/setup-buildx-action@v2
 
+      - name: Get current time
+        id: current_time
+        run: |
+          echo "CURRENT_TIME=$(date +%Y-%m-%d:%H:%M:%S)" >> $GITHUB_ENV
+
       - name: Build image
         uses: docker/build-push-action@v3
         with:
           build-args: |
-            CACHE_DATE=
+            CACHE_DATE=${{ env.CURRENT_TIME }}
             MYSQL_HOST=database
             MYSQL_USER=drupal
             MYSQL_PASSWORD=drupal
