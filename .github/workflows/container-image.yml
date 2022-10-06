@@ -36,9 +36,10 @@ jobs:
       - name: Build image
         uses: docker/build-push-action@v3
         with:
+          add-hosts: |
+            host.docker.internal:host-gateway
           build-args: |
             CACHE_DATE=${{ env.CURRENT_TIME }}
-            MYSQL_HOST=database
             MYSQL_USER=drupal
             MYSQL_PASSWORD=drupal
           context: "{{defaultContext}}:drupal"
