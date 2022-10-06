@@ -12,6 +12,29 @@ jobs:
   build:
     name: Build container image and push it to Docker Hub
     runs-on: ubuntu-latest
+    services:
+      database:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: drupal
+          MYSQL_USER: drupal
+          MYSQL_PASSWORD: drupal
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10
     steps:
       - name: Set up Docker BuildX
         uses: docker/setup-buildx-action@v2
+
+      - name: Build image
+        uses: docker/build-push-action@v3
+        with:
+          build-args: |
+            CACHE_DATE=
+            MYSQL_HOST=database
+            MYSQL_USER=drupal
+            MYSQL_PASSWORD=drupal
+          context: "{{defaultContext}}:drupal"
+          network: host
+          tags: phenaproxima/acquia_cms:headless
