@@ -38,7 +38,7 @@ jobs:
         with:
           build-args: |
             CACHE_DATE=${{ env.CURRENT_TIME }}
-            MYSQL_HOST=database
+            MYSQL_HOST=127.0.0.1
             MYSQL_USER=drupal
             MYSQL_PASSWORD=drupal
           context: "{{defaultContext}}:drupal"
