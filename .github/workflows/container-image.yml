@@ -38,3 +38,6 @@ jobs:
           context: "{{defaultContext}}:drupal"
           network: host
           tags: phenaproxima/acquia_cms:headless
+
+      - name: Verify build
+        run: ./drupal/verify.sh
