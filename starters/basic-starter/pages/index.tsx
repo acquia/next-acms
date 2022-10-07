@@ -133,7 +133,7 @@ export async function getStaticProps(
   );
   return {
     props: {
-      menus: await getMenus(),
+      menus: await getMenus(context),
       events,
       places,
     },

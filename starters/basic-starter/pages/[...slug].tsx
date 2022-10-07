@@ -253,7 +253,7 @@ export async function getStaticProps(
     props: {
       entity: entity,
       additionalContent: additionalContent,
-      menus: await getMenus(),
+      menus: await getMenus(context),
     },
     revalidate: 60,
   };
