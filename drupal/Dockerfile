@@ -81,10 +81,9 @@ COPY import-db settings.php.cat /opt/drupal
 # The drupal:9-apache base container uses `web` as its document root.
 RUN sed -i -e 's!docroot!web!g' composer.json
 
-# Require specific constraints for certain dependencies to prevent
-# Composer from installing known broken versions.
-# RUN composer require drupal/acquia_cms_common:^1.4 drupal/acquia_cms_starter drupal/acquia_cms_article:^1.3.5 drupal/acquia_cms_event:^1.3.5 drupal/acquia_cms_place:^1.3.5 drupal/acquia_cms_person:^1.3.5 drupal/acquia_cms_page:^1.3.5 drupal/address:^1.11
-RUN composer install --no-cache
+# This can be also used for requiring specific constraints for dependencies that
+# have incompatible releases.
+RUN composer require drupal/acquia_cms_starter
 
 # Allow the caller to specify MySQL connection information. This will be
 # written to settings.php, but can overridden at runtime by providing a
@@ -98,6 +97,7 @@ ARG MYSQL_DATABASE=drupal
 # out. Since we need to regenerate the database dump, we always want to
 # reinstall Acquia CMS and its demo content.
 RUN DRUSH_COMMAND_SITE_INSTALL_OPTIONS_DB_URL=mysql://$MYSQL_USER:$MYSQL_PASSWORD@$MYSQL_HOST/$MYSQL_DATABASE DRUSH_COMMAND_SITE_INSTALL_OPTIONS_ACCOUNT_PASS=admin acms acms:install --no-interaction acquia_cms_headless
+RUN drush pm:enable --yes acquia_cms_starter
 
 # Ensure that consumers can override Drupal settings to suit their needs.
 RUN chmod +w ./web/sites/default
