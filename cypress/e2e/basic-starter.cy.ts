@@ -132,10 +132,8 @@ describe('Taxonomy term page', () => {
   it('should render places for Office (place type)', () => {
     cy.visit('/place_type/office');
     cy.get('h1').should('contain.text', 'Office');
-    cy.get('h2', { timeout: 8000 }).should('be.visible');
     cy.get('article').should('have.length.greaterThan', 1);
-    cy.get('article')
-      .find('h2')
+    cy.get('article h2')
       .first()
       .should(($h2) => {
         expect($h2).to.contain('Boston Head Office');
