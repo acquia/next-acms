@@ -16,7 +16,7 @@
     "drupal-jsonapi-params": "^2.1.0",
     "html-react-parser": "^1.4.8",
     "next": "^12.2.0",
-    "next-acms": "^1.0.0-beta2",
+    "next-acms": "^1.0.0",
     "next-drupal": "^1.5.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
