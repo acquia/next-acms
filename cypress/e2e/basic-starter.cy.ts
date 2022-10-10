@@ -137,6 +137,7 @@ describe('Taxonomy term page', () => {
       .should('have.length.greaterThan', 1)
       .find('h2')
       .should(($h2) => {
+        cy.log($h2.first().text());
         expect($h2.first()).to.contain('Boston Head Office');
       });
     cy.get('article').find('.media__content').should('exist');
