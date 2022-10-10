@@ -133,11 +133,7 @@ describe('Taxonomy term page', () => {
     cy.visit('/place_type/office');
     cy.get('h1').should('contain.text', 'Office');
     cy.get('article').should('have.length.greaterThan', 1);
-    cy.get('article h2')
-      .first()
-      .should(($h2) => {
-        expect($h2).to.contain('Boston Head Office');
-      });
+    cy.get('article h2').should('contain.text', 'Boston Head Office');
     cy.get('article').find('.media__content').should('exist');
   });
 });
