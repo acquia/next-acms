@@ -37,10 +37,10 @@ For more information on Acquia CMS setup please see the [tutorial](https://dev.a
 
 ## Installation (Next.js)
 
-Run the following command to create a new Next.js project:
+Run the following command to create a new multilingual Next.js project:
 
 ```
-npx create-next-app -e https://github.com/acquia/next-acms/tree/main/starters/basic-starter
+npx create-next-app -e https://github.com/acquia/next-acms/tree/main/starters/multilingual-starter
 ```
 
 This will create a new starter project. [See project structure](#project-structure).

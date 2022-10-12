@@ -1,6 +1,8 @@
 import { GetStaticPropsResult } from 'next';
 import { DrupalNode } from 'next-drupal';
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
+import { useTranslation, SSRConfig } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { getMenus } from 'lib/get-menus';
 import { Layout, LayoutProps } from 'components/layout';
@@ -8,14 +10,15 @@ import { NodePlaceTeaser } from 'components/node--place';
 import { PageHeader } from 'components/page-header';
 import { drupal } from '../lib/drupal';
 
-interface PlacesPageProps extends LayoutProps {
+interface PlacesPageProps extends LayoutProps, SSRConfig {
   places: DrupalNode[];
 }
 
 export default function PlacesPage({ menus, places }: PlacesPageProps) {
+  const { t } = useTranslation();
   return (
-    <Layout title="Places" menus={menus}>
-      <PageHeader heading="Places" text="Our Offices" />
+    <Layout title={t('Places')} menus={menus}>
+      <PageHeader heading={t('Places')} text="Our Offices" />
       <div className="container px-6 pb-10 mx-auto">
         {places?.length ? (
           <div className="grid gap-14">
@@ -24,7 +27,7 @@ export default function PlacesPage({ menus, places }: PlacesPageProps) {
             ))}
           </div>
         ) : (
-          <p>No content found.</p>
+          <p>{t('No content found')}</p>
         )}
       </div>
     </Layout>
@@ -58,6 +61,7 @@ export async function getStaticProps(
     props: {
       places,
       menus: await getMenus(context),
+      ...(await serverSideTranslations(context.locale)),
     },
     revalidate: 60,
   };

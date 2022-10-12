@@ -1,6 +1,8 @@
 import { GetStaticPropsResult } from 'next';
 import { DrupalNode } from 'next-drupal';
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
+import { useTranslation, SSRConfig } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { getMenus } from 'lib/get-menus';
 import { Layout, LayoutProps } from 'components/layout';
@@ -8,14 +10,19 @@ import { PageHeader } from 'components/page-header';
 import { NodePersonTeaser } from 'components/node--person';
 import { drupal } from '../lib/drupal';
 
-interface PeoplePageProps extends LayoutProps {
+interface PeoplePageProps extends LayoutProps, SSRConfig {
   people: DrupalNode[];
 }
 
 export default function PeoplePage({ menus, people }: PeoplePageProps) {
+  const { t } = useTranslation();
   return (
-    <Layout title="People" menus={menus}>
-      <PageHeader heading="People" text="Our Team" className="text-center" />
+    <Layout title={t('People')} menus={menus}>
+      <PageHeader
+        heading="People"
+        text={t('Our Team')}
+        className="text-center"
+      />
       <div className="container px-6 pb-10 mx-auto">
         {people?.length ? (
           <div className="grid gap-20 md:grid-cols-3">
@@ -24,7 +31,7 @@ export default function PeoplePage({ menus, people }: PeoplePageProps) {
             ))}
           </div>
         ) : (
-          <p>No content found.</p>
+          <p>{t('No content found')}</p>
         )}
       </div>
     </Layout>
@@ -57,6 +64,7 @@ export async function getStaticProps(
     props: {
       people,
       menus: await getMenus(context),
+      ...(await serverSideTranslations(context.locale)),
     },
     revalidate: 60,
   };

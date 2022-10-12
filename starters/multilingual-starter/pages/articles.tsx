@@ -1,6 +1,8 @@
 import { GetStaticPropsResult } from 'next';
 import { DrupalNode } from 'next-drupal';
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
+import { useTranslation, SSRConfig } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { getMenus } from 'lib/get-menus';
 import { Layout, LayoutProps } from 'components/layout';
@@ -8,14 +10,15 @@ import { PageHeader } from 'components/page-header';
 import { NodeArticleTeaser } from 'components/node--article';
 import { drupal } from '../lib/drupal';
 
-interface ArticlesPageProps extends LayoutProps {
+interface ArticlesPageProps extends LayoutProps, SSRConfig {
   articles: DrupalNode[];
 }
 
 export default function ArticlePage({ menus, articles }: ArticlesPageProps) {
+  const { t } = useTranslation();
   return (
-    <Layout title="Articles" menus={menus}>
-      <PageHeader heading="Articles" text="List of latest articles." />
+    <Layout title={t('Articles')} menus={menus}>
+      <PageHeader heading={t('Articles')} text={t('List of latest articles')} />
       <div className="container px-6 pb-10 mx-auto">
         {articles?.length ? (
           <div className="grid gap-14 md:grid-cols-2">
@@ -24,7 +27,7 @@ export default function ArticlePage({ menus, articles }: ArticlesPageProps) {
             ))}
           </div>
         ) : (
-          <p>No content found.</p>
+          <p>{t('No content found')}</p>
         )}
       </div>
     </Layout>
@@ -59,6 +62,7 @@ export async function getStaticProps(
     props: {
       articles,
       menus: await getMenus(context),
+      ...(await serverSideTranslations(context.locale)),
     },
     revalidate: 60,
   };

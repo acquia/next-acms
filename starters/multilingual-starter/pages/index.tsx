@@ -1,4 +1,6 @@
 import { GetStaticPropsResult } from 'next';
+import { useTranslation, SSRConfig } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Layout, LayoutProps } from 'components/layout';
 import { getMenus } from 'lib/get-menus';
 import { DrupalNode } from 'next-drupal';
@@ -10,12 +12,13 @@ import { drupal } from '../lib/drupal';
 import { testApiCompatibility } from 'next-acms';
 import { ENTITY_TYPES } from './[...slug]';
 
-interface IndexPageProps extends LayoutProps {
+interface IndexPageProps extends LayoutProps, SSRConfig {
   events: DrupalNode[];
   places: DrupalNode[];
 }
 
 export default function IndexPage({ menus, events, places }: IndexPageProps) {
+  const { t } = useTranslation();
   return (
     <Layout title="Home" menus={menus}>
       <div className="mt-12 lg:mt-32">
@@ -23,15 +26,13 @@ export default function IndexPage({ menus, events, places }: IndexPageProps) {
           <div className="w-full lg:flex items-center">
             <div className="w-full lg:w-1/2">
               <h2 className="text-md lg:text-2xl text-gray-600">
-                Powered by Acquia CMS
+                {t('Powered by Acquia CMS')}
               </h2>
               <h1 className="text-5xl lg:text-6xl font-bold text-sky-500 mb-2 lg:mb-6">
-                A headless Next.js site
+                {t('A headless Next.js site')}
               </h1>
               <p className="text-md lg:text-xl font-light text-gray-800 mb-8">
-                This is placeholder text. If you are reading this, it is here by
-                mistake and we would appreciate it if you could email us with a
-                link to the page you found it on. This is placeholder text.
+                {t('Placeholder text')}
               </p>
             </div>
             <div className="w-full lg:w-1/2 lg:pl-24">
@@ -47,7 +48,7 @@ export default function IndexPage({ menus, events, places }: IndexPageProps) {
       </div>
       <div className="container px-6 pb-10 mx-auto mt-12">
         <h2 className="text-md mb-2 lg:text-2xl text-gray-600">
-          Featured Events
+          {t('Featured Events')}
         </h2>
         {events?.length ? (
           <div className="grid gap-14" data-cy="featured-events">
@@ -56,11 +57,13 @@ export default function IndexPage({ menus, events, places }: IndexPageProps) {
             ))}
           </div>
         ) : (
-          <p>No content found.</p>
+          <p>{t('No content found')}</p>
         )}
       </div>
       <div className="container px-6 pb-10 mx-auto mt-12 text-center items-center">
-        <h2 className="text-md mb-2 lg:text-2xl text-gray-600">Contact Us</h2>
+        <h2 className="text-md mb-2 lg:text-2xl text-gray-600">
+          {t('Contact Us')}
+        </h2>
         {places?.length ? (
           <div className="grid gap-14" data-cy="contact-us">
             {places.slice(0, 3).map((place) => (
@@ -80,7 +83,7 @@ export default function IndexPage({ menus, events, places }: IndexPageProps) {
             ))}
           </div>
         ) : (
-          <p>No content found.</p>
+          <p>{t('No content found')}</p>
         )}
       </div>
     </Layout>
@@ -136,6 +139,7 @@ export async function getStaticProps(
       menus: await getMenus(context),
       events,
       places,
+      ...(await serverSideTranslations(context.locale)),
     },
     revalidate: 60,
   };
