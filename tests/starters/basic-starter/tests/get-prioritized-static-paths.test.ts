@@ -12,6 +12,15 @@ afterEach(() => {
 const client = new DrupalClient('http://🐈');
 
 const pathsFromContext = [
+  { params: { slug: [''] } },
+  { params: { slug: ['article', '1'] } },
+  { params: { slug: ['article', '2'] } },
+  { params: { slug: ['article', '3'] } },
+  { params: { slug: ['place', 'boston', 'south', '1'] } },
+  { params: { slug: ['place', 'london', '2'] } },
+];
+
+const pathsFromContextNoSlug = [
   { params: { slug: ['article', '1'] } },
   { params: { slug: ['article', '2'] } },
   { params: { slug: ['article', '3'] } },
@@ -70,7 +79,7 @@ describe('generate paths on build with menu links prioritization', () => {
     });
     expect(
       await getPrioritizedStaticPathsFromContext(context, ENTITY_TYPES),
-    ).toStrictEqual(pathsFromContext);
+    ).toStrictEqual(pathsFromContextNoSlug);
     expect(client.getStaticPathsFromContext).toBeCalledTimes(1);
     expect(client.getMenu).toBeCalledTimes(1);
   });
@@ -90,7 +99,7 @@ describe('generate paths on build with menu links prioritization', () => {
     });
     expect(
       await getPrioritizedStaticPathsFromContext(context, ENTITY_TYPES),
-    ).toStrictEqual(pathsFromContext);
+    ).toStrictEqual(pathsFromContextNoSlug);
     expect(client.getStaticPathsFromContext).toBeCalledTimes(1);
     expect(client.getMenu).toBeCalledTimes(1);
   });

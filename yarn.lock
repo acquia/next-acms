@@ -5571,10 +5571,10 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
-next-drupal@^1.1.1, next-drupal@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/next-drupal/-/next-drupal-1.4.0.tgz#6f7ccb2125f4db6b3285e759d4d6b6c0223bbca7"
-  integrity sha512-LBKh5VFUNwsTeiq1PmvzMzLIUX7kyrUFkhQwDaoxDBgu1lOA+DB2OO6qjBb5xj7YiLIJ3yY+8fuOHZGQhKwEtQ==
+next-drupal@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/next-drupal/-/next-drupal-1.5.0.tgz#bf95e378d0d3c9b9d6b37ec6736dc66363beaef3"
+  integrity sha512-hqzXvmB/cw0Pisu7SsmPWTG/hvbJnz7wKs7aX5J0+anamN6I+pkBu9LsQzUJshzpZB/VlEJQQQoVwKkXny689w==
   dependencies:
     jsona "^1.9.7"
     next "^12.0.0"
