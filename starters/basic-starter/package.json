@@ -23,7 +23,7 @@
     "sharp": "^0.30.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.9",
+    "@babel/core": "^7.19.6",
     "@types/node": "^18.7.3",
     "@types/react": "^17.0.4",
     "autoprefixer": "^10.4.8",
