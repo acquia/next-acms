@@ -61,7 +61,7 @@ export async function getStaticProps(
   return {
     props: {
       events,
-      menus: await getMenus(),
+      menus: await getMenus(context),
     },
     revalidate: 60,
   };

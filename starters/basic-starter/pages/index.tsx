@@ -7,6 +7,8 @@ import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 import Image from 'next/image';
 import Link from 'next/link';
 import { drupal } from '../lib/drupal';
+import { testApiCompatibility } from 'next-acms';
+import { ENTITY_TYPES } from './[...slug]';
 
 interface IndexPageProps extends LayoutProps {
   events: DrupalNode[];
@@ -88,6 +90,9 @@ export default function IndexPage({ menus, events, places }: IndexPageProps) {
 export async function getStaticProps(
   context,
 ): Promise<GetStaticPropsResult<IndexPageProps>> {
+  if (process.env.NODE_ENV == 'development') {
+    await testApiCompatibility(ENTITY_TYPES, drupal);
+  }
   const events = await drupal.getResourceCollectionFromContext<DrupalNode[]>(
     'node--event',
     context,
@@ -128,7 +133,7 @@ export async function getStaticProps(
   );
   return {
     props: {
-      menus: await getMenus(),
+      menus: await getMenus(context),
       events,
       places,
     },
