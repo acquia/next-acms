@@ -132,13 +132,8 @@ describe('Taxonomy term page', () => {
   it('should render places for Office (place type)', () => {
     cy.visit('/place_type/office');
     cy.get('h1').should('contain.text', 'Office');
-    cy.get('h2', { timeout: 5000 }).should('be.visible');
-    cy.get('article')
-      .should('have.length.greaterThan', 1)
-      .find('h2')
-      .should(($h2) => {
-        expect($h2.first()).to.contain('Boston Head Office');
-      });
+    cy.get('article').should('have.length.greaterThan', 1);
+    cy.get('article h2').should('contain.text', 'Boston Head Office');
     cy.get('article').find('.media__content').should('exist');
   });
 });
@@ -159,13 +154,13 @@ describe('Node page', () => {
   });
 
   it('should render an event node', () => {
-    cy.visit(
-      '/event/webinar/2022/09/event-two-medium-length-placeholder-heading',
-    );
-    cy.get('h1').should(
-      'contain.text',
-      'Event two medium length placeholder heading.',
-    );
+    cy.visit('/events');
+    cy.contains('Event two medium length placeholder heading.')
+      .should('contain.text', 'Event two medium length placeholder heading.')
+      .click();
+    cy.get('h1')
+      .should('be.visible')
+      .should('contain.text', 'Event two medium length placeholder heading.');
     cy.get('article')
       .should('have.length', 1)
       .find('.prose')
@@ -194,5 +189,24 @@ describe('Node page', () => {
       .should(($p) => {
         expect($p.first()).to.contain.text('This is placeholder text.');
       });
+  });
+});
+
+describe('An image using a consumer image style', () => {
+  it('has the image style source', () => {
+    const imageStyle = 'coh_medium';
+    cy.visit('/events');
+    cy.contains('Event two medium length placeholder heading.')
+      .should('contain.text', 'Event two medium length placeholder heading.')
+      .should('be.visible')
+      .click();
+    cy.get('h1')
+      .should('be.visible')
+      .should('contain.text', 'Event two medium length placeholder heading.');
+    cy.get('.media__content')
+      .find('img')
+      .should('have.attr', 'src')
+      .and('match', /^\/_next\/image\?/)
+      .and('contain', `styles%2F${imageStyle}`);
   });
 });
