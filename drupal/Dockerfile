@@ -73,7 +73,7 @@ ENV COMPOSER_HOME=/tmp/.composer
 
 # Don't install Composer dependencies yet; we need to make a few
 # adjustments first.
-RUN composer create-project --no-install acquia/drupal-recommended-project /opt/drupal
+RUN composer create-project --no-install acquia/drupal-recommended-project /opt/drupal --no-cache
 
 WORKDIR /opt/drupal
 COPY import-db settings.php.cat /opt/drupal
@@ -81,9 +81,9 @@ COPY import-db settings.php.cat /opt/drupal
 # The drupal:9-apache base container uses `web` as its document root.
 RUN sed -i -e 's!docroot!web!g' composer.json
 
-# Require specific constraints for certain dependencies to prevent
-# Composer from installing known broken versions.
-RUN composer require drupal/acquia_cms_common:^1.4 drupal/acquia_cms_starter drupal/acquia_cms_article:^1.3.5 drupal/acquia_cms_event:^1.3.5 drupal/acquia_cms_place:^1.3.5 drupal/acquia_cms_person:^1.3.5 drupal/acquia_cms_page:^1.3.5 drupal/address:^1.11
+# This can be also used for requiring specific constraints for dependencies that
+# have incompatible releases.
+RUN composer require drupal/acquia_cms_starter
 
 # Allow the caller to specify MySQL connection information. This will be
 # written to settings.php, but can overridden at runtime by providing a

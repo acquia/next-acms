@@ -40,3 +40,6 @@ starters/*/.env.local
 
 # turbo
 .turbo
+
+**/*.html
+

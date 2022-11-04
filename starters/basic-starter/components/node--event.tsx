@@ -15,6 +15,7 @@ export function NodeEvent({ node, ...props }) {
                 media={node.field_event_image}
                 priority
                 sizes="(min-width: 968px) 410px, (min-width: 768px) 50vw, 100vw"
+                imageStyle="coh_medium"
               />
             </a>
           </Link>
