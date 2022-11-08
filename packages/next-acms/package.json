@@ -22,7 +22,7 @@
     "dev": "microbundle watch --no-compress --jsx React.createElement"
   },
   "peerDependencies": {
-    "next": "^12.2.0",
+    "next": "^12.2.0 || ^13.0.0",
     "next-drupal": "^1.4.0"
   },
   "devDependencies": {
