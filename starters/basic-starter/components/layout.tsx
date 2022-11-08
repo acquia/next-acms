@@ -20,7 +20,7 @@ export function Layout({ title, menus, children }: LayoutProps) {
   return (
     <>
       <Head>
-        <title>{title} - Acquia CMS</title>
+        <title>{`${title} - Acquia CMS`}</title>
       </Head>
       <PreviewAlert />
       <div className="flex flex-col min-h-screen">
