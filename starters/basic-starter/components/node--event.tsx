@@ -9,7 +9,10 @@ export function NodeEvent({ node, ...props }) {
     <article className="container px-6 py-10 mx-auto" {...props}>
       <div className="grid-cols-2 gap-10 p-4 mx-auto border rounded-md md:grid">
         {node.field_event_image && (
-          <Link href={node.path.alias} className="block overflow-hidden no-underline rounded-md">
+          <Link
+            href={node.path.alias}
+            className="block overflow-hidden no-underline rounded-md"
+          >
             <MediaImage
               media={node.field_event_image}
               priority
@@ -60,7 +63,10 @@ export function NodeEventTeaser({ node, ...props }) {
       {...props}
     >
       {node.field_event_image && (
-        <Link href={node.path.alias} className="block overflow-hidden no-underline rounded-md">
+        <Link
+          href={node.path.alias}
+          className="block overflow-hidden no-underline rounded-md"
+        >
           <MediaImage
             media={node.field_event_image}
             priority
@@ -86,7 +92,10 @@ export function NodeEventTeaser({ node, ...props }) {
             </span>
           )}
         </div>
-        <Link href={node.path.alias} className="no-underline hover:text-blue-600">
+        <Link
+          href={node.path.alias}
+          className="no-underline hover:text-blue-600"
+        >
           <h2 className="mb-4 text-3xl font-bold">{node.title}</h2>
         </Link>
         {node.body?.summary && (

@@ -39,16 +39,18 @@ export function NodePersonTeaser({ node, ...props }) {
       {...props}
     >
       {node.field_person_image && (
-        <Link href={node.path.alias} className="block w-32 h-32 overflow-hidden no-underline rounded-full">
-          <MediaImage
-            media={node.field_person_image}
-            priority
-            sizes="128px"
-          />
+        <Link
+          href={node.path.alias}
+          className="block w-32 h-32 overflow-hidden no-underline rounded-full"
+        >
+          <MediaImage media={node.field_person_image} priority sizes="128px" />
         </Link>
       )}
       <div className="space-y-2">
-        <Link href={node.path.alias} className="no-underline hover:text-blue-600">
+        <Link
+          href={node.path.alias}
+          className="no-underline hover:text-blue-600"
+        >
           <h2 className="text-xl">{node.title}</h2>
         </Link>
         {node.field_job_title && (

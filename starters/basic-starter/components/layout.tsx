@@ -26,7 +26,10 @@ export function Layout({ title, menus, children }: LayoutProps) {
       <div className="flex flex-col min-h-screen">
         <header className="border-b">
           <div className="container flex flex-col items-center justify-between px-6 py-4 mx-auto md:flex-row">
-            <Link href="/" className="flex items-center mb-4 space-x-2 no-underline md:mb-0">
+            <Link
+              href="/"
+              className="flex items-center mb-4 space-x-2 no-underline md:mb-0"
+            >
               <div className="w-8 h-10">
                 <Image src="/logo.png" alt="Logo" width={76} height={90} />
               </div>

@@ -12,13 +12,16 @@ MediaImage.type = 'media--image';
 
 export function MediaImage({
   media,
-  layout = 'responsive',
-  objectFit,
+  imageStyle,
+  fill = false,
   width,
   height,
   priority,
+  quality,
   sizes,
-  imageStyle,
+  placeholder,
+  blurDataURL,
+  loading,
   ...props
 }: MediaImageProps) {
   const image = media?.image;
@@ -29,13 +32,12 @@ export function MediaImage({
   let sizeProps;
   let srcURL;
 
-  sizeProps =
-    layout === 'fill'
-      ? null
-      : {
-          width: width || image.resourceIdObjMeta.width,
-          height: height || image.resourceIdObjMeta.height,
-        };
+  sizeProps = fill
+    ? null
+    : {
+        width: width || image.resourceIdObjMeta.width,
+        height: height || image.resourceIdObjMeta.height,
+      };
   srcURL = absoluteURL(image.uri.url);
 
   // Use the image style to render an image if specified.
@@ -64,13 +66,16 @@ export function MediaImage({
     <div className="media__content image__wrapper" {...props}>
       <Image
         src={srcURL}
-        layout={layout}
-        objectFit={objectFit}
         alt={image.resourceIdObjMeta.alt || 'Image'}
         title={image.resourceIdObjMeta.title}
         priority={priority}
         sizes={sizes}
-        {...sizeProps}
+        fill={fill}
+        quality={quality}
+        blurDataURL={blurDataURL}
+        loading={loading}
+        placeholder={placeholder}
+        {...(!fill ? sizeProps : {})}
       />
     </div>
   );

@@ -18,8 +18,8 @@ const options: HTMLReactParserOptions = {
           src,
           alt,
           class: className,
-          width = '100px',
-          height = '100px',
+          width = '100',
+          height = '100',
         } = domNode.attribs;
 
         if (isRelative(src)) {
@@ -27,11 +27,10 @@ const options: HTMLReactParserOptions = {
             <div className={className}>
               <Image
                 src={absoluteURL(`/${src}`)}
-                width={`${width}px`}
-                height={`${height}px`}
+                width={Number(width)}
+                height={Number(height)}
                 alt={alt}
-                layout="intrinsic"
-                objectFit="cover"
+                sizes="(min-width: 768px) 625px, 100vw"
               />
             </div>
           );

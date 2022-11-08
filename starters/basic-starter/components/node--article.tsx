@@ -56,7 +56,10 @@ export function NodeArticleTeaser({ node, ...props }) {
   return (
     <article className="flex flex-col space-y-4" {...props}>
       {node.field_article_image && (
-        <Link href={node.path.alias} className="block overflow-hidden no-underline rounded-md">
+        <Link
+          href={node.path.alias}
+          className="block overflow-hidden no-underline rounded-md"
+        >
           <MediaImage
             media={node.field_article_image}
             priority
@@ -76,7 +79,10 @@ export function NodeArticleTeaser({ node, ...props }) {
           ) : null}
           {node.created && <span> on {formatDate(node.created)}</span>}
         </p>
-        <Link href={node.path.alias} className="no-underline hover:text-blue-600">
+        <Link
+          href={node.path.alias}
+          className="no-underline hover:text-blue-600"
+        >
           <h2 className="mb-4 text-xl font-bold">{node.title}</h2>
         </Link>
         {node.body?.summary && (
