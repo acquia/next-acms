@@ -8,14 +8,12 @@ export function NodePlace({ node, ...props }) {
     <article {...props}>
       <div className="grid items-start w-full max-w-4xl gap-10 px-6 pt-12 mx-auto md:grid-cols-2">
         {node.field_place_image && (
-          <Link href={node.path.alias} passHref>
-            <a className="block overflow-hidden no-underline rounded-md">
-              <MediaImage
-                media={node.field_place_image}
-                priority
-                sizes="(min-width: 968px) 405px, (min-width: 768px) 50vw, 100vw"
-              />
-            </a>
+          <Link href={node.path.alias} className="block overflow-hidden no-underline rounded-md">
+            <MediaImage
+              media={node.field_place_image}
+              priority
+              sizes="(min-width: 968px) 405px, (min-width: 768px) 50vw, 100vw"
+            />
           </Link>
         )}
         <div className="space-y-4">
@@ -51,21 +49,17 @@ export function NodePlaceTeaser({ node, ...props }) {
       {...props}
     >
       {node.field_place_image && (
-        <Link href={node.path.alias} passHref>
-          <a className="block overflow-hidden no-underline rounded-md">
-            <MediaImage
-              media={node.field_place_image}
-              priority
-              sizes="(min-width: 968px) 425px, (min-width: 768px) 50vw, 100vw"
-            />
-          </a>
+        <Link href={node.path.alias} className="block overflow-hidden no-underline rounded-md">
+          <MediaImage
+            media={node.field_place_image}
+            priority
+            sizes="(min-width: 968px) 425px, (min-width: 768px) 50vw, 100vw"
+          />
         </Link>
       )}
       <div className="space-y-4">
-        <Link href={node.path.alias} passHref>
-          <a className="no-underline hover:text-blue-600">
-            <h2 className="text-3xl font-bold">{node.title}</h2>
-          </a>
+        <Link href={node.path.alias} className="no-underline hover:text-blue-600">
+          <h2 className="text-3xl font-bold">{node.title}</h2>
         </Link>
         {node.field_place_address && (
           <div>

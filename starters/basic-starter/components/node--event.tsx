@@ -9,15 +9,13 @@ export function NodeEvent({ node, ...props }) {
     <article className="container px-6 py-10 mx-auto" {...props}>
       <div className="grid-cols-2 gap-10 p-4 mx-auto border rounded-md md:grid">
         {node.field_event_image && (
-          <Link href={node.path.alias} passHref>
-            <a className="block overflow-hidden no-underline rounded-md">
-              <MediaImage
-                media={node.field_event_image}
-                priority
-                sizes="(min-width: 968px) 410px, (min-width: 768px) 50vw, 100vw"
-                imageStyle="coh_medium"
-              />
-            </a>
+          <Link href={node.path.alias} className="block overflow-hidden no-underline rounded-md">
+            <MediaImage
+              media={node.field_event_image}
+              priority
+              sizes="(min-width: 968px) 410px, (min-width: 768px) 50vw, 100vw"
+              imageStyle="coh_medium"
+            />
           </Link>
         )}
         <div className="mt-8">
@@ -62,14 +60,12 @@ export function NodeEventTeaser({ node, ...props }) {
       {...props}
     >
       {node.field_event_image && (
-        <Link href={node.path.alias} passHref>
-          <a className="block overflow-hidden no-underline rounded-md">
-            <MediaImage
-              media={node.field_event_image}
-              priority
-              sizes="(min-width: 768px) 140px, 100wh"
-            />
-          </a>
+        <Link href={node.path.alias} className="block overflow-hidden no-underline rounded-md">
+          <MediaImage
+            media={node.field_event_image}
+            priority
+            sizes="(min-width: 768px) 140px, 100wh"
+          />
         </Link>
       )}
       <div className="col-span-2">
@@ -90,10 +86,8 @@ export function NodeEventTeaser({ node, ...props }) {
             </span>
           )}
         </div>
-        <Link href={node.path.alias} passHref>
-          <a className="no-underline hover:text-blue-600">
-            <h2 className="mb-4 text-3xl font-bold">{node.title}</h2>
-          </a>
+        <Link href={node.path.alias} className="no-underline hover:text-blue-600">
+          <h2 className="mb-4 text-3xl font-bold">{node.title}</h2>
         </Link>
         {node.body?.summary && (
           <p className="text-sm text-gray-500">{node.body.summary}</p>

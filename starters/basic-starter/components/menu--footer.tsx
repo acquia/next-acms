@@ -29,14 +29,10 @@ export function MenuFooter({ menu, ...props }: MenuFooterProps) {
                 'menu-item--active-trail': isActive,
               })}
             >
-              <Link href={item.url} passHref>
-                <a
-                  className={classNames(
-                    isActive ? 'text-black' : 'text-gray-600',
-                  )}
-                >
-                  {item.title}
-                </a>
+              <Link href={item.url} className={classNames(
+                isActive ? 'text-black' : 'text-gray-600',
+              )}>
+                {item.title}
               </Link>
             </li>
           );
