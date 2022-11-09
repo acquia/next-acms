@@ -29,14 +29,13 @@ export function MenuMain({ menu, ...props }: MenuMainProps) {
                 'menu-item--active-trail': isActive,
               })}
             >
-              <Link href={item.url} passHref>
-                <a
-                  className={classNames('hover:text-blue-600', {
-                    'text-blue-600': isActive,
-                  })}
-                >
-                  {item.title}
-                </a>
+              <Link
+                href={item.url}
+                className={classNames('hover:text-blue-600', {
+                  'text-blue-600': isActive,
+                })}
+              >
+                {item.title}
               </Link>
             </li>
           );
