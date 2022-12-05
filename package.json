@@ -17,7 +17,7 @@
     "test:e2e": "cypress run"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "12.3.2",
+    "@next/eslint-plugin-next": "12.3.4",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/jest": "^28.1.6",
