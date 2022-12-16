@@ -4,7 +4,7 @@ import {
   resolveWebformContent,
   Webform,
 } from 'nextjs-drupal-webform';
-import {drupal} from '../lib/drupal';
+import { drupal } from '../lib/drupal';
 import withCustomStyles from '../components/withCustomStyles';
 import classNames from 'classnames';
 import WebformButton from '../components/WebformButton';
@@ -38,7 +38,7 @@ const wrapperProps = {
   className: classNames(['space-y-3']),
 };
 
-export default function WebformExample({webform, id}) {
+export default function WebformExample({ webform, id }) {
   return (
     <div className="container px-6 pb-10 mx-auto">
       <title>Webform Example</title>
@@ -82,7 +82,7 @@ export default function WebformExample({webform, id}) {
               components.webform_actions,
               {},
               {},
-              {className: classNames('my-4', 'space-x-4')},
+              { className: classNames('my-4', 'space-x-4') },
             ),
             button: withCustomStyles(WebformButton, {
               className: classNames(
