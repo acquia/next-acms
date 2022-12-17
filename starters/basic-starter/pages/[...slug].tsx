@@ -19,6 +19,7 @@ import { TaxonomyEvent } from '../components/taxonomy/taxonomy--event_type';
 import { TaxonomyPlace } from '../components/taxonomy/taxonomy--place_type';
 import { getPrioritizedStaticPathsFromContext } from '../lib/get-prioritized-static-paths';
 import { GetStaticPathsContext } from 'next/types';
+import { getWebformFields, WebformObject } from 'nextjs-drupal-webform';
 
 // List of all the entity types handled by this route.
 export const ENTITY_TYPES = [
@@ -37,6 +38,7 @@ interface EntityPageProps extends LayoutProps {
   entity: DrupalNode | DrupalTaxonomyTerm;
   additionalContent?: {
     nodes?: DrupalNode[];
+    webform?: WebformObject;
   };
 }
 
@@ -51,16 +53,28 @@ export default function EntityPage({
         <NodeBasicPage node={entity as DrupalNode} />
       )}
       {entity.type === 'node--article' && (
-        <NodeArticle node={entity as DrupalNode} />
+        <NodeArticle
+          node={entity as DrupalNode}
+          additionalContent={additionalContent as { webform: WebformObject }}
+        />
       )}
       {entity.type === 'node--event' && (
-        <NodeEvent node={entity as DrupalNode} />
+        <NodeEvent
+          node={entity as DrupalNode}
+          additionalContent={additionalContent as { webform: WebformObject }}
+        />
       )}
       {entity.type === 'node--person' && (
-        <NodePerson node={entity as DrupalNode} />
+        <NodePerson
+          node={entity as DrupalNode}
+          additionalContent={additionalContent as { webform: WebformObject }}
+        />
       )}
       {entity.type === 'node--place' && (
-        <NodePlace node={entity as DrupalNode} />
+        <NodePlace
+          node={entity as DrupalNode}
+          additionalContent={additionalContent as { webform: WebformObject }}
+        />
       )}
       {entity.type === 'taxonomy_term--article_type' && (
         <TaxonomyArticle
@@ -192,6 +206,22 @@ export async function getStaticProps(
     return {
       notFound: true,
     };
+  }
+
+  // Check if the entity has webform(s) and create a webform object.
+  if (entity.field_webform) {
+    additionalContent['webform'] = [];
+    const webformObject: WebformObject = {
+      drupal_internal__id:
+        entity.field_webform.resourceIdObjMeta.drupal_internal__target_id,
+      description: 'entity.field_webform.description',
+      status: 'entity.field_webform.status',
+      elements: await getWebformFields(
+        entity.field_webform.resourceIdObjMeta.drupal_internal__target_id,
+        drupal.baseUrl,
+      ),
+    };
+    additionalContent['webform'] = webformObject;
   }
 
   // Fetch additional content for rendering taxonomy term pages.

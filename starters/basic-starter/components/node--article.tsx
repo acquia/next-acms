@@ -3,8 +3,9 @@ import Link from 'next/link';
 import { formatDate } from 'lib/format-date';
 import { MediaImage } from 'components/media--image';
 import { FormattedText } from 'components/formatted-text';
+import { Webform, WebformHeight } from 'nextjs-drupal-webform';
 
-export function NodeArticle({ node, ...props }) {
+export function NodeArticle({ node, additionalContent, ...props }) {
   return (
     <article className="max-w-2xl px-6 py-10 mx-auto" {...props}>
       <h1 className="mb-4 text-3xl font-black leading-tight md:text-4xl">
@@ -21,6 +22,14 @@ export function NodeArticle({ node, ...props }) {
         ) : null}
         {node.created && <span> on {formatDate(node.created)}</span>}
       </p>
+      {additionalContent.webform ? (
+        <Webform
+          webformObject={additionalContent.webform}
+          id={additionalContent.webform.drupal_internal__id}
+          key={additionalContent.webform.drupal_internal__id}
+          customComponents={{ webform_height: WebformHeight }}
+        />
+      ) : null}
       {node.field_article_image && (
         <div className="my-6 overflow-hidden rounded-md">
           <MediaImage
