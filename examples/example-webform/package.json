@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -12,20 +12,20 @@
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.9",
     "classnames": "^2.3.2",
-    "next": "^13.1.1",
+    "next": "^13.2.3",
     "next-drupal": "^1.6.0",
     "nextjs-drupal-webform": "^1.0.0-beta2",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/node": "^18.11.18",
+    "@types/node": "^18.14.6",
     "@types/react": "^18.0.26",
-    "@types/react-dom": "18.0.10",
-    "eslint": "8.31.0",
-    "eslint-config-next": "13.1.1",
+    "@types/react-dom": "^18.0.10",
+    "eslint": "^8.35.0",
+    "eslint-config-next": "^13.2.3",
     "postcss": "^8.4.21",
-    "tailwindcss": "^3.0.15",
-    "typescript": "4.9.4"
+    "tailwindcss": "^3.2.7",
+    "typescript": "^4.9.4"
   }
 }
