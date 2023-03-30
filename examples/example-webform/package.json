@@ -14,7 +14,7 @@
     "classnames": "^2.3.2",
     "next": "^13.2.3",
     "next-drupal": "^1.6.0",
-    "nextjs-drupal-webform": "^1.0.0-beta2",
+    "nextjs-drupal-webform": "^1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
