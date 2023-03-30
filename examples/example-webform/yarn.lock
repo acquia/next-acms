@@ -1752,13 +1752,14 @@ next@^13.2.3:
     "@next/swc-win32-ia32-msvc" "13.2.3"
     "@next/swc-win32-x64-msvc" "13.2.3"
 
-nextjs-drupal-webform@^1.0.0-beta2:
-  version "1.0.0-beta2"
-  resolved "https://registry.yarnpkg.com/nextjs-drupal-webform/-/nextjs-drupal-webform-1.0.0-beta2.tgz#be85ab0a7832c0fac35e7aefd97304692ee85c1a"
-  integrity sha512-i8XANEXKMDVi4UiRZw5XrerMZIl029hnesI5H4bOaSdzZm2ybCZolZosNXOj8JapWfio5PVHoYeDaHlvd+8Ajg==
+nextjs-drupal-webform@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/nextjs-drupal-webform/-/nextjs-drupal-webform-1.0.0.tgz#e8dca17a73978bcf310ad4b28c82d4ffc6248793"
+  integrity sha512-r9KpFpJKKgUVRAH62x0li7p0nArhhyeSSfpEt/FRuvlnAE/YmPrSpr2asINeqxNShz95wRBpnHMTAnzLQe6jMQ==
   dependencies:
     classnames "^2.3.2"
     deepmerge "^4.2.2"
+    strtotime "^1.0.0"
 
 node-cache@^5.1.2:
   version "5.1.2"
@@ -2247,6 +2248,11 @@ strip-json-comments@^3.1.0, strip-json-comments@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
+
+strtotime@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/strtotime/-/strtotime-1.0.0.tgz#113019035d9a402d38f3a8f1df928159df6b6f16"
+  integrity sha512-3Wmwy/6e/zc9//S01YnUs/QpYWA+1EB0l+bT/CQVZve7nMk6RJSZNptsyFhDaaKxpjo/ZqK+3vhZ3USof+sncg==
 
 styled-jsx@5.1.1:
   version "5.1.1"
