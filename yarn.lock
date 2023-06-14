@@ -5725,7 +5725,7 @@ next-drupal@^1.6.0:
     react "^17.0.2 || ^18"
     react-dom "^17.0.2 || ^18"
 
-"next@^12.2.0 || ^13", next@^13.1.1:
+"next@^12.2.0 || ^13":
   version "13.2.3"
   resolved "https://registry.yarnpkg.com/next/-/next-13.2.3.tgz#92d170e7aca421321f230ff80c35c4751035f42e"
   integrity sha512-nKFJC6upCPN7DWRx4+0S/1PIOT7vNlCT157w9AzbXEgKy6zkiPKEt5YyRUsRZkmpEqBVrGgOqNfwecTociyg+w==
