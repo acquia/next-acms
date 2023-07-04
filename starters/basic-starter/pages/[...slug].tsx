@@ -19,6 +19,7 @@ import { TaxonomyEvent } from '../components/taxonomy/taxonomy--event_type';
 import { TaxonomyPlace } from '../components/taxonomy/taxonomy--place_type';
 import { getPrioritizedStaticPathsFromContext } from '../lib/get-prioritized-static-paths';
 import { GetStaticPathsContext } from 'next/types';
+import { Meta } from 'components/meta';
 
 // List of all the entity types handled by this route.
 export const ENTITY_TYPES = [
@@ -47,6 +48,11 @@ export default function EntityPage({
 }: EntityPageProps) {
   return (
     <Layout title={entity.title || entity.name} menus={menus}>
+      <Meta
+        title={entity.title}
+        tags={entity.metatag}
+        path={entity.path?.alias}
+      />
       {entity.type === 'node--page' && (
         <NodeBasicPage node={entity as DrupalNode} />
       )}
