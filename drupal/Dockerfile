@@ -1,4 +1,4 @@
-FROM drupal:9-apache
+FROM drupal:10-apache
 
 ###
 #
@@ -78,12 +78,12 @@ RUN composer create-project --no-install acquia/drupal-recommended-project /opt/
 WORKDIR /opt/drupal
 COPY import-db settings.php.cat /opt/drupal
 
-# The drupal:9-apache base container uses `web` as its document root.
+# The drupal:10-apache base container uses `web` as its document root.
 RUN sed -i -e 's!docroot!web!g' composer.json
 
 # This can be also used for requiring specific constraints for dependencies that
 # have incompatible releases.
-RUN composer require drupal/acquia_cms_starter
+RUN composer install
 
 # Allow the caller to specify MySQL connection information. This will be
 # written to settings.php, but can overridden at runtime by providing a
