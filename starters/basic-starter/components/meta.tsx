@@ -15,7 +15,7 @@ export function Meta({ title, tags }: MetaProps) {
     <Head>
       <link
         rel="canonical"
-        href={`${process.env.NEXT_PUBLIC_BASE_URL}${
+        href={`${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}${
           router.asPath !== '/' ? router.asPath : ''
         }`}
       />
@@ -35,14 +35,14 @@ export function Meta({ title, tags }: MetaProps) {
         })
       ) : (
         <>
-          <title>{`${title} | Next.js for Drupal`}</title>
+          <title>{`${title} | Acquia CMS`}</title>
           <meta
             name="description"
-            content="A Next.js blog powered by a Drupal backend."
+            content="Acquia CMS with Next.js frontend powered by a Drupal backend."
           />
           <meta
             property="og:image"
-            content={`${process.env.NEXT_PUBLIC_BASE_URL}/images/meta.jpg`}
+            content={`${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}/images/meta.jpg`}
           />
           <meta property="og:image:width" content="800" />
           <meta property="og:image:height" content="600" />
