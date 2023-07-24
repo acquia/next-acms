@@ -1,7 +1,8 @@
 export interface DrupalMetatag {
   tag: string;
   attributes: {
-    content: string;
+    content: any;
+    property: string;
     name?: string;
     rel?: string;
   };
