@@ -8,17 +8,13 @@ interface MetaProps {
   tags?: DrupalMetatag[];
 }
 
-export function Meta({ title, tags }: MetaProps) {
+export function Meta({ tags }: MetaProps) {
   const router = useRouter();
-
+  const origin = typeof window !== 'undefined' && window.location.origin
+  ? window.location.origin : '';
   return (
     <Head>
-      <link
-        rel="canonical"
-        href={`${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}${
-          router.asPath !== '/' ? router.asPath : ''
-        }`}
-      />
+      <link rel="canonical" href={`${origin}${router.asPath !== '/' ? router.asPath : ''}`} />
       {tags?.length ? (
         tags.map((tag, index) => {
           if (tag.attributes.rel === 'canonical') {
@@ -30,20 +26,25 @@ export function Meta({ title, tags }: MetaProps) {
               <title key={tag.attributes.name}>{tag.attributes.content}</title>
             );
           }
+          // If page metadata consists of author.
+          // Due to nested object, we have to set the tag explicitly.
+          if (tag.attributes.name === 'author') {
+            return (
+              <meta key={index} name={tag.attributes.name} content={tag.attributes.content.name} />
+            );
+          }
+          // If page metadata consists of image.
+          // Due to nested object, we have to set the tag explicitly.
+          if (tag.attributes.name === 'image') {
+            return (
+              <meta key={index} name={tag.attributes.name} content={tag.attributes.content.url} />
+            );
+          }
           const Tag = tag.tag as keyof JSX.IntrinsicElements;
           return <Tag key={index} {...tag.attributes}></Tag>;
         })
       ) : (
         <>
-          <title>{`${title} | Acquia CMS`}</title>
-          <meta
-            name="description"
-            content="Acquia CMS with Next.js frontend powered by a Drupal backend."
-          />
-          <meta
-            property="og:image"
-            content={`${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}/images/meta.jpg`}
-          />
           <meta property="og:image:width" content="800" />
           <meta property="og:image:height" content="600" />
         </>
