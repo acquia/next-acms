@@ -3,6 +3,7 @@ export interface DrupalMetatag {
   attributes: {
     content: any;
     property: string;
+    schema_metatag: boolean;
     name?: string;
     rel?: string;
   };
