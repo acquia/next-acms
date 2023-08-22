@@ -21,6 +21,8 @@ export function Layout({ title, menus, children }: LayoutProps) {
     <>
       <Head>
         <title>{`${title} - Acquia CMS`}</title>
+        <meta name="MobileOptimized" content="width" />
+        <meta name="HandheldFriendly" content="true" />
       </Head>
       <PreviewAlert />
       <div className="flex flex-col min-h-screen">

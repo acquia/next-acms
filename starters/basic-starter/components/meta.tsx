@@ -1,52 +1,36 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { DrupalMetatag } from 'types/drupal';
 
 interface MetaProps {
-  title?: string;
   path?: string;
   tags?: DrupalMetatag[];
 }
 
-export function Meta({ tags }: MetaProps) {
-  const router = useRouter();
-  const origin =
-    typeof window !== 'undefined' && window.location.origin
-      ? window.location.origin
-      : '';
-  const currentUrl = `${origin}${router.asPath !== '/' ? router.asPath : ''}`;
-  // Initialize imageUrl variable with default value.
-  const imageUrl = `${origin}/_next/image?url=`;
-  // Initialize schemaMetatag variable with empty object.
+export function Meta({ path, tags }: MetaProps) {
+  const baseUrl = absoluteSiteUrl();
+  const absoluteUrl = `${baseUrl}${path !== '/' ? path : ''}`.split('?')[0];
   const schemaMetatag = {};
-  // Initialize schemaMetatagData variable with empty object.
   const schemaMetatagData = {};
-  // Check whether the tags is an array list.
   if (Array.isArray(tags)) {
     tags = tags.filter((obj) => {
-      // Prepare image url and set to the attributes content.
-      if (
-        obj.attributes.property === 'og:image' ||
-        obj.attributes.name === 'twitter:image' ||
-        obj.attributes.name === 'image'
-      ) {
-        obj.attributes.content = `${imageUrl}${encodeURIComponent(
-          obj.attributes.content,
-        )}&w=1200&q=75`;
-      }
       // Set og:url to page url.
       if (obj.attributes.property === 'og:url') {
-        obj.attributes.content = currentUrl;
+        obj.attributes.content = absoluteUrl;
       }
-      // Return null if keywords is empty.
+      // Keyword format in comma separated if single word is there then
+      // trim the extra white space and exclude the comma.
       if (obj.attributes.name === 'keywords') {
         obj.attributes.content = obj.attributes.content.replace(/,\s*$/, '');
       }
+
       // Prepare schema metatag object.
       if (obj.attributes.schema_metatag) {
-        schemaMetatag[obj.attributes.name] = obj.attributes.content;
+        schemaMetatag[obj.attributes.name] =
+          obj.attributes.name === 'image'
+            ? imageAbsoluteUrl(obj.attributes.content.url)
+            : obj.attributes.content;
       }
-      // Canonical and schem_metatag both needs to render inside link and
+      // Canonical and schema_metatag both needs to render inside link and
       // script tag respectively and if any attributes having no content then,
       // we are returning null from here.
       if (
@@ -68,25 +52,62 @@ export function Meta({ tags }: MetaProps) {
   return (
     <Head>
       <script type="application/ld+json">
-        {JSON.stringify(schemaMetatagData)}
+        {JSON.stringify(schemaMetatagData, null, 2)}
       </script>
-      <link rel="canonical" href={currentUrl} />
+      <link rel="canonical" href={absoluteUrl} />
       {tags?.length ? (
         tags.map((tag, index) => {
           if (tag.attributes.name === 'title') {
+            return <title key={index}>{tag.attributes.content}</title>;
+          }
+          if (tag.attributes.property === 'og:image') {
             return (
-              <title key={tag.attributes.name}>{tag.attributes.content}</title>
+              <meta
+                key={index}
+                property={tag.attributes.property}
+                content={imageAbsoluteUrl(tag.attributes.content)}
+              />
             );
           }
+          if (tag.attributes.name === 'twitter:image') {
+            return (
+              <meta
+                key={index}
+                name={tag.attributes.name}
+                content={imageAbsoluteUrl(tag.attributes.content)}
+              />
+            );
+          }
+
           const Tag = tag.tag as keyof JSX.IntrinsicElements;
           return <Tag key={index} {...tag.attributes}></Tag>;
         })
       ) : (
-        <>
-          <meta name="MobileOptimized" content="width" />
-          <meta name="HandheldFriendly" content="true" />
-        </>
+        <></>
       )}
     </Head>
   );
+}
+
+export function imageAbsoluteUrl(content: string) {
+  const serverSideUrl = new URL(content);
+
+  // Check for image content url origin is equivalent to Drupal base url,
+  // if it matches then prepare the image url with `_next/image` else return
+  // the actual content.
+  return serverSideUrl.origin === process.env.NEXT_PUBLIC_DRUPAL_BASE_URL
+    ? `${absoluteSiteUrl()}${process.env.imagePath}?url=${encodeURIComponent(
+        content,
+      )}&w=1200&q=75`
+    : content;
+}
+
+export function absoluteSiteUrl() {
+  const clientSideUrl =
+    typeof window !== 'undefined' && window.location.origin
+      ? window.location.origin
+      : '';
+  const siteBaseUrl = process.env.NEXT_PUBLIC_SITE_BASE_URL;
+
+  return siteBaseUrl ? siteBaseUrl : clientSideUrl;
 }

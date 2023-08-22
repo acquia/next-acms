@@ -48,11 +48,7 @@ export default function EntityPage({
 }: EntityPageProps) {
   return (
     <Layout title={entity.title || entity.name} menus={menus}>
-      <Meta
-        title={entity.title}
-        tags={entity.metatag}
-        path={entity.path?.alias}
-      />
+      <Meta tags={entity.metatag} path={entity.path?.alias} />
       {entity.type === 'node--page' && (
         <NodeBasicPage node={entity as DrupalNode} />
       )}
