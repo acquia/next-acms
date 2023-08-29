@@ -13,37 +13,39 @@ export function Meta({ path, tags }: MetaProps) {
   const schemaMetatag = {};
   const schemaMetatagData = {};
   if (Array.isArray(tags)) {
-    tags = tags.filter((obj) => {
-      // Set og:url to page url.
-      if (obj.attributes.property === 'og:url') {
-        obj.attributes.content = absoluteUrl;
-      }
-      // Keyword format in comma separated if single word is there then
-      // trim the extra white space and exclude the comma.
-      if (obj.attributes.name === 'keywords') {
-        obj.attributes.content = obj.attributes.content.replace(/,\s*$/, '');
-      }
+    tags = tags
+      .map((tag) => {
+        // Set og:url to page url.
+        if (tag.attributes.property === 'og:url') {
+          tag.attributes.content = absoluteUrl;
+        }
+        // Keyword format in comma separated if single word is there then
+        // trim the extra white space and exclude the comma.
+        if (tag.attributes.name === 'keywords') {
+          tag.attributes.content = tag.attributes.content.replace(/,\s*$/, '');
+        }
 
-      // Prepare schema metatag object.
-      if (obj.attributes.schema_metatag) {
-        schemaMetatag[obj.attributes.name] =
-          obj.attributes.name === 'image'
-            ? imageAbsoluteUrl(obj.attributes.content.url)
-            : obj.attributes.content;
-      }
-      // Canonical and schema_metatag both needs to render inside link and
-      // script tag respectively and if any attributes having no content then,
-      // we are returning null from here.
-      if (
-        obj.attributes.rel === 'canonical' ||
-        obj.attributes.schema_metatag ||
-        obj.attributes.content.length == 0
-      ) {
-        return null;
-      }
+        // Prepare schema metatag object.
+        if (tag.attributes.schema_metatag) {
+          schemaMetatag[tag.attributes.name] =
+            tag.attributes.name === 'image'
+              ? imageAbsoluteUrl(tag.attributes.content.url)
+              : tag.attributes.content;
+        }
+        // Canonical and schema_metatag both needs to render inside link and
+        // script tag respectively and if any attributes having no content then,
+        // we are returning null from here.
+        if (
+          tag.attributes.rel === 'canonical' ||
+          tag.attributes.schema_metatag ||
+          tag.attributes.content.length == 0
+        ) {
+          return null;
+        }
 
-      return obj;
-    });
+        return tag;
+      })
+      .filter((tag) => tag !== null);
 
     // Prepare schema metatag data object.
     schemaMetatagData['@context'] = 'https://schema.org';
