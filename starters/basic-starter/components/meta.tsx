@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { unstable_getImgProps } from 'next/image';
 import { DrupalMetatag } from 'types/drupal';
 
 interface MetaProps {
@@ -90,16 +91,23 @@ export function Meta({ path, tags }: MetaProps) {
 }
 
 export function imageAbsoluteUrl(content: string) {
-  const serverSideUrl = new URL(content);
+  const imageProps = unstable_getImgProps({
+    src: content,
+    alt: '',
+    quality: 75,
+    width: 1200,
+    height: 630,
+  });
 
-  // Check for image content url origin is equivalent to Drupal base url,
-  // if it matches then prepare the image url with `_next/image` else return
-  // the actual content.
-  return serverSideUrl.origin === process.env.NEXT_PUBLIC_DRUPAL_BASE_URL
-    ? `${absoluteSiteUrl()}${process.env.imagePath}?url=${encodeURIComponent(
-        content,
-      )}&w=1200&q=75`
-    : content;
+  // Convert relative image path into absolute URL because this is expected by
+  // the Open Graph Protocol.
+  // @see https://ogp.me/#data_types
+  let absoluteUrl = imageProps.props.src;
+  if (absoluteUrl.startsWith('/')) {
+    absoluteUrl = absoluteSiteUrl() + absoluteUrl;
+  }
+
+  return absoluteUrl;
 }
 
 export function absoluteSiteUrl() {
