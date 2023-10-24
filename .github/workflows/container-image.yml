@@ -1,12 +1,51 @@
+# This workflow rebuilds the container image used for running tests (see ci.yml) and pushes it
+# to Docker Hub.
+
 name: Container Image
 
 on:
+#  schedule:
+#    # Run at 6 PM GMT on Wednesdays.
+#    - cron: '0 18 * * 3'
   workflow_dispatch:
 
 jobs:
   build:
     name: Build container image and push it to Docker Hub
     runs-on: ubuntu-latest
+    services:
+      database:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: drupal
+          MYSQL_USER: drupal
+          MYSQL_PASSWORD: drupal
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10
     steps:
-      - name: Say hello
-        run: echo "Hello!"
+      - name: Set up Docker BuildX
+        uses: docker/setup-buildx-action@v2
+
+      - name: Get current time
+        id: current_time
+        run: |
+          echo "CURRENT_TIME=$(date +%Y-%m-%d:%H:%M:%S)" >> $GITHUB_ENV
+
+      - name: Build image
+        uses: docker/build-push-action@v3
+        with:
+          build-args: |
+            CACHE_DATE=${{ env.CURRENT_TIME }}
+            MYSQL_HOST=172.17.0.1
+            MYSQL_USER=drupal
+            MYSQL_PASSWORD=drupal
+          context: "{{defaultContext}}:drupal"
+          tags: |
+            phenaproxima/acquia_cms:headless
+
+      - uses: actions/checkout@v3
+
+      - name: Verify build
+        run: ./drupal/verify.sh
