@@ -1777,6 +1777,36 @@
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.3.tgz#472eaab5f15c1ffdd7f8628bd4c4f753995ec79e"
   integrity sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==
 
+"@turbo/darwin-64@2.9.18":
+  version "2.9.18"
+  resolved "https://registry.yarnpkg.com/@turbo/darwin-64/-/darwin-64-2.9.18.tgz#766c16a0b71b6ccb110ac02eba78188a284b2b5e"
+  integrity sha512-9f27peFu16ur8c0v9nUFUEyBnbKuuFsUTjHFWfmwGfzySBXbHwzU44QhZon6Mznz0cHsIr3984NQj/bVrnGSRw==
+
+"@turbo/darwin-arm64@2.9.18":
+  version "2.9.18"
+  resolved "https://registry.yarnpkg.com/@turbo/darwin-arm64/-/darwin-arm64-2.9.18.tgz#1f01eddec1d7da3ddd90d1636c1377ecb19e58cc"
+  integrity sha512-9A6TMRq/Ib+QnbhLlgkhOm+624wO4pzSQ/yQviQfWHOlFvaYxdnIAYmu2H6TS6y7kSVL0DvzNe04NbESTOzFVQ==
+
+"@turbo/linux-64@2.9.18":
+  version "2.9.18"
+  resolved "https://registry.yarnpkg.com/@turbo/linux-64/-/linux-64-2.9.18.tgz#514e12354f96bcbed617e0983115ac9bc6df36c4"
+  integrity sha512-zCdIDtz69AnbYh913elJRRoF3QY5aa2HNnf+4rAkc7bQ+tWujiDkCNV7stazOUPggaDvhKIf2Z87qHftTeXSkw==
+
+"@turbo/linux-arm64@2.9.18":
+  version "2.9.18"
+  resolved "https://registry.yarnpkg.com/@turbo/linux-arm64/-/linux-arm64-2.9.18.tgz#35e789eff3ca162193a5743c422ccf05ad21f05f"
+  integrity sha512-Va1kXI04naMgYwqv/5Dfa36dTDx8015U7oaQAjrXa45ua9OoFjSV4OmvkML4EmXvUclQHCiBRbY8bvd0jV7eAg==
+
+"@turbo/windows-64@2.9.18":
+  version "2.9.18"
+  resolved "https://registry.yarnpkg.com/@turbo/windows-64/-/windows-64-2.9.18.tgz#d000e62924ec70fd7b5c5f423fcdbb722b66c39a"
+  integrity sha512-m0kDhZANxSNz9ck1ybogFscHabriAsp4eDFNrN/1H5WrgTF7b3VlcPZnhuO3v2+E2KnCbeAc+UUT10BZZHdDKw==
+
+"@turbo/windows-arm64@2.9.18":
+  version "2.9.18"
+  resolved "https://registry.yarnpkg.com/@turbo/windows-arm64/-/windows-arm64-2.9.18.tgz#e587c7481df0ed064abf86a402eab25811f9e200"
+  integrity sha512-nUdR8WqoomUys9iIQmG45TMiizJ+5BV8egSeLLZba/AWblyp3fVBcIH1kSE58OtK4g2YzbMJEth6Ttv9w5rqMA==
+
 "@types/aria-query@^5.0.1":
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/@types/aria-query/-/aria-query-5.0.1.tgz#3286741fb8f1e1580ac28784add4c7a1d49bdfbc"
@@ -7607,47 +7637,17 @@ tunnel-agent@^0.6.0:
   dependencies:
     safe-buffer "^5.0.1"
 
-turbo-darwin-64@1.8.3:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/turbo-darwin-64/-/turbo-darwin-64-1.8.3.tgz#f220459e7636056d9a67bc9ead8dc01c495f9d55"
-  integrity sha512-bLM084Wr17VAAY/EvCWj7+OwYHvI9s/NdsvlqGp8iT5HEYVimcornCHespgJS/yvZDfC+mX9EQkn3V2JmYgGGw==
-
-turbo-darwin-arm64@1.8.3:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/turbo-darwin-arm64/-/turbo-darwin-arm64-1.8.3.tgz#1529f0755cd683e372140d6b9532efe4ca523b38"
-  integrity sha512-4oZjXtzakopMK110kue3z/hqu3WLv+eDLZOX1NGdo49gqca9BeD8GbH+sXpAp6tqyeuzpss+PIliVYuyt7LgbA==
-
-turbo-linux-64@1.8.3:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/turbo-linux-64/-/turbo-linux-64-1.8.3.tgz#1aed7f4bb4492cb4c9d8278044a66d3c6107ee5b"
-  integrity sha512-uvX2VKotf5PU14FCxJA5iHItPQno2JWzerMd+g3/h/Asay6dvxvtVjc39MQeGT0H5njSvzVKFkT+3/5q8lgOEg==
-
-turbo-linux-arm64@1.8.3:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/turbo-linux-arm64/-/turbo-linux-arm64-1.8.3.tgz#0269b31b2947c40833052325361a94193ca46150"
-  integrity sha512-E1p+oH3XKMaPS4rqWhYsL4j2Pzc0d/9P5KU7Kn1kqVLo2T3iRA7n2KVULEieUNE0nTH+aIJPXYXOpqCI5wFJaA==
-
-turbo-windows-64@1.8.3:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/turbo-windows-64/-/turbo-windows-64-1.8.3.tgz#cf94f427414eb8416c1fe22229f9a578dd1ec78b"
-  integrity sha512-cnzAytHtoLXd0J7aNzRpZFpL/GTjcBmkvAPlbOdf/Pl1iwS4qzGrudZQ+OM1lmLgLIfBPIavsGHBknTwTNib4A==
-
-turbo-windows-arm64@1.8.3:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/turbo-windows-arm64/-/turbo-windows-arm64-1.8.3.tgz#db5739fe1d6907d07874779f6d5fac87b3f3ca6a"
-  integrity sha512-ulIiItNm2w/zYJdD5/oAzjzNns1IjbpweRzpsE8tLXaWwo6+fnXXkyloUug0IUhcd2k6fJXfoiDZfygqpOVuXg==
-
-turbo@^1.6.3:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/turbo/-/turbo-1.8.3.tgz#6fe1ce749a38b54f15f0fcb24ee45baefa98e948"
-  integrity sha512-zGrkU1EuNFmkq6iky6LcMqD4h0OLE8XysVFxQWRIZbcTNnf0XAycbsbeEyiJpiWeqb7qtg2bVuY9EYcNoNhVuQ==
+turbo@^2.9.18:
+  version "2.9.18"
+  resolved "https://registry.yarnpkg.com/turbo/-/turbo-2.9.18.tgz#d404644a129a8af8080a65f3499e0a5575af89b4"
+  integrity sha512-bwabv6PupzeavybzEoArBAkwq5fnzwf8OFnRtpHwnviFWuwJPFxtyH+aVp36TmIqK3aYYgtTJ3J0m2ysxxSzQg==
   optionalDependencies:
-    turbo-darwin-64 "1.8.3"
-    turbo-darwin-arm64 "1.8.3"
-    turbo-linux-64 "1.8.3"
-    turbo-linux-arm64 "1.8.3"
-    turbo-windows-64 "1.8.3"
-    turbo-windows-arm64 "1.8.3"
+    "@turbo/darwin-64" "2.9.18"
+    "@turbo/darwin-arm64" "2.9.18"
+    "@turbo/linux-64" "2.9.18"
+    "@turbo/linux-arm64" "2.9.18"
+    "@turbo/windows-64" "2.9.18"
+    "@turbo/windows-arm64" "2.9.18"
 
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
